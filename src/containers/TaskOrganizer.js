@@ -1,7 +1,12 @@
 import React from 'react';
 import { DragDropContext, Droppable} from "react-beautiful-dnd";
-import Task from '../components/Task'
+import Column from '../components/Column'
 import sampleData from '../sampleData'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  display: flex;
+`
 
 class TaskOrganizer extends React.Component {
   state = sampleData
@@ -14,23 +19,20 @@ class TaskOrganizer extends React.Component {
 
   render(){
     return (
-      <div className="TaskOrganizer">
+      <Container className="TaskOrganizer">
         <DragDropContext id="id"
         onDragEnd={this.onDragEnd}>
-          This is the Dragging context
-          <Droppable droppableId="day">
-            {(provided, snapshot) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                This is the droppable area
-                {this.state.tasks.map((task, index) => (
-                  <Task task={task} index={index}/>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+          {this.state.columns.map((column, index) =>
+            <Column
+              key={index}
+              column={column}
+              tasks={this.state.tasks}
+              columnTasks={column.tasks}
+            />
+          )}
+
         </DragDropContext>
-      </div>
+      </Container>
     );}
 }
 
