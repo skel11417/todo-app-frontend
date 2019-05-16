@@ -35,7 +35,7 @@ class Column extends Component {
 
   renderTasks = () =>
     this.state.tasks.map((task, index) => (
-    <Task task={task} index={index} column={this.props.column}/>
+    <Task key={task.id} task={task} index={index} column={this.props.column}/>
   ))
 
 

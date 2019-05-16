@@ -23,10 +23,7 @@ class TaskOrganizer extends React.Component {
 
   updateColumnVisibility = (column) => {
     let columns = [...this.state.columns]
-    // let updatedColumn = columns.find(column => column.id === columnId)
     let newIndex = columns.indexOf(column)
-    // if 0 or 1, make 0 and 1 active
-    // if newIndex === 0 || newIndex === 1 {}
     const activeArray = [false, false, false, false]
     switch (newIndex) {
       case 0:
@@ -42,6 +39,8 @@ class TaskOrganizer extends React.Component {
         activeArray[2] = true
         activeArray[3] = true
         break
+      default:
+        break
     }
     for (let i = 0; i< columns.length; i++){
       columns[i].active = activeArray[i]
@@ -52,11 +51,10 @@ class TaskOrganizer extends React.Component {
 
   changeTimeframe = (column) => {
     let updatedColumns = this.updateColumnVisibility(column)
-    // debugger
     this.setState({
       columns: updatedColumns
     })
-    
+
   }
 
   render(){

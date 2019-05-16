@@ -17,7 +17,7 @@ class Task extends React.Component {
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
+              
             >
               {subtask.content}
             </div>
@@ -31,7 +31,6 @@ class Task extends React.Component {
 
   render(){
     const {task, index, column} = this.props
-    console.log(column.id)
     return (
       <Draggable
       key={task.id}
@@ -43,12 +42,11 @@ class Task extends React.Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            isDragging={snapshot.isDragging}
             className="task"
           >
           {task.content}
 
-           <Droppable key = {task.id} droppableId={`${column.id}-${task.id}`} isCombineEnabled={true}>
+           <Droppable key = {`droppable-${task.id}`} droppableId={`${column.id}-${task.id}`} isCombineEnabled={true}>
              {(provided, snapshot) => (
                <div {...provided.droppableProps} ref={provided.innerRef}>
                {this.renderSubtasks(task, column)}
