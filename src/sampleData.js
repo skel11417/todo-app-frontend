@@ -11,13 +11,16 @@ const sampleData = {
       ]
     },
     {id: 2, content: 'task 2', subtasks: [] },
-    {id: 3, content: 'task 3', subtasks: [] }
+    {id: 3, content: 'task 3', subtasks: [] },
+    {id: "top", content: "Top", subtasks: []},
+    {id: "bottom", content: "Bottom", subtasks: []}
   ],
   columns: [
-    {id: "day", tasks: []},
-    {id: "week", tasks: []},
-    {id: "month", tasks: []},
-    {id: "all", tasks:[1,2,3]}]
+    {id: "today", tasks: [2], active: true},
+    {id: "week", tasks: [1,2], active: true},
+    {id: "month", tasks: [1,2,3], active: false},
+    {id: "all", tasks:[1,2,3], active: false}
+  ]
 }
 
 export default sampleData

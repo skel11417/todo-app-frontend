@@ -3,13 +3,13 @@ import {Draggable, Droppable} from 'react-beautiful-dnd'
 
 class Task extends React.Component {
 
-  renderSubtasks(task){
+  renderSubtasks(task, column){
     let subtasks
     if (task.subtasks.length > 0) {
       subtasks = task.subtasks.map((subtask, index) => (
         <Draggable
           key={subtask.id}
-          draggableId={subtask.id}
+          draggableId={`${column.id}-${subtask.id}`}
           index={index}
         >
           {(provided, snapshot) =>(
@@ -30,12 +30,12 @@ class Task extends React.Component {
   }
 
   render(){
-    const {task, index} = this.props
-
+    const {task, index, column} = this.props
+    console.log(column.id)
     return (
       <Draggable
       key={task.id}
-      draggableId={task.id}
+      draggableId={`${column.id}-${task.id}`}
       index={index}
       >
         {(provided, snapshot) => (
@@ -48,13 +48,12 @@ class Task extends React.Component {
           >
           {task.content}
 
-           <Droppable key = {task.id} droppableId={task.id} isCombineEnabled={true}>
+           <Droppable key = {task.id} droppableId={`${column.id}-${task.id}`} isCombineEnabled={true}>
              {(provided, snapshot) => (
                <div {...provided.droppableProps} ref={provided.innerRef}>
-               {this.renderSubtasks(task)}
+               {this.renderSubtasks(task, column)}
                {provided.placeholder}
                </div>
-
              )}
 
             </Droppable>
