@@ -6,7 +6,8 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
+  margin: auto;
+  width: 75%;
   border: black solid 1px;
 `
 
@@ -21,10 +22,10 @@ class TaskOrganizer extends React.Component {
   }
 
   changeTimeframe = (column) => {
-    console.log(column)
+    
     let stat = this.state
     this.setState({
-      columns: this.state.columns
+      columns: {...this.state.columns}
     })
   }
 

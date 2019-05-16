@@ -12,6 +12,6 @@ code {
     monospace;
 } */
 
-.bordered-box {
+.task {
   border: solid black 1px;
 }

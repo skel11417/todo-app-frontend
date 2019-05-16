@@ -8,7 +8,7 @@ const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   max-width: auto;
-  width: ${props => props.column.active ? '40%' : '10%'};
+  width: ${props => props.column.active ? '45%' : '5%'};
   min-height:440px;
   padding: 5px;
   display: flex;
@@ -32,6 +32,12 @@ class Column extends Component {
     }
   }
 
+  renderTasks = () =>
+    this.state.tasks.map((task, index) => (
+    <Task task={task} index={index} column={this.props.column}/>
+  ))
+
+
   render(){
     const {column, onClick} = this.props
     return(
@@ -44,10 +50,7 @@ class Column extends Component {
           {(provided, snapshot) => (
 
             <div {...provided.droppableProps} ref={provided.innerRef}>
-
-              {this.state.tasks.map((task, index) => (
-                <Task task={task} index={index} column={column}/>
-              ))}
+              {column.active ? this.renderTasks() : null}
               {provided.placeholder}
             </div>
           )}

@@ -19,7 +19,7 @@ class Nav extends Component {
     const {activeItem} = this.state
     return (
       <div>
-        <Menu pointing secondary>
+        <Menu pointing secondary style={{paddingTop: "25px"}}>
           <Menu.Item
           name="home" active={activeItem === 'home'}
           onClick={this.handleClick}
@@ -35,7 +35,6 @@ class Nav extends Component {
              onClick={this.handleItemClick}
            />
          </Menu.Menu>
-
         </Menu>
       </div>
 

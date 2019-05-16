@@ -13,7 +13,7 @@ class Task extends React.Component {
           index={index}
         >
           {(provided, snapshot) =>(
-            <div className="bordered-box"
+            <div className="task"
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               ref={provided.innerRef}
@@ -44,7 +44,7 @@ class Task extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
-            className="bordered-box"
+            className="task"
           >
           {task.content}
 
