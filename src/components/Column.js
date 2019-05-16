@@ -4,11 +4,12 @@ import {Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin: 8px;
+  /* margin: 8px; */
   border: 1px solid lightgrey;
   border-radius: 2px;
   max-width: auto;
   width: ${props => props.column.active ? '45%' : '5%'};
+  transition:width 0.5s ease-in-out;
   min-height:440px;
   padding: 5px;
   display: flex;
@@ -40,10 +41,11 @@ class Column extends Component {
 
   render(){
     const {column, onClick} = this.props
+
     return(
       <Container column={column}>
-        <ColumnTitle onClick={()=>onClick(column.id)}>
-          {column.id}
+        <ColumnTitle onClick={()=>onClick(column)}>
+          {column.active ? column.id : column.id[0]}
         </ColumnTitle>
         <Droppable droppableId={column.id}>
 

@@ -16,10 +16,10 @@ const sampleData = {
     {id: "bottom", content: "Bottom", subtasks: []}
   ],
   columns: [
-    {id: "today", tasks: [2], active: true},
-    {id: "week", tasks: [1,2], active: true},
-    {id: "month", tasks: [1,2,3], active: false},
-    {id: "all", tasks:[1,2,3], active: false}
+    {id: "Today", tasks: [2], active: true},
+    {id: "Week", tasks: [1,2], active: true},
+    {id: "Month", tasks: [1,2,3], active: false},
+    {id: "All", tasks:[1,2,3], active: false},
   ]
 }
 
