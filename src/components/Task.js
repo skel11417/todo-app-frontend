@@ -1,31 +1,41 @@
 import React from 'react'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
+import styled from 'styled-components'
+
+const Subtask = styled.div`
+  paddding: 5px;
+`
 
 class Task extends React.Component {
 
+  findTaskById = (taskId) => {
+    return this.props.allTasks.find(task => task.id === taskId)
+  }
+
   renderSubtasks(task, column){
-    let subtasks
-    if (task.subtasks.length > 0) {
-      subtasks = task.subtasks.map((subtask, index) => (
-        <Draggable
-          key={subtask.id}
-          draggableId={`${column.id}-${subtask.id}`}
+    let subtaskComponents
+    if (task.subtaskIds.length > 0) {
+      // debugger
+      subtaskComponents = task.subtaskIds.map((subtaskId, index) => (
+          <Draggable
+          key={subtaskId}
+          draggableId={`${column.id}-${subtaskId}`}
           index={index}
         >
           {(provided, snapshot) =>(
-            <div className="task"
+            <Subtask
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
-              {subtask.content}
-            </div>
+              {this.findTaskById(subtaskId).content}
+            </Subtask>
           )}
         </Draggable>
       )
       )
+      return subtaskComponents
     }
-    return subtasks
   }
 
   render(){

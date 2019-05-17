@@ -14,9 +14,33 @@ const Container = styled.div`
 class TaskOrganizer extends React.Component {
   state = sampleData
 
+  reorderSubtasks = ({destination, source, draggableId}) => {
+    this.log({destination, source, draggableId})
+
+    const taskId = parseInt(destination.droppableId
+                  .split("-")[1])
+    let newTasks = [...this.state.tasks]
+    let updatedTask = newTasks.find(task => task.id === taskId)
+
+    const subtaskId = updatedTask.subtaskIds
+                        .splice(source.index, 1)[0]
+
+    updatedTask.subtaskIds
+      .splice(destination.index, 0, subtaskId)
+
+    this.setState({
+      tasks: newTasks
+    })
+  }
+
+  // logs the intended movement in the console
+  log = ({destination, source, draggableId}) => {
+    console.log('moving task', draggableId, 'from droppable', source.droppableId, 'index', source.index, "to droppable", destination.droppableId, 'index', destination.index )
+  }
+
   onDragEnd = (result) =>{
     const {destination, source, draggableId} = result
-    console.log('moving task', draggableId, 'from droppable', source.droppableId, 'index', source.index, "to droppable", destination.droppableId, 'index', destination.index )
+
     // only update state if drag destination is valid
     if (!destination){
       return null
@@ -28,12 +52,20 @@ class TaskOrganizer extends React.Component {
       return null
     }
 
+    // this does not work for subtasks
     if (destination.droppableId === source.droppableId){
+      this.log(result)
+
+      // call subtask function
+      if (destination.droppableId.includes('-')){
+        this.reorderSubtasks(result)
+        return null
+      }
+
       const column = this.state.columns.find( column => column.id === source.droppableId)
-
       const columnIndex = this.state.columns.indexOf(column)
-
       const newTasks = [...column.tasks]
+
       // use splice to remove moved item since the actual
       // task id is a string including the column key
       const taskId = newTasks.splice(source.index, 1)[0]
@@ -99,7 +131,7 @@ class TaskOrganizer extends React.Component {
             <Column
               key={index}
               column={column}
-              tasks={this.state.tasks}
+              allTasks={this.state.tasks}
               columnTasks={column.tasks}
               onClick={this.changeTimeframe}
             />

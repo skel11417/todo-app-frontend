@@ -22,11 +22,11 @@ const ColumnTitle = styled.button`
 class Column extends Component {
 
   renderTasks = () => {
-    const {column, tasks} = this.props
+    const {column, allTasks} = this.props
 
-    return this.props.column.tasks.map((taskId, index) => {
-      const task = tasks.find( task => task.id === taskId)
-      return <Task key={task.id} task={task} index={index} column={column}/>
+    return column.tasks.map((taskId, index) => {
+      const task = allTasks.find( task => task.id === taskId)
+      return <Task key={task.id} task={task} allTasks={allTasks} index={index} column={column}/>
   }
   )
 }
