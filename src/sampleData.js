@@ -12,14 +12,14 @@ const sampleData = {
     },
     {id: 2, content: 'task 2', subtasks: [] },
     {id: 3, content: 'task 3', subtasks: [] },
-    {id: "top", content: "Top", subtasks: []},
-    {id: "bottom", content: "Bottom", subtasks: []}
+    {id: 7, content: "Top", subtasks: []},
+    {id: 8, content: "Bottom", subtasks: []}
   ],
   columns: [
     {id: "Today", tasks: [2], active: true},
     {id: "Week", tasks: [1,2], active: true},
     {id: "Month", tasks: [1,2,3], active: false},
-    {id: "All", tasks:[1,2,3], active: false},
+    {id: "All", tasks:[1,2,3,7,8], active: false},
   ]
 }
 

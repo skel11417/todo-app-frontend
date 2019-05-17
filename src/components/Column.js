@@ -21,36 +21,26 @@ const ColumnTitle = styled.button`
 
 class Column extends Component {
 
-  constructor(props){
-    super(props)
+  renderTasks = () => {
+    const {column, tasks} = this.props
 
-    const setColumnTasks = () =>
-      props.tasks.filter(task =>
-        props.columnTasks.includes(task.id))
-
-    this.state = {
-      tasks: setColumnTasks()
-    }
+    return this.props.column.tasks.map((taskId, index) => {
+      const task = tasks.find( task => task.id === taskId)
+      return <Task key={task.id} task={task} index={index} column={column}/>
   }
-
-  renderTasks = () =>
-    this.state.tasks.map((task, index) => (
-    <Task key={task.id} task={task} index={index} column={this.props.column}/>
-  ))
+  )
+}
 
 
   render(){
     const {column, onClick} = this.props
-
     return(
       <Container column={column}>
         <ColumnTitle onClick={()=>onClick(column)}>
           {column.active ? column.id : column.id[0]}
         </ColumnTitle>
         <Droppable droppableId={column.id}>
-
           {(provided, snapshot) => (
-
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {column.active ? this.renderTasks() : null}
               {provided.placeholder}

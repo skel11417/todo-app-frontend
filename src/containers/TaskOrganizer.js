@@ -15,12 +15,43 @@ class TaskOrganizer extends React.Component {
   state = sampleData
 
   onDragEnd = (result) =>{
-    console.log(result)
-    if (result.destination){
-      console.log('moving task', result.draggableId, 'from droppable', result.source.droppableId, 'index', result.source.index, "to droppable", result.destination.droppableId, 'index', result.destination.index )
+    const {destination, source, draggableId} = result
+    console.log('moving task', draggableId, 'from droppable', source.droppableId, 'index', source.index, "to droppable", destination.droppableId, 'index', destination.index )
+    // only update state if drag destination is valid
+    if (!destination){
+      return null
+    }
+
+    // do not rerender if task has been dragged to its initial
+    // location
+    if (destination.droppableId === source.droppableId && destination.index === source.index){
+      return null
+    }
+
+    if (destination.droppableId === source.droppableId){
+      const column = this.state.columns.find( column => column.id === source.droppableId)
+
+      const columnIndex = this.state.columns.indexOf(column)
+
+      const newTasks = [...column.tasks]
+      // use splice to remove moved item since the actual
+      // task id is a string including the column key
+      const taskId = newTasks.splice(source.index, 1)[0]
+
+      newTasks.splice(destination.index, 0, taskId)
+
+      const newColumn = {...column, tasks: newTasks}
+      const newColumns = [...this.state.columns]
+      newColumns[columnIndex] = newColumn
+
+        this.setState({
+          columns: newColumns
+        })
     }
   }
 
+  // sets selected column and its neighbor's visibility
+  // to true and returns
   updateColumnVisibility = (column) => {
     let columns = [...this.state.columns]
     let newIndex = columns.indexOf(column)
@@ -51,9 +82,11 @@ class TaskOrganizer extends React.Component {
 
   changeTimeframe = (column) => {
     let updatedColumns = this.updateColumnVisibility(column)
-    this.setState({
-      columns: updatedColumns
-    })
+    if (this.state.columns !== updatedColumns){
+      this.setState({
+        columns: updatedColumns
+      })
+    }
 
   }
 
@@ -62,7 +95,7 @@ class TaskOrganizer extends React.Component {
       <Container className="TaskOrganizer">
         <DragDropContext id="id"
         onDragEnd={this.onDragEnd}>
-          {this.state.columns.map((column, index) =>
+          {this.state.columns.map((column, index) =>(
             <Column
               key={index}
               column={column}
@@ -70,6 +103,7 @@ class TaskOrganizer extends React.Component {
               columnTasks={column.tasks}
               onClick={this.changeTimeframe}
             />
+          )
           )}
 
         </DragDropContext>

@@ -17,7 +17,6 @@ class Task extends React.Component {
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               ref={provided.innerRef}
-              
             >
               {subtask.content}
             </div>
