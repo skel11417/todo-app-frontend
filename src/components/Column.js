@@ -23,7 +23,6 @@ class Column extends Component {
 
   renderTasks = () => {
     const {column, allTasks} = this.props
-
     return column.tasks.map((taskId, index) => {
       const task = allTasks.find( task => task.id === taskId)
       return <Task key={task.id} task={task} allTasks={allTasks} index={index} column={column}/>
@@ -42,7 +41,7 @@ class Column extends Component {
         <Droppable droppableId={column.id}>
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {column.active ? this.renderTasks() : null}
+              {this.renderTasks()}
               {provided.placeholder}
             </div>
           )}

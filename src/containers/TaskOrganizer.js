@@ -15,10 +15,10 @@ class TaskOrganizer extends React.Component {
   state = sampleData
 
   reorderSubtasks = ({destination, source, draggableId}) => {
-    this.log({destination, source, draggableId})
+    console.log('this.reorderSubtasks has been called')
 
     const taskId = parseInt(destination.droppableId
-                  .split("-")[1])
+                  .split("-")[2])
     let newTasks = [...this.state.tasks]
     let updatedTask = newTasks.find(task => task.id === taskId)
 
@@ -35,12 +35,12 @@ class TaskOrganizer extends React.Component {
 
   // logs the intended movement in the console
   log = ({destination, source, draggableId}) => {
-    console.log('moving task', draggableId, 'from droppable', source.droppableId, 'index', source.index, "to droppable", destination.droppableId, 'index', destination.index )
+    console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
   }
 
   onDragEnd = (result) =>{
     const {destination, source, draggableId} = result
-
+    this.log({destination, source, draggableId})
     // only update state if drag destination is valid
     if (!destination){
       return null
@@ -52,9 +52,8 @@ class TaskOrganizer extends React.Component {
       return null
     }
 
-    // this does not work for subtasks
+    // reorder tasks
     if (destination.droppableId === source.droppableId){
-      this.log(result)
 
       // call subtask function
       if (destination.droppableId.includes('-')){
@@ -76,9 +75,9 @@ class TaskOrganizer extends React.Component {
       const newColumns = [...this.state.columns]
       newColumns[columnIndex] = newColumn
 
-        this.setState({
-          columns: newColumns
-        })
+      this.setState({
+        columns: newColumns
+      })
     }
   }
 
@@ -119,7 +118,6 @@ class TaskOrganizer extends React.Component {
         columns: updatedColumns
       })
     }
-
   }
 
   render(){
@@ -129,15 +127,14 @@ class TaskOrganizer extends React.Component {
         onDragEnd={this.onDragEnd}>
           {this.state.columns.map((column, index) =>(
             <Column
-              key={index}
+              key={column.id}
               column={column}
               allTasks={this.state.tasks}
               columnTasks={column.tasks}
               onClick={this.changeTimeframe}
             />
-          )
+            )
           )}
-
         </DragDropContext>
       </Container>
     );}

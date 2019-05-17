@@ -1,12 +1,20 @@
 import React from 'react'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
+import {Checkbox} from 'semantic-ui-react'
 
 const Subtask = styled.div`
   paddding: 5px;
+  border: 5px;
 `
 
 class Task extends React.Component {
+
+  componentWillUnmount(){
+    console.log('unmounted', this.props.column.id)
+    // this.removeEventListener('mousemove', this.handleMouseMove);
+    // this.removeEventListener('mouseup', this.handleMouseUp);
+  }
 
   findTaskById = (taskId) => {
     return this.props.allTasks.find(task => task.id === taskId)
@@ -16,10 +24,11 @@ class Task extends React.Component {
     let subtaskComponents
     if (task.subtaskIds.length > 0) {
       // debugger
-      subtaskComponents = task.subtaskIds.map((subtaskId, index) => (
+      subtaskComponents = task.subtaskIds.map((subtaskId, index) => {
+        return (
           <Draggable
-          key={subtaskId}
-          draggableId={`${column.id}-${subtaskId}`}
+          key={`${column.id}-${task.id}-${subtaskId}`}
+          draggableId={`${column.id}-${task.id}-${subtaskId}`}
           index={index}
         >
           {(provided, snapshot) =>(
@@ -32,7 +41,7 @@ class Task extends React.Component {
             </Subtask>
           )}
         </Draggable>
-      )
+      )}
       )
       return subtaskComponents
     }
@@ -42,7 +51,7 @@ class Task extends React.Component {
     const {task, index, column} = this.props
     return (
       <Draggable
-      key={task.id}
+      key={`${column.id}-${task.id}`}
       draggableId={`${column.id}-${task.id}`}
       index={index}
       >
@@ -51,13 +60,15 @@ class Task extends React.Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className="task"
+            className={column.active ? "task" : "hidden-task"}
           >
-          {task.content}
+          <Checkbox label=
+          {task.content}/>
 
-           <Droppable key = {`droppable-${task.id}`} droppableId={`${column.id}-${task.id}`} isCombineEnabled={true}>
+           <Droppable key={`droppable-${column.id}-${task.id}`}
+           droppableId={`droppable-${column.id}-${task.id}`} isCombineEnabled={true}>
              {(provided, snapshot) => (
-               <div {...provided.droppableProps} ref={provided.innerRef}>
+               <div style={{backgroundColor: "pink"}} {...provided.droppableProps} ref={provided.innerRef}>
                {this.renderSubtasks(task, column)}
                {provided.placeholder}
                </div>
