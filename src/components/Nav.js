@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Menu} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 class Nav extends Component {
   state= {
     activeItem: 'home'
@@ -22,12 +23,19 @@ class Nav extends Component {
         <Menu pointing secondary style={{paddingTop: "25px"}}>
           <Menu.Item
           name="home" active={activeItem === 'home'}
+          as={Link} exact='true' to="/home"
           onClick={this.handleClick}
-        />
+          />
           <Menu.Item
           name="mindSweeper" active={activeItem === 'mindSweeper'}
+          as={Link} exact='true' to="/brainstorm"
           onClick={this.handleClick}
-        />
+          />
+          <Menu.Item
+          name="SortTasks" active={activeItem === 'SortTasks'}
+          as={Link} exact='true' to="/sort"
+          onClick={this.handleClick}
+          />
         <Menu.Menu position='right'>
            <Menu.Item
              name='logout'
