@@ -6,7 +6,7 @@ const sampleData = {
     {id: 4, content: 'task 4 is a subtask of task 1',
     subtaskIds: []},
     {id: 5, content: 'task 5 is a subtask of task 1',
-      subtaskIds: [6]},
+      subtaskIds: []},
     {id: 6, content: 'task 6 is a subtask of task 5'},
     {id: 7, content: "Top", subtaskIds: []},
     {id: 8, content: "Bottom", subtaskIds: []}

@@ -65,6 +65,7 @@ class Task extends React.Component {
           <Checkbox label=
           {task.content}/>
 
+
            <Droppable key={`droppable-${column.id}-${task.id}`}
            droppableId={`droppable-${column.id}-${task.id}`} isCombineEnabled={true}>
              {(provided, snapshot) => (
