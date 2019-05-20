@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import {Checkbox} from 'semantic-ui-react'
@@ -7,6 +7,15 @@ const Subtask = styled.div`
   paddding: 5px;
   border: 5px;
 `
+
+const TaskElement = styled.div`
+  display: ${props => props.column.active? 'inherit': 'none' };
+`
+const Clone = styled(TaskElement)`
+  + div {
+    display: none!important;
+  }
+`;
 
 class Task extends React.Component {
 
@@ -56,11 +65,12 @@ class Task extends React.Component {
       index={index}
       >
         {(provided, snapshot) => (
-          <div
+          <Fragment>
+          <TaskElement
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className={column.active ? "task" : "hidden-task"}
+            column={this.props.column}
           >
           <Checkbox label=
           {task.content}/>
@@ -76,7 +86,12 @@ class Task extends React.Component {
              )}
 
             </Droppable>
-          </div>
+          </TaskElement>
+          {snapshot.isDragging && (
+  <Clone column={column}><Checkbox label=
+  {task.content}/></Clone>
+)}
+          </Fragment>
         )}
     </Draggable>
   )

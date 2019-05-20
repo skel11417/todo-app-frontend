@@ -43,7 +43,7 @@ class TaskOrganizer extends React.Component {
     // add it to the tasks subtask array
     let taskId = parseInt(destination.droppableId.split('-')[2])
     let updatedTask = newTasks.find(task => task.id === taskId)
-    
+
     updatedTask.subtaskIds.splice(destination.index, 0, newSubtaskId)
     this.setState({
       columns: newColumns,
@@ -102,7 +102,7 @@ class TaskOrganizer extends React.Component {
     if (destination.droppableId === source.droppableId && destination.index === source.index){
       return null
     }
-
+    this.log(result)
     // reorder tasks
     if (destination.droppableId === source.droppableId){
 

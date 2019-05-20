@@ -8,7 +8,9 @@ class App extends Component{
     return (
       <div>
       <Nav/>
-      <Main/>
+      <Main>
+
+      </Main>
       </div>
     )
   }
