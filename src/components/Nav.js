@@ -32,8 +32,8 @@ class Nav extends Component {
           onClick={this.handleClick}
           />
           <Menu.Item
-          name="SortTasks" active={activeItem === 'SortTasks'}
-          as={Link} exact='true' to="/sort"
+          name="Planner" active={activeItem === 'Planner'}
+          as={Link} exact='true' to="/planner"
           onClick={this.handleClick}
           />
         <Menu.Menu position='right'>

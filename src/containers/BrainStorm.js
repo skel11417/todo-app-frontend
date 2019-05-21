@@ -25,7 +25,6 @@ class BrainStorm extends Component {
 
   createTasks = () =>{
     let newTasks = this.state.input.split(',')
-    
   }
 
   handleSubmit = () =>{

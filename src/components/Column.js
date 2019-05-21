@@ -4,11 +4,10 @@ import {Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  /* margin: 8px; */
   border: 1px solid lightgrey;
   border-radius: 2px;
   max-width: auto;
-  width: ${props => props.column.active ? '45%' : '5%'};
+  width: '25%';
   transition:width 0.5s ease-in-out;
   min-height:440px;
   padding: 5px;
@@ -20,33 +19,43 @@ const ColumnTitle = styled.button`
 `
 
 class Column extends Component {
-
   renderTasks = () => {
-    const {column, allTasks} = this.props
-    return column.tasks.map((taskId, index) => {
-      const task = allTasks.find( task => task.id === taskId)
-      return <Task key={task.id} task={task} allTasks={allTasks} index={index} column={column}/>
+    const {tasks, columnId} = this.props
+    let columnTasks
+    const today = new Date()
+    switch (columnId) {
+      case "day":
+        columnTasks = tasks.filter(task => task.completionDate === today )
+        break;
+      case "all":
+        columnTasks = tasks
+        break;
+      default:
+        break;
+    }
+
+    return (
+      <div> {columnTasks.toString()}
+
+              </div>
+    )
   }
-  )
-}
-
-
   render(){
-    const {column, onClick} = this.props
+    const {active, columnId} = this.props
     return(
-      <Container column={column}>
-        <ColumnTitle onClick={()=>onClick(column)}>
-          {column.active ? column.id : column.id[0]}
-        </ColumnTitle>
-        <Droppable droppableId={column.id}>
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {this.renderTasks()}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </Container>
+    <Container>
+      <ColumnTitle>
+        {active ? columnId : columnId[0]}
+      </ColumnTitle>
+      <Droppable droppableId={columnId}>
+        {(provided, snapshot) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {this.renderTasks()}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </Container>
     )
   }
 }

@@ -28,6 +28,32 @@ class Task extends React.Component {
     return this.props.allTasks.find(task => task.id === taskId)
   }
 
+  renderSubtasks(task, column){
+    let subtaskComponents
+    if (task.subtaskIds.length > 0) {
+      subtaskComponents = task.subtaskIds.map((subtaskId, index) => {
+        return (
+          <Draggable
+          key={`${column.id}-${task.id}-${subtaskId}`}
+          draggableId={`${column.id}-${task.id}-${subtaskId}`}
+          index={index}
+        >
+          {(provided, snapshot) =>(
+            <Subtask
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+            >
+              {this.findTaskById(subtaskId).content}
+            </Subtask>
+          )}
+        </Draggable>
+      )}
+      )
+      return subtaskComponents
+    }
+  }
+
   render(){
     const {task, index, column} = this.props
     return (
