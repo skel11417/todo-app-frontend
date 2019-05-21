@@ -20,14 +20,13 @@ class App extends Component{
   }
 
   getTasks(){
-    console.log('getting tasks')
     fetch('http://localhost:3000/tasks')
       .then(resp=> resp.json())
       .then(tasks => {
         this.setState({
           tasks: tasks
         })
-      })
+    })
   }
 
   batchCreateTasks = (newTasks) => {
@@ -52,13 +51,26 @@ class App extends Component{
       .then(()=>this.getTasks())
   }
 
+  deleteTask = (taskId) => {
+    URL = `http://localhost:3000/tasks/${taskId}`
+    const options = {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({id: taskId})
+    }
+
+    fetch(URL, options)
+      .then(()=>this.getTasks())
+  }
+
   render(){
     return (
       <Router>
         <Route render={(props)=><Nav {...props}/>} />
         <div className="Main">
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
-          <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} markCompleted={this.markCompleted}/>}/>
+          <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
+          markCompleted={this.markCompleted}/>}/>
           <Route exact path="/sorter" component={TaskPriority}/>
           <Route
             exact

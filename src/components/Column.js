@@ -29,6 +29,7 @@ class Column extends Component {
           columnId={columnId}
           index={index}
           markCompleted={this.props.markCompleted}
+          deleteTask={this.props.deleteTask}
           />
       })
     )

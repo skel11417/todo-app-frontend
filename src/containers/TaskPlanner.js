@@ -51,7 +51,9 @@ class TaskPlanner extends React.Component {
         onDragEnd={this.onDragEnd}
         >
           <Column columnId="day" markCompleted={this.props.markCompleted} columnTasks={dayTasks} active={true}/>
-          <Column columnId="all" columnTasks={allTasks} markCompleted={this.props.markCompleted} active={true}/>
+          <Column columnId="all" columnTasks={allTasks} markCompleted={this.props.markCompleted}
+          deleteTask={this.props.deleteTask}
+          active={true}/>
         </DragDropContext>
       </Container>
     );}

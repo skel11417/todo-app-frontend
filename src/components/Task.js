@@ -1,11 +1,12 @@
 import React, {Fragment} from 'react'
 import {Draggable, Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
-import {Checkbox} from 'semantic-ui-react'
+import {Checkbox, Icon} from 'semantic-ui-react'
 
 const TaskElement = styled.div`
-  height: 30px;
+  height: 40px;
   border: 1px black solid;
+  background-color: ${(props)=> props.completed ? 'lightgreen' : 'white'};
 `
 const Clone = styled(TaskElement)`
   + div {
@@ -24,8 +25,13 @@ class Task extends React.Component {
   findTaskById = (taskId) => {
     return this.props.allTasks.find(task => task.id === taskId)
   }
+
   markCompleted = () => {
     this.props.markCompleted(this.props.task.id)
+  }
+
+  deleteTask = () => {
+    this.props.deleteTask(this.props.task.id)
   }
 
   render(){
@@ -41,12 +47,13 @@ class Task extends React.Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            completed={task.completed}
           >
             <Checkbox
               onChange={this.markCompleted}
               label={task.content}
               checked={task.completed}
-              />
+              /><Icon onClick={this.deleteTask} name="remove"/>
           </TaskElement>
         )}
     </Draggable>
