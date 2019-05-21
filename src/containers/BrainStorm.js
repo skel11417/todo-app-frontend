@@ -23,12 +23,13 @@ class BrainStorm extends Component {
     this.setState({input: event.target.value})
   }
 
-  createTasks = () =>{
-    let newTasks = this.state.input.split(',')
-  }
-
   handleSubmit = () =>{
-    this.createTasks()
+    // sanitize input
+    const newTasks = this.state.input.split(',')
+    if (newTasks.length > 0 && newTasks[0] !== ''){
+      this.props.batchCreateTasks(newTasks)
+      this.setState({input: ""})
+    }
   }
 
   render(){

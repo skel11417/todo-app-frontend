@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Nav from './components/Nav'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
 import './App.css';
 import TaskPlanner from './containers/TaskPlanner'
 import TaskPriority from './containers/TaskPriority'
@@ -30,6 +30,22 @@ class App extends Component{
       })
   }
 
+  batchCreateTasks = (newTasks) => {
+    URL = "http://localhost:3000/tasks/batch_create"
+    const options = {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({new_tasks: newTasks})}
+
+    fetch(URL, options)
+      .then(this.goToTaskList)
+      .then(()=>this.getTasks())
+  }
+
+  goToTaskList = () =>{
+    console.log('going to task list')
+  }
+
   render(){
     return (
       <Router>
@@ -38,7 +54,17 @@ class App extends Component{
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
           <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} />}/>
           <Route exact path="/sorter" component={TaskPriority}/>
-          <Route exact path="/brainstorm" component={BrainStorm}/>
+          <Route
+            exact
+            path="/brainstorm"
+            render={
+              () => <BrainStorm
+                batchCreateTasks={this.batchCreateTasks}
+                goToTaskList={this.goToTaskList}
+                />
+
+              }
+          />
         </div>
       </Router>
     )

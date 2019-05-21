@@ -23,7 +23,7 @@ class Nav extends Component {
         <Menu pointing secondary style={{paddingTop: "25px"}}>
           <Menu.Item
           name="home" active={activeItem === 'home'}
-          as={Link} exact='true' to="/home"
+          as={Link} exact='true' to="/"
           onClick={this.handleClick}
           />
           <Menu.Item
