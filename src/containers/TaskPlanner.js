@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   margin: auto;
   margin-top: 50px;
-  width: 75%;
+  width: 80%;
   border: black solid 1px;
 `
 
@@ -21,18 +21,37 @@ class TaskPlanner extends React.Component {
   }
 
   onDragEnd = (result) => {
-    console.log(result)
+    this.log(result)
   }
 
+
   render(){
-    console.log(this.props.tasks)
+    const today = new Date()
+    const endOfMonth = new Date(today.getYear() + 100, today.getMonth(), 0)
+    const allTasks = this.props.tasks
+    const filterTasks = (date) => {
+      date.setHours(0,0,0,0)
+      const output = []
+      allTasks.forEach(task => {
+        if (task.scheduled_date){
+          let dbDate = new Date(task.scheduled_date)
+          dbDate.setHours(0,0,0,0)
+          output.push(task)
+        }
+      })
+      return output
+    }
+
+    const dayTasks = filterTasks(today)
+
+
     return (
       <Container className="task-planner">
         <DragDropContext id="drag-drop-context"
         onDragEnd={this.onDragEnd}
         >
-          <Column columnId="day" tasks={this.props.tasks} active={true}/>
-          <Column columnId="all" tasks={this.props.tasks} active={true}/>
+          <Column columnId="day" markCompleted={this.props.markCompleted} columnTasks={dayTasks} active={true}/>
+          <Column columnId="all" columnTasks={allTasks} markCompleted={this.props.markCompleted} active={true}/>
         </DragDropContext>
       </Container>
     );}

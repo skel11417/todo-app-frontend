@@ -38,31 +38,35 @@ class App extends Component{
       body: JSON.stringify({new_tasks: newTasks})}
 
     fetch(URL, options)
-      .then(this.goToTaskList)
       .then(()=>this.getTasks())
   }
 
-  goToTaskList = () =>{
-    console.log('going to task list')
+  markCompleted = (taskId) =>{
+    URL = `http://localhost:3000/tasks/${taskId}`
+    const options = {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({id: taskId})}
+
+    fetch(URL, options)
+      .then(()=>this.getTasks())
   }
 
   render(){
     return (
       <Router>
-        <Nav/>
+        <Route render={(props)=><Nav {...props}/>} />
         <div className="Main">
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
-          <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} />}/>
+          <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} markCompleted={this.markCompleted}/>}/>
           <Route exact path="/sorter" component={TaskPriority}/>
           <Route
             exact
-            path="/brainstorm"
+            path="/mindsweeper"
             render={
               () => <BrainStorm
                 batchCreateTasks={this.batchCreateTasks}
-                goToTaskList={this.goToTaskList}
                 />
-
               }
           />
         </div>

@@ -16,8 +16,14 @@ class Nav extends Component {
     }
   }
 
+  getPathname = () => {
+    const path = this.props.history.location.pathname
+
+    return path === '/' ? 'home' : path
+  }
+
   render() {
-    const {activeItem} = this.state
+    const activeItem = this.getPathname()
     return (
       <div>
         <Menu pointing secondary style={{paddingTop: "25px"}}>
@@ -27,12 +33,12 @@ class Nav extends Component {
           onClick={this.handleClick}
           />
           <Menu.Item
-          name="mindSweeper" active={activeItem === 'mindSweeper'}
-          as={Link} exact='true' to="/brainstorm"
+          name="/mindsweeper" active={activeItem === '/mindsweeper'}
+          as={Link} exact='true' to="/mindsweeper"
           onClick={this.handleClick}
           />
           <Menu.Item
-          name="Planner" active={activeItem === 'Planner'}
+          name="/planner" active={activeItem === '/planner'}
           as={Link} exact='true' to="/planner"
           onClick={this.handleClick}
           />

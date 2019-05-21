@@ -7,7 +7,7 @@ const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   max-width: auto;
-  width: '25%';
+  width: 50%;
   transition:width 0.5s ease-in-out;
   min-height:440px;
   padding: 5px;
@@ -20,26 +20,20 @@ const ColumnTitle = styled.button`
 
 class Column extends Component {
   renderTasks = () => {
-    const {tasks, columnId} = this.props
-    let columnTasks
-    const today = new Date()
-    switch (columnId) {
-      case "day":
-        columnTasks = tasks.filter(task => task.completionDate === today )
-        break;
-      case "all":
-        columnTasks = tasks
-        break;
-      default:
-        break;
-    }
-
+    const {columnTasks, columnId} = this.props
     return (
-      <div> {columnTasks.toString()}
-
-              </div>
+      columnTasks.map((task, index)=> {
+        return <Task
+          key={`${columnId}-${task.id}`}
+          task={task}
+          columnId={columnId}
+          index={index}
+          markCompleted={this.props.markCompleted}
+          />
+      })
     )
   }
+
   render(){
     const {active, columnId} = this.props
     return(

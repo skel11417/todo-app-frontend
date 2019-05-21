@@ -3,13 +3,9 @@ import {Draggable, Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import {Checkbox} from 'semantic-ui-react'
 
-const Subtask = styled.div`
-  paddding: 5px;
-  border: 5px;
-`
-
 const TaskElement = styled.div`
-  display: ${props => props.column.active? 'inherit': 'none' };
+  height: 30px;
+  border: 1px black solid;
 `
 const Clone = styled(TaskElement)`
   + div {
@@ -18,8 +14,9 @@ const Clone = styled(TaskElement)`
 `;
 
 class Task extends React.Component {
+
   componentWillUnmount(){
-    console.log('unmounted', this.props.column.id)
+   console.log('unmounted', this.props.columnId)
     // this.removeEventListener('mousemove', this.handleMouseMove);
     // this.removeEventListener('mouseup', this.handleMouseUp);
   }
@@ -27,43 +24,26 @@ class Task extends React.Component {
   findTaskById = (taskId) => {
     return this.props.allTasks.find(task => task.id === taskId)
   }
+  markCompleted = () => {
+    this.props.markCompleted(this.props.task.id)
+  }
 
   render(){
-    const {task, index, column} = this.props
+    const {task, columnId, index} = this.props
     return (
       <Draggable
-      key={`${column.id}-${task.id}`}
-      draggableId={`${column.id}-${task.id}`}
+      key={`${columnId}-${task.id}`}
+      draggableId={`${columnId}-${task.id}`}
       index={index}
       >
         {(provided, snapshot) => (
-          <Fragment>
           <TaskElement
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            column={this.props.column}
           >
-          <Checkbox label=
-          {task.content}/>
-
-
-           <Droppable key={`droppable-${column.id}-${task.id}`}
-           droppableId={`droppable-${column.id}-${task.id}`} isCombineEnabled={true}>
-             {(provided, snapshot) => (
-               <div style={{backgroundColor: "pink"}} {...provided.droppableProps} ref={provided.innerRef}>
-               {this.renderSubtasks(task, column)}
-               {provided.placeholder}
-               </div>
-             )}
-
-            </Droppable>
+            <Checkbox onChange={this.markCompleted} label={task.content}/>
           </TaskElement>
-          {snapshot.isDragging && (
-  <Clone column={column}><Checkbox label=
-  {task.content}/></Clone>
-)}
-          </Fragment>
         )}
     </Draggable>
   )
