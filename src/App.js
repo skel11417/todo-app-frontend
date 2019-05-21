@@ -12,16 +12,22 @@ class App extends Component{
 
   state = {
     currentUser: null,
-    tasks: sampleData.tasks
+    tasks: []
   }
 
   componentDidMount(){
     this.getTasks()
-    this.setState({tasks: sampleData.tasks})
   }
 
   getTasks(){
     console.log('getting tasks')
+    fetch('http://localhost:3000/tasks')
+      .then(resp=> resp.json())
+      .then(tasks => {
+        this.setState({
+          tasks: tasks
+        })
+      })
   }
 
   render(){
@@ -29,8 +35,8 @@ class App extends Component{
       <Router>
         <Nav/>
         <div className="Main">
-          <Route exact path="/" component={Dashboard}/>
-          <Route exact path="/planner" render={() =><TaskPlanner tasks={this.state.tasks} />}/>
+          <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
+          <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} />}/>
           <Route exact path="/sorter" component={TaskPriority}/>
           <Route exact path="/brainstorm" component={BrainStorm}/>
         </div>
