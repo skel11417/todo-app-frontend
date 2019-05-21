@@ -42,7 +42,11 @@ class Task extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
           >
-            <Checkbox onChange={this.markCompleted} label={task.content}/>
+            <Checkbox
+              onChange={this.markCompleted}
+              label={task.content}
+              checked={task.completed}
+              />
           </TaskElement>
         )}
     </Draggable>

@@ -46,7 +46,7 @@ class App extends Component{
     const options = {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({id: taskId})}
+      body: JSON.stringify({id: taskId, completed: true})}
 
     fetch(URL, options)
       .then(()=>this.getTasks())
