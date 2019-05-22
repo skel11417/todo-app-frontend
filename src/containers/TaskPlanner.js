@@ -29,21 +29,21 @@ class TaskPlanner extends React.Component {
   render(){
     const today = new Date()
     const endOfMonth = new Date(today.getYear() + 100, today.getMonth(), 0)
-    const allTasks = this.props.tasks
+    const allTasks = this.props.tasks.filter(task=> task.scheduled_date === null)
 
     const filterTasks = (date) => {
-      const output = []
+      const filteredTasks = []
       date.setHours(0,0,0,0)
-      allTasks.forEach(task => {
+      this.props.tasks.forEach(task => {
         if (task.scheduled_date){
           let dbDate = new Date(task.scheduled_date)
           dbDate.setHours(0,0,0,0)
           if (dbDate - date === 0){
-            output.push(task)
+            filteredTasks.push(task)
           }
         }
       })
-      return output
+      return filteredTasks
     }
 
     const dayTasks = filterTasks(today)
@@ -55,7 +55,8 @@ class TaskPlanner extends React.Component {
         >
           <Column columnId="day"
           updateTask={this.props.updateTask}
-          deleteTask={this.props.deleteTask} columnTasks={dayTasks} active={true}/>
+          deleteTask={this.props.deleteTask}
+          columnTasks={dayTasks} active={true}/>
 
           <Column columnId="all" columnTasks={allTasks}
           deleteTask={this.props.deleteTask}

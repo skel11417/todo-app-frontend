@@ -72,9 +72,9 @@ class TaskPriority extends Component {
   renderModal = () => {
     return (
       <Modal
-      open={this.state.open}
-      size='tiny'
-      dimmer='blurring'
+        open={this.state.open}
+        size='tiny'
+        dimmer='blurring'
       >
       <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}</Modal.Header>
       <Modal.Content>
@@ -91,14 +91,13 @@ class TaskPriority extends Component {
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={this.closeModal}>
-        Close
+          Close
         </Button>
         <Button onClick={this.previousTask}>
-        Previous Task
+          Previous Task
         </Button>
-
         <Button onClick={this.nextTask}>
-        Next Task
+          Next Task
         </Button>
       </Modal.Actions>
       </Modal>
