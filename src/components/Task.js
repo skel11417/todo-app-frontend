@@ -65,7 +65,7 @@ class Task extends React.Component {
               onChange={this.markCompleted}
               label={task.content}
               checked={task.completed}
-              /><Icon onClick={this.deleteTask} name="remove"/>
+              />{task.category}<Icon onClick={this.deleteTask} name="remove"/>
           </TaskElement>
         )}
     </Draggable>

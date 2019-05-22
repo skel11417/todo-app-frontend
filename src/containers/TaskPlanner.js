@@ -17,13 +17,14 @@ class TaskPlanner extends React.Component {
   // logs the intended movement in the console
   log = (result) => {
     const {destination, source, draggableId} = result
-    console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
+    if (destination !== null){
+      console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
+    }
   }
 
   onDragEnd = (result) => {
     this.log(result)
   }
-
 
   render(){
     const today = new Date()
@@ -52,9 +53,10 @@ class TaskPlanner extends React.Component {
         <DragDropContext id="drag-drop-context"
         onDragEnd={this.onDragEnd}
         >
-          <Column columnId="day" 
+          <Column columnId="day"
           updateTask={this.props.updateTask}
           deleteTask={this.props.deleteTask} columnTasks={dayTasks} active={true}/>
+
           <Column columnId="all" columnTasks={allTasks}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}

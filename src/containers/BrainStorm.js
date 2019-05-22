@@ -19,7 +19,6 @@ class BrainStorm extends Component {
   state = {
     input: "",
     redirect: false,
-    open: false,
     currentNewTaskId: null
   }
 
@@ -48,7 +47,7 @@ class BrainStorm extends Component {
     const newTasks = this.state.input.split(',')
     if (newTasks.length > 0 && newTasks[0] !== ''){
       this.props.batchCreateTasks(newTasks)
-      this.setState({input: "", open: true})
+      this.setState({input: "", redirect: true})
     }
   }
 
@@ -62,7 +61,7 @@ class BrainStorm extends Component {
           {this.renderRedirect()}
           <TextArea
             onChange={this.handleChange}
-            placeholder='list all of your tasks separated by commas'
+            placeholder='List all of your tasks separated by commas'
             value={this.state.input}
             autoFocus
           />

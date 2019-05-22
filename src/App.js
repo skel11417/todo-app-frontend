@@ -38,8 +38,8 @@ class App extends Component{
 
     fetch(URL, options)
       .then(resp => resp.json())
-      .then(newTasks = this.setState({
-        newTasks: newTasks
+      .then(tasks => this.setState({
+        tasks: tasks
       }))
   }
 
@@ -56,7 +56,7 @@ class App extends Component{
   }
 
   deleteTask = (taskId) => {
-    URL = `http://localhost:3000/tasks/${taskId}`
+    const URL = `http://localhost:3000/tasks/${taskId}`
     const options = {
       method: "DELETE",
       headers: {"Content-Type": "application/json"},
@@ -72,14 +72,18 @@ class App extends Component{
       <Router>
         <Route render={(props)=><Nav {...props}/>} />
         <div className="Main">
+
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
+
           <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
           updateTask={this.updateTask}/>}
           />
+
           <Route exact path="/sorter" render={()=><TaskPriority
             tasks={this.state.tasks}
             updateTask={this.updateTask}/>}
-            />
+          />
+
           <Route
             exact
             path="/mindsweeper"
