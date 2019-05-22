@@ -1,5 +1,5 @@
-import React, {Fragment} from 'react'
-import {Draggable, Droppable} from 'react-beautiful-dnd'
+import React from 'react'
+import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import {Checkbox, Icon} from 'semantic-ui-react'
 
@@ -8,11 +8,11 @@ const TaskElement = styled.div`
   border: 1px black solid;
   background-color: ${(props)=> props.completed ? 'lightgreen' : 'white'};
 `
-const Clone = styled(TaskElement)`
-  + div {
-    display: none!important;
-  }
-`;
+// const Clone = styled(TaskElement)`
+//   + div {
+//     display: none!important;
+//   }
+// `;
 
 class Task extends React.Component {
 
@@ -27,7 +27,11 @@ class Task extends React.Component {
   }
 
   markCompleted = () => {
-    this.props.markCompleted(this.props.task.id)
+    this.props.updateTask({
+      id: this.props.task.id,
+      date_completed: new Date(),
+      completed: true
+    })
   }
 
   deleteTask = () => {
@@ -35,7 +39,6 @@ class Task extends React.Component {
   }
 
   addTaskToDay = () => {
-    console.log(this.props.task)
     this.props.updateTask({
       id: this.props.task.id,
       scheduled_date: new Date()

@@ -28,7 +28,6 @@ class Column extends Component {
           task={task}
           columnId={columnId}
           index={index}
-          markCompleted={this.props.markCompleted}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           />

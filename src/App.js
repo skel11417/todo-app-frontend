@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import Nav from './components/Nav'
-import { BrowserRouter as Router, Route, withRouter} from 'react-router-dom'
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
 import TaskPlanner from './containers/TaskPlanner'
 import TaskPriority from './containers/TaskPriority'
-import sampleData from './sampleData'
 import Dashboard from './containers/Dashboard'
 import BrainStorm from './containers/BrainStorm'
 
@@ -31,7 +30,7 @@ class App extends Component{
   }
 
   batchCreateTasks = (newTasks) => {
-    URL = "http://localhost:3000/tasks/batch_create"
+    const URL = "http://localhost:3000/tasks/batch_create"
     const options = {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -44,19 +43,8 @@ class App extends Component{
       }))
   }
 
-  markCompleted = (taskId) =>{
-    URL = `http://localhost:3000/tasks/${taskId}`
-    const options = {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({id: taskId, completed: true})}
-
-    fetch(URL, options)
-      .then(()=>this.getTasks())
-  }
-
   updateTask = (taskData)=>{
-    URL = `http://localhost:3000/tasks/${taskData.id}`
+    const URL = `http://localhost:3000/tasks/${taskData.id}`
     const options = {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
@@ -86,11 +74,11 @@ class App extends Component{
         <div className="Main">
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
           <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
-          markCompleted={this.markCompleted}
           updateTask={this.updateTask}/>}
           />
           <Route exact path="/sorter" render={()=><TaskPriority
-            tasks={this.state.tasks}/>}
+            tasks={this.state.tasks}
+            updateTask={this.updateTask}/>}
             />
           <Route
             exact

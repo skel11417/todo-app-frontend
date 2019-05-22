@@ -29,14 +29,15 @@ class TaskPlanner extends React.Component {
     const today = new Date()
     const endOfMonth = new Date(today.getYear() + 100, today.getMonth(), 0)
     const allTasks = this.props.tasks
+
     const filterTasks = (date) => {
-      date.setHours(0,0,0,0)
       const output = []
+      date.setHours(0,0,0,0)
       allTasks.forEach(task => {
         if (task.scheduled_date){
           let dbDate = new Date(task.scheduled_date)
           dbDate.setHours(0,0,0,0)
-          if (dbDate === date){
+          if (dbDate - date === 0){
             output.push(task)
           }
         }
@@ -51,9 +52,10 @@ class TaskPlanner extends React.Component {
         <DragDropContext id="drag-drop-context"
         onDragEnd={this.onDragEnd}
         >
-          <Column columnId="day" markCompleted={this.props.markCompleted}
-          updateTask={this.props.updateTask} columnTasks={dayTasks} active={true}/>
-          <Column columnId="all" columnTasks={allTasks} markCompleted={this.props.markCompleted}
+          <Column columnId="day" 
+          updateTask={this.props.updateTask}
+          deleteTask={this.props.deleteTask} columnTasks={dayTasks} active={true}/>
+          <Column columnId="all" columnTasks={allTasks}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           active={true}/>

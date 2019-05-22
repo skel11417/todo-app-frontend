@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
-import {Form, TextArea, Grid, Modal, Button} from 'semantic-ui-react'
+import {Form, TextArea, Grid, Button} from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const Container = styled.div`
