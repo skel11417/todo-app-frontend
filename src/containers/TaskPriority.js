@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
-import Column from '../components/Column'
+import CategoryColumn from '../components/CategoryColumn'
 import Task from '../components/Task'
 import {Modal, Button} from 'semantic-ui-react'
 import styled from 'styled-components'
@@ -30,6 +30,10 @@ class TaskPriority extends Component {
         })
       }
     }
+  }
+
+  onDragEnd = (result) => {
+    console.log(result)
   }
 
   renderCategoryTasks = (category) => {
@@ -109,6 +113,7 @@ class TaskPriority extends Component {
     let filteredTasks = this.filterTasks(null)
     return (
       <div>
+      <DragDropContext onDragEnd={this.onDragEnd}>
         <Container>
           <div style={{width: '33%',border: 'black solid 1-x'}}>
             <h1>A</h1>
@@ -126,6 +131,7 @@ class TaskPriority extends Component {
         <div style={{display: 'flexbox', margin: 'auto', width: '80%'}}>
           {filteredTasks.map(task => (<Button style={{display: 'inline', padding: '10px', margin: '10px'}} key={task.id} onClick={()=>this.openModal(task.id)}>{task.content}</Button>))}
         </div>
+        </DragDropContext>
         {this.renderModal()}
       </div>
   )

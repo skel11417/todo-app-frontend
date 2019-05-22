@@ -16,12 +16,6 @@ const TaskElement = styled.div`
 
 class Task extends React.Component {
 
-  componentWillUnmount(){
-   console.log('unmounted', this.props.columnId)
-    // this.removeEventListener('mousemove', this.handleMouseMove);
-    // this.removeEventListener('mouseup', this.handleMouseUp);
-  }
-
   findTaskById = (taskId) => {
     return this.props.allTasks.find(task => task.id === taskId)
   }

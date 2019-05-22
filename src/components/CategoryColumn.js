@@ -18,7 +18,7 @@ const ColumnTitle = styled.button`
   font-size: 1.5em;
 `
 
-class Column extends Component {
+class CategoryColumn extends Component {
   renderTasks = () => {
     const {columnTasks, columnId} = this.props
     return (
@@ -36,11 +36,11 @@ class Column extends Component {
   }
 
   render(){
-    const {active, columnId} = this.props
+    const {columnId} = this.props
     return(
     <Container>
       <ColumnTitle>
-        {active ? columnId : columnId[0]}
+        <h1>{columnId} Tasks</h1>
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
@@ -55,4 +55,4 @@ class Column extends Component {
   }
 }
 
-export default Column
+export default CategoryColumn
