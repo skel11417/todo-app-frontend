@@ -76,30 +76,30 @@ class TaskPriority extends Component {
         size='tiny'
         dimmer='blurring'
       >
-      <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}</Modal.Header>
-      <Modal.Content>
-        <p>What kind of task is this?</p>
-        <Button onClick={()=>this.setCategory("A")}>
-        A
-        </Button>
-        <Button onClick={()=>this.setCategory("B")}>
-        B
-        </Button>
-        <Button onClick={()=>this.setCategory("C")}>
-        C
-        </Button>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={this.closeModal}>
-          Close
-        </Button>
-        <Button onClick={this.previousTask}>
-          Previous Task
-        </Button>
-        <Button onClick={this.nextTask}>
-          Next Task
-        </Button>
-      </Modal.Actions>
+        <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}</Modal.Header>
+        <Modal.Content>
+          <p>What kind of task is this?</p>
+          <Button onClick={()=>this.setCategory("A")}>
+          A
+          </Button>
+          <Button onClick={()=>this.setCategory("B")}>
+          B
+          </Button>
+          <Button onClick={()=>this.setCategory("C")}>
+          C
+          </Button>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={this.closeModal}>
+            Close
+          </Button>
+          <Button onClick={this.previousTask}>
+            Previous Task
+          </Button>
+          <Button onClick={this.nextTask}>
+            Next Task
+          </Button>
+        </Modal.Actions>
       </Modal>
     )
   }
