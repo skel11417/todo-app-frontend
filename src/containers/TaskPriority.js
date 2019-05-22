@@ -5,7 +5,7 @@ import Task from '../components/Task'
 import {Modal, Button} from 'semantic-ui-react'
 import styled from 'styled-components'
 
-const Container = styled.div`
+const CategoriesContainer = styled.div`
   display: flex;
   margin: auto;
   margin-top: 50px;
@@ -38,7 +38,7 @@ class TaskPriority extends Component {
 
   renderCategoryTasks = (category) => {
     return this.filterTasks(category).map((task, index) => {
-      return <div onClick={() => this.openModal(task.id)} key={task.id}>{task.content}</div>
+      return <div onClick={()=> this.openModal(task.id)} key={task.id}>{task.content}</div>
     })
   }
 
@@ -111,23 +111,18 @@ class TaskPriority extends Component {
   render(){
     const {tasks} = this.props
     let filteredTasks = this.filterTasks(null)
+    const categories = ["A","B","C"]
     return (
       <div>
       <DragDropContext onDragEnd={this.onDragEnd}>
-        <Container>
-          <div style={{width: '33%',border: 'black solid 1-x'}}>
-            <h1>A</h1>
-            {this.renderCategoryTasks("A")}
-          </div>
-          <div style={{width: '33%', border: 'black solid 1px'}}>
-            <h1>B</h1>
-            {this.renderCategoryTasks("B")}
-          </div>
-          <div style={{width: '33%', border: 'black solid 1px'}}>
-            <h1>C</h1>
-            {this.renderCategoryTasks("C")}
-          </div>
-        </Container>
+        <CategoriesContainer>
+          {categories.map(category => (
+            <div key={`${category}-column`} columnId={category} columnTasks={this.filterTasks(category)} style={{width: '33%',border: 'black solid 1px'}}>
+              <h1>{category}</h1>
+              {this.renderCategoryTasks(category)}
+            </div>
+          ))}
+        </CategoriesContainer>
         <div style={{display: 'flexbox', margin: 'auto', width: '80%'}}>
           {filteredTasks.map(task => (<Button style={{display: 'inline', padding: '10px', margin: '10px'}} key={task.id} onClick={()=>this.openModal(task.id)}>{task.content}</Button>))}
         </div>
