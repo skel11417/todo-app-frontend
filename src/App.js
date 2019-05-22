@@ -12,7 +12,8 @@ class App extends Component{
 
   state = {
     currentUser: null,
-    tasks: []
+    tasks: [],
+    newTasks: []
   }
 
   componentDidMount(){
@@ -37,7 +38,10 @@ class App extends Component{
       body: JSON.stringify({new_tasks: newTasks})}
 
     fetch(URL, options)
-      .then(()=>this.getTasks())
+      .then(resp => resp.json())
+      .then(newTasks = this.setState({
+        newTasks: newTasks
+      }))
   }
 
   markCompleted = (taskId) =>{
@@ -70,7 +74,8 @@ class App extends Component{
         <div className="Main">
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
           <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
-          markCompleted={this.markCompleted}/>}/>
+          markCompleted={this.markCompleted}
+          newTasks={this.state.newTasks}/>}/>
           <Route exact path="/sorter" component={TaskPriority}/>
           <Route
             exact

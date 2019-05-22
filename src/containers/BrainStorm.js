@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Redirect} from 'react-router-dom'
-import {Form, TextArea, Grid, Button} from 'semantic-ui-react'
+import {Form, TextArea, Grid, Modal, Button} from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -18,7 +18,9 @@ class BrainStorm extends Component {
 
   state = {
     input: "",
-    redirect: false
+    redirect: false,
+    open: false,
+    currentNewTaskId: null
   }
 
   handleChange = (event) =>{
@@ -31,12 +33,22 @@ class BrainStorm extends Component {
     }
   }
 
+  setCategory = (category) => {
+    console.log(category)
+  }
+
+  closeModal = () => {
+    this.setState({
+      open: false
+    })
+  }
+
   handleSubmit = () =>{
     // sanitize input
     const newTasks = this.state.input.split(',')
     if (newTasks.length > 0 && newTasks[0] !== ''){
       this.props.batchCreateTasks(newTasks)
-      this.setState({input: "", redirect: true})
+      this.setState({input: "", open: true})
     }
   }
 
@@ -60,6 +72,34 @@ class BrainStorm extends Component {
             <Button onClick={this.handleSubmit} size='large'>Create Tasks</Button>
           </Grid.Column>
         </Grid>
+        <Modal
+          open={this.state.open}
+        >
+          <Modal.Header>Task Content</Modal.Header>
+          <Modal.Content>
+            <p> What kind of task is this? </p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={this.closeModal}>
+                Close
+              </Button>
+              <Button onClick={this.previousTask}>
+              Previous Task
+              </Button>
+              <Button onClick={()=>this.setCategory("A")}>
+              A
+              </Button>
+              <Button onClick={()=>this.setCategory("B")}>
+              B
+              </Button>
+              <Button onClick={()=>this.setCategory("C")}>
+              C
+              </Button>
+              <Button onClick={this.nextTask}>
+                Next Task
+              </Button>
+            </Modal.Actions>
+        </Modal>
       </Container>
     )
   }
