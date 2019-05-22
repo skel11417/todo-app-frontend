@@ -36,7 +36,9 @@ class TaskPlanner extends React.Component {
         if (task.scheduled_date){
           let dbDate = new Date(task.scheduled_date)
           dbDate.setHours(0,0,0,0)
-          output.push(task)
+          if (dbDate === date){
+            output.push(task)
+          }
         }
       })
       return output
@@ -44,15 +46,16 @@ class TaskPlanner extends React.Component {
 
     const dayTasks = filterTasks(today)
 
-
     return (
       <Container className="task-planner">
         <DragDropContext id="drag-drop-context"
         onDragEnd={this.onDragEnd}
         >
-          <Column columnId="day" markCompleted={this.props.markCompleted} columnTasks={dayTasks} active={true}/>
+          <Column columnId="day" markCompleted={this.props.markCompleted}
+          updateTask={this.props.updateTask} columnTasks={dayTasks} active={true}/>
           <Column columnId="all" columnTasks={allTasks} markCompleted={this.props.markCompleted}
           deleteTask={this.props.deleteTask}
+          updateTask={this.props.updateTask}
           active={true}/>
         </DragDropContext>
       </Container>

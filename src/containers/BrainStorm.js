@@ -29,7 +29,7 @@ class BrainStorm extends Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/planner' />
+      return <Redirect to='/sorter' />
     }
   }
 
@@ -72,34 +72,6 @@ class BrainStorm extends Component {
             <Button onClick={this.handleSubmit} size='large'>Create Tasks</Button>
           </Grid.Column>
         </Grid>
-        <Modal
-          open={this.state.open}
-        >
-          <Modal.Header>Task Content</Modal.Header>
-          <Modal.Content>
-            <p> What kind of task is this? </p>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button onClick={this.closeModal}>
-                Close
-              </Button>
-              <Button onClick={this.previousTask}>
-              Previous Task
-              </Button>
-              <Button onClick={()=>this.setCategory("A")}>
-              A
-              </Button>
-              <Button onClick={()=>this.setCategory("B")}>
-              B
-              </Button>
-              <Button onClick={()=>this.setCategory("C")}>
-              C
-              </Button>
-              <Button onClick={this.nextTask}>
-                Next Task
-              </Button>
-            </Modal.Actions>
-        </Modal>
       </Container>
     )
   }

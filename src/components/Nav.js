@@ -38,6 +38,12 @@ class Nav extends Component {
           onClick={this.handleClick}
           />
           <Menu.Item
+          name="/sorter" active={activeItem === "/sorter"}
+          as={Link} exact='true' to="/sorter"
+          onClick={this.handleClick}
+          />
+
+          <Menu.Item
           name="/planner" active={activeItem === '/planner'}
           as={Link} exact='true' to="/planner"
           onClick={this.handleClick}

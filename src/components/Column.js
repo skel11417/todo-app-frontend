@@ -30,6 +30,7 @@ class Column extends Component {
           index={index}
           markCompleted={this.props.markCompleted}
           deleteTask={this.props.deleteTask}
+          updateTask={this.props.updateTask}
           />
       })
     )

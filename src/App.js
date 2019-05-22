@@ -55,6 +55,18 @@ class App extends Component{
       .then(()=>this.getTasks())
   }
 
+  updateTask = (taskData)=>{
+    URL = `http://localhost:3000/tasks/${taskData.id}`
+    const options = {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(taskData)
+    }
+
+    fetch(URL, options)
+      .then(()=>this.getTasks())
+  }
+
   deleteTask = (taskId) => {
     URL = `http://localhost:3000/tasks/${taskId}`
     const options = {
@@ -75,8 +87,11 @@ class App extends Component{
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
           <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
           markCompleted={this.markCompleted}
-          newTasks={this.state.newTasks}/>}/>
-          <Route exact path="/sorter" component={TaskPriority}/>
+          updateTask={this.updateTask}/>}
+          />
+          <Route exact path="/sorter" render={()=><TaskPriority
+            tasks={this.state.tasks}/>}
+            />
           <Route
             exact
             path="/mindsweeper"

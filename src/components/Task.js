@@ -34,6 +34,14 @@ class Task extends React.Component {
     this.props.deleteTask(this.props.task.id)
   }
 
+  addTaskToDay = () => {
+    console.log(this.props.task)
+    this.props.updateTask({
+      id: this.props.task.id,
+      scheduled_date: new Date()
+    })
+  }
+
   render(){
     const {task, columnId, index} = this.props
     return (
@@ -48,6 +56,7 @@ class Task extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             completed={task.completed}
+            onDoubleClick={this.addTaskToDay}
           >
             <Checkbox
               onChange={this.markCompleted}
