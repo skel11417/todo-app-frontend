@@ -16,11 +16,18 @@ const CategoriesContainer = styled.div`
 // Categories
 const categories = ["A","B","C"]
 
-class TaskPriority extends Component {
-
-  state = {
-    open: false,
-    currentTask: null,
+class TaskSorter extends Component {
+  constructor(){
+    super()
+    this.state = {
+      open: false,
+      currentTask: null,
+      taskCategories: {
+        'A': [],
+        'B': [],
+        'C': [],
+      }
+    }
   }
 
   componentDidUpdate(prevProps){
@@ -29,11 +36,17 @@ class TaskPriority extends Component {
       if (this.props.tasks.some(task => task.category === null)){
         this.setState({
           currentTask: this.props.tasks.find(task => task.category === null),
-          open: true
+          open: true,
+
         })
       } else {
         this.setState({
-          open: false
+          open: false,
+          taskCategories: {
+            'A': this.filterTasks('A'),
+            'B': this.filterTasks('B'),
+            'C': this.filterTasks('C'),
+          }
         })
       }
     }
@@ -65,26 +78,23 @@ class TaskPriority extends Component {
       // get id of task and new category
       const taskId = parseInt(draggableId.split("-")[1])
       const category = destination.droppableId
+      const catIndex = destination.index
       this.props.updateTask({
         id: taskId,
-        category: category
+        category: category,
+        category_index: catIndex
       })
     }
+    // optimistically render state of front end
+    let newTaskCategories = {...this.state.taskCategories}
+    this.setState({
+      taskCategories: newTaskCategories
 
-
-  }
-
-  renderCategoryTasks = (category) => {
-    return this.filterTasks(category).map((task, index) => {
-      return <div onClick={()=> this.openModal(task.id)} key={task.id}>{task.content}</div>
     })
   }
 
   filterTasks = (category) => {
-    if (this.props.tasks.length > 0){
-      return this.props.tasks.filter(task => task.category === category)
-    }
-    return this.props.tasks
+    return this.props.tasks.filter(task => task.category === category).sort((a, b) => a.category_index - b.category_index)
   }
 
   openModal = (taskId) => {
@@ -124,9 +134,10 @@ class TaskPriority extends Component {
           <p>What kind of task is this?</p>
           {categories.map(category=>(
             <Button
+              key={`${category}-button`}
               onClick={()=>this.setCategory(category)}
             >
-              {category}
+            {category}
             </Button>
           ))}
         </Modal.Content>
@@ -146,23 +157,25 @@ class TaskPriority extends Component {
   }
 
   render(){
-    const {tasks} = this.props
-    let filteredTasks = this.filterTasks(null)
-
     return (
       <div>
       <DragDropContext onDragEnd={this.onDragEnd}>
         <CategoriesContainer>
           {categories.map(category => (
             <CategoryColumn
-              key={`${category}-column`} columnId={category} columnTasks={this.filterTasks(category)}
+              key={`${category}-column`}
+              columnId={category}
+              columnTasks={this.state.taskCategories[category]}
               updateTask={this.props.updateTask}
               deleteTask={this.props.deleteTask}
+              openModal={this.openModal}
             />
           ))}
         </CategoriesContainer>
         <div style={{display: 'flexbox', margin: 'auto', width: '80%'}}>
-          {filteredTasks.map(task => (<Button style={{display: 'inline', padding: '10px', margin: '10px'}} key={task.id} onClick={()=>this.openModal(task.id)}>{task.content}</Button>))}
+          {this.filterTasks(null).map(task => (<Button style={{display: 'inline', padding: '10px', margin: '10px'}} key={task.id} onClick={()=>this.openModal(task.id)}>
+          {task.content}
+          </Button>))}
         </div>
         </DragDropContext>
         {this.renderModal()}
@@ -171,4 +184,4 @@ class TaskPriority extends Component {
   }
 }
 
-export default TaskPriority
+export default TaskSorter

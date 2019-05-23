@@ -3,7 +3,7 @@ import Nav from './components/Nav'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
 import TaskPlanner from './containers/TaskPlanner'
-import TaskPriority from './containers/TaskPriority'
+import TaskSorter from './containers/TaskSorter'
 import Dashboard from './containers/Dashboard'
 import BrainStorm from './containers/BrainStorm'
 
@@ -11,8 +11,7 @@ class App extends Component{
 
   state = {
     currentUser: null,
-    tasks: [],
-    newTasks: []
+    tasks: []
   }
 
   componentDidMount(){
@@ -38,9 +37,7 @@ class App extends Component{
 
     fetch(URL, options)
       .then(resp => resp.json())
-      .then(tasks => this.setState({
-        tasks: tasks
-      }))
+      .then(tasks => this.setState({tasks: tasks}))
   }
 
   updateTask = (taskData)=>{
@@ -52,7 +49,9 @@ class App extends Component{
     }
 
     fetch(URL, options)
-      .then(()=>this.getTasks())
+      .then(resp => resp.json())
+      .then(tasks => this.setState({tasks: tasks})
+    )
   }
 
   deleteTask = (taskId) => {
@@ -64,7 +63,9 @@ class App extends Component{
     }
 
     fetch(URL, options)
-      .then(()=>this.getTasks())
+    .then(resp => resp.json())
+    .then(tasks => this.setState({tasks: tasks})
+  )
   }
 
   render(){
@@ -81,7 +82,7 @@ class App extends Component{
           updateTask={this.updateTask}/>}
           />
 
-          <Route exact path="/sorter" render={()=><TaskPriority
+          <Route exact path="/sorter" render={()=><TaskSorter
             tasks={this.state.tasks}
             updateTask={this.updateTask}
             deleteTask={this.deleteTask}
@@ -91,8 +92,7 @@ class App extends Component{
           <Route
             exact
             path="/mindsweeper"
-            render={
-              () => <BrainStorm
+            render={() => <BrainStorm
                 batchCreateTasks={this.batchCreateTasks}
                 />
               }

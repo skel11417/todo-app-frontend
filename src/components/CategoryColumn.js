@@ -28,6 +28,7 @@ class CategoryColumn extends Component {
           task={task}
           columnId={columnId}
           index={index}
+          openModal={this.props.openModal}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           />
@@ -44,7 +45,8 @@ class CategoryColumn extends Component {
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
-          <div style={{minHeight: '500px'}} {...provided.droppableProps} ref={provided.innerRef}>
+          <div style={{minHeight: '500px'}} {...provided.droppableProps}
+          ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}
           </div>

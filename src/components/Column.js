@@ -28,6 +28,7 @@ class Column extends Component {
           task={task}
           columnId={columnId}
           index={index}
+          openModal={this.props.openModal}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           />
