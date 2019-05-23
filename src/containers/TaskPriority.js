@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
 import CategoryColumn from '../components/CategoryColumn'
-import Task from '../components/Task'
 import {Modal, Button} from 'semantic-ui-react'
 import styled from 'styled-components'
 
@@ -14,6 +13,9 @@ const CategoriesContainer = styled.div`
   border: black solid 1px;
 `
 
+// Categories
+const categories = ["A","B","C"]
+
 class TaskPriority extends Component {
 
   state = {
@@ -22,18 +24,54 @@ class TaskPriority extends Component {
   }
 
   componentDidUpdate(prevProps){
+    // check if currentTask has changed
     if (prevProps.tasks !== this.props.tasks){
       if (this.props.tasks.some(task => task.category === null)){
         this.setState({
-          currentTask: this.props.tasks.filter(task => task.category === null)[0],
+          currentTask: this.props.tasks.find(task => task.category === null),
           open: true
+        })
+      } else {
+        this.setState({
+          open: false
         })
       }
     }
   }
 
+  log = (result) => {
+    const {destination, source, draggableId} = result
+    if (destination !== null){
+      console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
+    }
+  }
+
   onDragEnd = (result) => {
-    console.log(result)
+    const {destination, source, draggableId} = result
+
+    if (!destination){
+      return null
+    }
+
+    // do not rerender if task has been dragged to its initial
+    // location
+    if (destination.droppableId === source.droppableId && destination.index === source.index){
+      return null
+    }
+    this.log(result)
+
+    // change category of task
+    if (destination.droppableId !== source.droppableId){
+      // get id of task and new category
+      const taskId = parseInt(draggableId.split("-")[1])
+      const category = destination.droppableId
+      this.props.updateTask({
+        id: taskId,
+        category: category
+      })
+    }
+
+
   }
 
   renderCategoryTasks = (category) => {
@@ -74,6 +112,7 @@ class TaskPriority extends Component {
   }
 
   renderModal = () => {
+
     return (
       <Modal
         open={this.state.open}
@@ -83,15 +122,13 @@ class TaskPriority extends Component {
         <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}</Modal.Header>
         <Modal.Content>
           <p>What kind of task is this?</p>
-          <Button onClick={()=>this.setCategory("A")}>
-          A
-          </Button>
-          <Button onClick={()=>this.setCategory("B")}>
-          B
-          </Button>
-          <Button onClick={()=>this.setCategory("C")}>
-          C
-          </Button>
+          {categories.map(category=>(
+            <Button
+              onClick={()=>this.setCategory(category)}
+            >
+              {category}
+            </Button>
+          ))}
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={this.closeModal}>
@@ -111,16 +148,17 @@ class TaskPriority extends Component {
   render(){
     const {tasks} = this.props
     let filteredTasks = this.filterTasks(null)
-    const categories = ["A","B","C"]
+
     return (
       <div>
       <DragDropContext onDragEnd={this.onDragEnd}>
         <CategoriesContainer>
           {categories.map(category => (
-            <div key={`${category}-column`} columnId={category} columnTasks={this.filterTasks(category)} style={{width: '33%',border: 'black solid 1px'}}>
-              <h1>{category}</h1>
-              {this.renderCategoryTasks(category)}
-            </div>
+            <CategoryColumn
+              key={`${category}-column`} columnId={category} columnTasks={this.filterTasks(category)}
+              updateTask={this.props.updateTask}
+              deleteTask={this.props.deleteTask}
+            />
           ))}
         </CategoriesContainer>
         <div style={{display: 'flexbox', margin: 'auto', width: '80%'}}>
