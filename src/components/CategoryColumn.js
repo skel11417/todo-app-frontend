@@ -44,7 +44,7 @@ class CategoryColumn extends Component {
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
+          <div style={{minHeight: '500px'}} {...provided.droppableProps} ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}
           </div>

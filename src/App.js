@@ -68,6 +68,8 @@ class App extends Component{
   }
 
   render(){
+    // add taskProps variable to DRY up code
+
     return (
       <Router>
         <Route render={(props)=><Nav {...props}/>} />
@@ -81,7 +83,9 @@ class App extends Component{
 
           <Route exact path="/sorter" render={()=><TaskPriority
             tasks={this.state.tasks}
-            updateTask={this.updateTask}/>}
+            updateTask={this.updateTask}
+            deleteTask={this.deleteTask}
+            />}
           />
 
           <Route
