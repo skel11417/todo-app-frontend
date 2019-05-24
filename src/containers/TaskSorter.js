@@ -59,6 +59,11 @@ class TaskSorter extends Component {
     }
   }
 
+  // a function that will reorder tasks in
+  reorderTasks = () => {
+
+  }
+
   onDragEnd = (result) => {
     const {destination, source, draggableId} = result
 
@@ -77,20 +82,54 @@ class TaskSorter extends Component {
     if (destination.droppableId !== source.droppableId){
       // get id of task and new category
       const taskId = parseInt(draggableId.split("-")[1])
-      const category = destination.droppableId
-      const catIndex = destination.index
+
+      const oldCategoryId = source.droppableId
+      const newCategoryId = destination.droppableId
+
+      const oldIndex = source.index
+      const newIndex = destination.index
+
+      // optimistically render state of front end
+      const newTaskCategories = {...this.state.taskCategories}
+
+      // This is the reordering method
+      const destColumn = newTaskCategories[newCategoryId]
+      const beginning = destColumn.slice(0, newIndex)
+      const updatedTask = newTaskCategories[oldCategoryId]
+                            .splice(oldIndex, 1)[0]
+
+      for (let i = oldIndex; i < newTaskCategories[oldCategoryId].length; i++){
+        console.log(newTaskCategories[oldCategoryId][i].category_index)
+        newTaskCategories[oldCategoryId][i].category_index--
+        console.log(newTaskCategories[oldCategoryId][i].category_index)
+      }
+      updatedTask.category_index = newIndex
+      const end = destColumn.slice(newIndex, destColumn.length)
+
+      // beginning.forEach(task => task.category_index++)
+      end.forEach(task => task.category_index++)
+
+      newTaskCategories[newCategoryId] = [...beginning, updatedTask, ...end]
+
+
+      console.log(oldCategoryId, newTaskCategories[oldCategoryId])
+      console.log(newCategoryId, newTaskCategories[newCategoryId])
+
+      this.setState({
+        taskCategories: newTaskCategories
+      })
+      // update backend
       this.props.updateTask({
         id: taskId,
-        category: category,
-        category_index: catIndex
+        category: newCategoryId,
+        category_index: newIndex
+      })
+      // need a method that will update the affected Categories
+      this.props.updateIndexes({
+        [oldCategoryId]: newTaskCategories[oldCategoryId],
+        [newCategoryId]: newTaskCategories[newCategoryId]
       })
     }
-    // optimistically render state of front end
-    let newTaskCategories = {...this.state.taskCategories}
-    this.setState({
-      taskCategories: newTaskCategories
-
-    })
   }
 
   filterTasks = (category) => {

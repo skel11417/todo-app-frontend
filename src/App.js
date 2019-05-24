@@ -40,6 +40,20 @@ class App extends Component{
       .then(tasks => this.setState({tasks: tasks}))
   }
 
+  updateIndexes = (categoryData) => {
+    const URL = `http://localhost:3000/tasks/cat_indexes`
+    const options = {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({category_data: categoryData})
+    }
+
+    fetch(URL, options)
+      .then(resp => resp.json())
+      .then(tasks => this.setState({tasks: tasks})
+    )
+  }
+
   updateTask = (taskData)=>{
     const URL = `http://localhost:3000/tasks/${taskData.id}`
     const options = {
@@ -86,6 +100,7 @@ class App extends Component{
             tasks={this.state.tasks}
             updateTask={this.updateTask}
             deleteTask={this.deleteTask}
+            updateIndexes={this.updateIndexes}
             />}
           />
 

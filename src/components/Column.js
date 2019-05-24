@@ -22,12 +22,12 @@ class Column extends Component {
   renderTasks = () => {
     const {columnTasks, columnId} = this.props
     return (
-      columnTasks.map((task, index)=> {
+      columnTasks.map(task => {
         return <Task
           key={`${columnId}-${task.id}`}
           task={task}
           columnId={columnId}
-          index={index}
+          index={task.category_index}
           openModal={this.props.openModal}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
