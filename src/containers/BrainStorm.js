@@ -18,8 +18,7 @@ class BrainStorm extends Component {
 
   state = {
     input: "",
-    redirect: false,
-    currentNewTaskId: null
+    redirect: false
   }
 
   handleChange = (event) =>{
@@ -32,20 +31,14 @@ class BrainStorm extends Component {
     }
   }
 
-  setCategory = (category) => {
-    console.log(category)
-  }
-
-  closeModal = () => {
-    this.setState({
-      open: false
-    })
-  }
-
   handleSubmit = () =>{
-    // sanitize input
-    const newTasks = this.state.input.split(',')
-    if (newTasks.length > 0 && newTasks[0] !== ''){
+    const input = this.state.input
+    if (input !== ''){
+      const newTasks = input.split(/\n|,/)
+      newTasks.forEach(task => {
+        task.trim()
+        task.charAt(0).toUpperCase()
+      })
       this.props.batchCreateTasks(newTasks)
       this.setState({input: "", redirect: true})
     }
@@ -61,7 +54,7 @@ class BrainStorm extends Component {
           {this.renderRedirect()}
           <TextArea
             onChange={this.handleChange}
-            placeholder='List all of your tasks separated by commas'
+            placeholder='List all of your tasks separated by commas or on separate lines'
             value={this.state.input}
             autoFocus
           />
