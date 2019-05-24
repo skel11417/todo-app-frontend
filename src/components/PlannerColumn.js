@@ -18,12 +18,12 @@ const ColumnTitle = styled.button`
   font-size: 1.5em;
 `
 
-class Column extends Component {
+class PlannerColumn extends Component {
   renderTasks = () => {
     const {columnTasks, columnId} = this.props
     return (
       columnTasks.map(task => {
-        return <Task
+        return <div
           key={`${columnId}-${task.id}`}
           task={task}
           columnId={columnId}
@@ -56,4 +56,4 @@ class Column extends Component {
   }
 }
 
-export default Column
+export default PlannerColumn

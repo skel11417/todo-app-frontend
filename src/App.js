@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Nav from './components/Nav'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
-import TaskPlanner from './containers/TaskPlanner'
+import FullTaskPlanner from './containers/FullTaskPlanner'
 import TaskSorter from './containers/TaskSorter'
 import Dashboard from './containers/Dashboard'
 import BrainStorm from './containers/BrainStorm'
@@ -84,6 +84,7 @@ class App extends Component{
 
   render(){
     // add taskProps variable to DRY up code
+    const taskProps = {}
 
     return (
       <Router>
@@ -92,7 +93,7 @@ class App extends Component{
 
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
 
-          <Route exact path="/planner" render={() => <TaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
+          <Route exact path="/planner" render={() =>    <FullTaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
           updateTask={this.updateTask}/>}
           />
 
