@@ -7,6 +7,7 @@ const TaskElement = styled.div`
   height: 40px;
   border: 1px black solid;
   background-color: ${(props)=> props.completed ? 'lightgreen' : 'white'};
+  display: ${props => props.activeColumn ? 'inherit': 'none' };
 `
 
 class PlannerTask extends React.Component {
@@ -48,6 +49,7 @@ class PlannerTask extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             completed={task.completed}
+            activeColumn={this.props.active}
             onClick={this.props.onClickTask}
             onDoubleClick={this.addTaskToDay}
           >

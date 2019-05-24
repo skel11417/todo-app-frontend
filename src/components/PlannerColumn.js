@@ -33,6 +33,7 @@ class PlannerColumn extends Component {
             task.category_index
             :
             index}
+          active={this.props.active}
           onClickTask={()=>console.log("get additional info")}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
