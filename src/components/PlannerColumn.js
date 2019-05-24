@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Task from '../components/Task'
+import PlannerTask from '../components/PlannerTask'
 import {Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
@@ -22,12 +22,15 @@ class PlannerColumn extends Component {
   renderTasks = () => {
     const {columnTasks, columnId} = this.props
     return (
-      columnTasks.map(task => {
-        return <div
+      columnTasks.map((task, index) => {
+        return <PlannerTask
           key={`${columnId}-${task.id}`}
           task={task}
           columnId={columnId}
-          index={task.category_index}
+          index={task.category_index ?
+            task.category_index
+            :
+            index}
           onClickTask={()=>console.log("get additional info")}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
@@ -37,15 +40,15 @@ class PlannerColumn extends Component {
   }
 
   render(){
-    const {active, columnId} = this.props
+    const {active, columnId, onClickButton} = this.props
     return(
     <Container>
-      <ColumnTitle>
+      <ColumnTitle onClick={()=>onClickButton(columnId)}>
         {active ? columnId : columnId[0]}
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
+          <div style={{height: '100%'}}{...provided.droppableProps} ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}
           </div>

@@ -84,7 +84,6 @@ class App extends Component{
 
   render(){
     // add taskProps variable to DRY up code
-    const taskProps = {}
 
     return (
       <Router>

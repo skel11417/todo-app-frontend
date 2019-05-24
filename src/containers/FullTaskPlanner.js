@@ -10,85 +10,31 @@ const Container = styled.div`
   width: 75%;
   border: black solid 1px;
 `
+const columnIds = ['Today', 'Week', 'Month', 'All']
 
 class TaskPlanner extends React.Component {
   constructor(){
     super()
     this.state = {
+      timeframes: {
+        'Today': new Date(),
+        'Week': new Date(),
+        'Month': new Date()
+      },
       columns: {
-        'Today': {tasks: [], active: true},
-        'Week': {tasks: [], active: true},
-        'Month': {tasks: [], active: false},
-        'All': {tasks: [], active: false}
+        'Today': [],
+        'Week': [],
+        'Month': [],
+        'All': []
+      },
+      columnState: {
+        'Today': {active: false},
+        'Week': {active: false},
+        'Month': {active: true},
+        'All': {active: true}
       }
     }
   }
-
-  // reorderSubtasks = ({destination, source, draggableId}) => {
-  //   const taskId = parseInt(destination.droppableId
-  //                 .split("-")[2])
-  //   let newTasks = [...this.state.tasks]
-  //   let updatedTask = newTasks.find(task => task.id === taskId)
-  //
-  //   const subtaskId = updatedTask.subtaskIds
-  //                       .splice(source.index, 1)[0]
-  //
-  //   updatedTask.subtaskIds
-  //     .splice(destination.index, 0, subtaskId)
-  //
-  //   this.setState({
-  //     tasks: newTasks
-  //   })
-  // }
-  //
-  // addSubtaskToTask = ({destination, source, draggableId}) => {
-  //   console.log('moving a subtask to a task')
-  //   //remove subtask from column
-  //   let newTasks = [...this.state.tasks]
-  //   let newColumns = [...this.state.columns]
-  //   let columnId = draggableId.split('-')[0]
-  //   let updatedColumn = newColumns.find(column => column.id === columnId)
-  //   let newSubtaskId = parseInt(draggableId.split('-')[1])
-  //   updatedColumn.tasks.splice(source.index, 1)
-  //   // add it to the tasks subtask array
-  //   let taskId = parseInt(destination.droppableId.split('-')[2])
-  //   let updatedTask = newTasks.find(task => task.id === taskId)
-  //
-  //   updatedTask.subtaskIds.splice(destination.index, 0, newSubtaskId)
-  //   this.setState({
-  //     columns: newColumns,
-  //     tasks: newTasks
-  //   })
-  // }
-  //
-  // moveSubtaskToTasks = ({destination, source, draggableId}) => {
-  //   console.log('moving a subtask to parent task list')
-  //   this.log({destination, source, draggableId})
-  //
-  //   let newTasks = [...this.state.tasks]
-  //   let newColumns = [...this.state.columns]
-  //   // create a helper method that returns an object
-  //   // with all of the variables you want
-  //   //
-  //
-  //   // get the id of the task you are moving
-  //   const subtaskId = parseInt(draggableId
-  //                 .split("-")[2])
-  //   const subtaskIndex = source.index
-  //   const taskId = parseInt(source.droppableId
-  //                 .split("-")[2])
-  //   const columnId = source.droppableId.split("-")[1]
-  //
-  //   // remove the task from the task's subtask array
-  //   let task = newTasks.find(task => task.id === taskId)
-  //   task.subtaskIds.splice(subtaskIndex, 1)
-  //
-  //   // add it to the column at the new index
-  //   let updatedTask = newTasks.find(task => task.id === taskId)
-  //   let updatedColumn = newColumns.find(column => column.id === columnId)
-  //   updatedColumn.tasks.splice(destination.index, 0, subtaskId)
-  //   // This isn't updating state and yet somehow renders properly
-  // }
 
   // logs the intended movement in the console
   log = (result) => {
@@ -109,50 +55,57 @@ class TaskPlanner extends React.Component {
       return null
     }
     this.log(result)
-    // reorder tasks
-    // if (destination.droppableId === source.droppableId){
 
-      // call subtask function
-    //   if (destination.droppableId.includes('-')){
-    //     this.reorderSubtasks(result)
-    //     return null
-    //   }
-    //
-    //   const column = this.state.columns.find( column => column.id === source.droppableId)
-    //   const columnIndex = this.state.columns.indexOf(column)
-    //   const newTasks = [...column.tasks]
-    //
-    //   // use splice to remove moved item since the actual
-    //   // task id is a string including the column key
-    //   const taskId = newTasks.splice(source.index, 1)[0]
-    //
-    //   newTasks.splice(destination.index, 0, taskId)
-    //
-    //   const newColumn = {...column, tasks: newTasks}
-    //   const newColumns = [...this.state.columns]
-    //   newColumns[columnIndex] = newColumn
-    //
-    //   this.setState({
-    //     columns: newColumns
-    //   })
-    // }
-    //
-    // if (destination.droppableId.includes('-') && !source.droppableId.includes('-')){
-    //   this.addSubtaskToTask(result)
-    //   return null
-    // }
-    //
-    // if(!destination.droppableId.includes('-') && source.droppableId.includes('-')) {
-    //   this.moveSubtaskToTasks(result)
-    //   return null
-    // }
-
+    if (destination.droppableId !== source.droppableId){
+      console.log('is this even firing?')
+    }
   }
 
+  componentDidUpdate(prevProps){
+    if (prevProps.tasks !== this.props.tasks){
+      this.loadTasks()
+    }
+  }
+
+  componentDidMount(){
+    this.loadTasks()
+  }
+
+  loadTasks =() =>{
+    const newColumns={...this.state.columns}
+    columnIds.forEach(columnId => {
+      newColumns[columnId] = this.filterTasks(this.state.timeframes[columnId])
+    })
+    this.setState({
+      columns: newColumns
+    })
+  }
+
+  filterTasks = (date) => {
+    // need a way to account for week/month being the same date as today
+    let filteredTasks
+    if (date){
+      filteredTasks = []
+      date.setHours(0,0,0,0)
+      this.props.tasks.forEach(task => {
+        if (task.scheduled_date ){
+          let dbDate = new Date(task.scheduled_date)
+          dbDate.setHours(0,0,0,0)
+          if (dbDate - date === 0){
+            filteredTasks.push(task)
+          }
+        }
+      })
+    } else {
+      filteredTasks = this.props.tasks.filter(task => task.scheduled_date === null)
+    }
+    console.log(filteredTasks)
+    return filteredTasks
+  }
   // sets selected column and its neighbor's visibility
   // to true and returns
   updateColumnVisibility = (column) => {
-    let columnIds = columnIds = ['Today', 'Week', 'Month', 'All']
+
     let newIndex = columnIds.indexOf(column)
     const activeArray = [false, false, false, false]
     switch (newIndex) {
@@ -172,14 +125,10 @@ class TaskPlanner extends React.Component {
       default:
         break
     }
-    // for (let i = 0; i < columns.length; i++){
-      // columns[i].active = activeArray[i]
-    // }
-
-    // return columns
   }
 
   changeTimeframe = (column) => {
+    //rewrite this logic
     let updatedColumns = this.updateColumnVisibility(column)
     if (this.state.columns !== updatedColumns){
       this.setState({
@@ -188,8 +137,8 @@ class TaskPlanner extends React.Component {
     }
   }
 
+
   render(){
-    const columnIds = ['Today', 'Week', 'Month', 'All']
     return (
       <Container className="TaskPlanner">
         <DragDropContext id="id"
@@ -199,10 +148,11 @@ class TaskPlanner extends React.Component {
             <PlannerColumn
               key={columnId}
               index={index}
-              active={this.state.columns[columnId].active}
+              active={this.state.columnState[columnId].active}
               columnId={columnId}
-              columnTasks={this.state.columns[columnId].tasks}
-              onClick={this.changeTimeframe}
+              updateTask={this.props.updateTask}
+              columnTasks={this.state.columns[columnId]}
+              onClickButton={this.changeTimeframe}
             />
             )
           )}
