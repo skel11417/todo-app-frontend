@@ -35,8 +35,7 @@ class TaskSorter extends Component {
       if (this.props.tasks.some(task => task.category === null)){
         this.setState({
           currentTask: this.props.tasks.find(task => task.category === null),
-          open: true,
-
+          open: true
         })
       } else {
         this.setState({
@@ -64,15 +63,15 @@ class TaskSorter extends Component {
     }
   }
 
-  log = (result) => {
-    const {destination, source, draggableId} = result
-    if (destination !== null){
-      console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
-    }
-  }
+  // log = (result) => {
+  //   const {destination, source, draggableId} = result
+  //   if (destination !== null){
+  //     console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
+  //   }
+  // }
 
   onDragEnd = (result) => {
-    const {destination, source, draggableId} = result
+    const {destination, source} = result
 
     if (!destination){
       return null
@@ -83,7 +82,7 @@ class TaskSorter extends Component {
     if (destination.droppableId === source.droppableId && destination.index === source.index){
       return null
     }
-    this.log(result)
+    // this.log(result)
 
     // change category of task
     if (destination.droppableId !== source.droppableId){
