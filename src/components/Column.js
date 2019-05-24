@@ -28,7 +28,7 @@ class Column extends Component {
           task={task}
           columnId={columnId}
           index={task.category_index}
-          openModal={this.props.openModal}
+          onClickTask={()=>console.log("get additional info")}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           />

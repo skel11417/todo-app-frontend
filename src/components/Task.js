@@ -53,7 +53,7 @@ class Task extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             completed={task.completed}
-            onClick={()=>this.props.openModal(task.id)}
+            onClick={this.props.onClickTask}
             onDoubleClick={this.addTaskToDay}
           >
             <Checkbox

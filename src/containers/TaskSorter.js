@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
 import CategoryColumn from '../components/CategoryColumn'
-import {Modal, Button} from 'semantic-ui-react'
+import {Modal, Button, Transition} from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CategoriesContainer = styled.div`
@@ -31,9 +31,7 @@ class TaskSorter extends Component {
   }
 
   componentDidUpdate(prevProps){
-    // check if currentTask has changed
     if (prevProps.tasks !== this.props.tasks){
-      console.log('rendering')
       if (this.props.tasks.some(task => task.category === null)){
         this.setState({
           currentTask: this.props.tasks.find(task => task.category === null),
@@ -53,16 +51,24 @@ class TaskSorter extends Component {
     }
   }
 
+  componentDidMount(){
+    if (this.props.tasks.length > 0){
+      this.setState({
+        open: false,
+        taskCategories: {
+          'A': this.filterTasks('A'),
+          'B': this.filterTasks('B'),
+          'C': this.filterTasks('C'),
+        }
+      })
+    }
+  }
+
   log = (result) => {
     const {destination, source, draggableId} = result
     if (destination !== null){
       console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
     }
-  }
-
-  // a function that will reorder tasks in
-  reorderTasks = () => {
-
   }
 
   onDragEnd = (result) => {
@@ -81,13 +87,10 @@ class TaskSorter extends Component {
 
     // change category of task
     if (destination.droppableId !== source.droppableId){
-      // get id of task and new category
-      const taskId = parseInt(draggableId.split("-")[1])
-
       const oldCategoryId = source.droppableId
-      const newCategoryId = destination.droppableId
-
       const oldIndex = source.index
+
+      const newCategoryId = destination.droppableId
       const newIndex = destination.index
 
       // optimistically render state of front end
@@ -95,7 +98,6 @@ class TaskSorter extends Component {
 
       // This is the reordering method
       const destColumn = newTaskCategories[newCategoryId]
-      // const beginning = destColumn.slice(0, newIndex)
       const updatedTask = newTaskCategories[oldCategoryId]
                             .splice(oldIndex, 1)[0]
       updatedTask.category_index = newIndex
@@ -106,31 +108,39 @@ class TaskSorter extends Component {
 
       newTaskCategories[newCategoryId].forEach((task, index)=> task.category_index = index)
 
-      // for (let i = oldIndex; i < newTaskCategories[oldCategoryId].length; i++){
-      //   console.log(newTaskCategories[oldCategoryId][i].category_index)
-      //   newTaskCategories[oldCategoryId][i].category_index--
-      //   console.log(newTaskCategories[oldCategoryId][i].category_index)
-      // }
-      // const end = destColumn.slice(newIndex, destColumn.length)
-
-      // console.log(oldCategoryId, newTaskCategories[oldCategoryId])
-      // console.log(newCategoryId, newTaskCategories[newCategoryId])
-
       this.setState({
         taskCategories: newTaskCategories
       })
-      // combine this with updateIndexes method
-      // this.props.updateTask({
-      //   id: taskId,
-      //   category: newCategoryId,
-      //   category_index: newIndex
-      // })
-      // need a method that will update the affected Categories
+
       this.props.updateIndexes({
         updatedTask: updatedTask,
         updatedCategories: {
           [oldCategoryId]: newTaskCategories[oldCategoryId],
           [newCategoryId]: newTaskCategories[newCategoryId]
+        }
+      })
+    }
+    // change index of task in category
+    if (destination.droppableId === source.droppableId){
+      const newTaskCategories = {...this.state.taskCategories}
+      const oldIndex = source.index
+      const newIndex = destination.index
+      const categoryId = destination.droppableId
+      const categoryTasks = newTaskCategories[categoryId]
+      const movedTask = categoryTasks.splice(oldIndex, 1)[0]
+      categoryTasks.splice(newIndex, 0, movedTask)
+
+      categoryTasks.forEach((task, index)=> task.category_index = index)
+
+      this.setState({
+        taskCategories: newTaskCategories
+      })
+      // update indexes in the backend
+      // refactor the names to movedTask for clarity's sake
+      this.props.updateIndexes({
+        updatedTask: movedTask,
+        updatedCategories: {
+          [categoryId]: categoryTasks
         }
       })
     }
@@ -167,6 +177,7 @@ class TaskSorter extends Component {
   renderModal = () => {
 
     return (
+      <Transition visible={this.state.open} animation='scale' duration={1000}>
       <Modal
         open={this.state.open}
         size='tiny'
@@ -196,6 +207,7 @@ class TaskSorter extends Component {
           </Button>
         </Modal.Actions>
       </Modal>
+      </Transition>
     )
   }
 
