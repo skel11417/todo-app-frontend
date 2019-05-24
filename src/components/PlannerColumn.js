@@ -9,6 +9,8 @@ const Container = styled.div`
   max-width: auto;
   width: 50%;
   transition:width 0.5s ease-in-out;
+  width: ${props => props.active ? '45%' : '5%'};
+  transition:width 0.5s ease-in-out;
   min-height:440px;
   padding: 5px;
   display: flex;
@@ -41,14 +43,16 @@ class PlannerColumn extends Component {
 
   render(){
     const {active, columnId, onClickButton} = this.props
+    console.log(active)
     return(
-    <Container>
+    <Container active={active}>
       <ColumnTitle onClick={()=>onClickButton(columnId)}>
         {active ? columnId : columnId[0]}
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
-          <div style={{height: '100%'}}{...provided.droppableProps} ref={provided.innerRef}>
+          <div style={{height: '100%'}} {...provided.droppableProps}
+          ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}
           </div>
