@@ -33,6 +33,7 @@ class TaskSorter extends Component {
   componentDidUpdate(prevProps){
     // check if currentTask has changed
     if (prevProps.tasks !== this.props.tasks){
+      console.log('rendering')
       if (this.props.tasks.some(task => task.category === null)){
         this.setState({
           currentTask: this.props.tasks.find(task => task.category === null),
@@ -94,40 +95,43 @@ class TaskSorter extends Component {
 
       // This is the reordering method
       const destColumn = newTaskCategories[newCategoryId]
-      const beginning = destColumn.slice(0, newIndex)
+      // const beginning = destColumn.slice(0, newIndex)
       const updatedTask = newTaskCategories[oldCategoryId]
                             .splice(oldIndex, 1)[0]
-
-      for (let i = oldIndex; i < newTaskCategories[oldCategoryId].length; i++){
-        console.log(newTaskCategories[oldCategoryId][i].category_index)
-        newTaskCategories[oldCategoryId][i].category_index--
-        console.log(newTaskCategories[oldCategoryId][i].category_index)
-      }
       updatedTask.category_index = newIndex
-      const end = destColumn.slice(newIndex, destColumn.length)
+      updatedTask.category = newCategoryId
+      destColumn.splice(newIndex, 0, updatedTask)
 
-      // beginning.forEach(task => task.category_index++)
-      end.forEach(task => task.category_index++)
+      newTaskCategories[oldCategoryId].forEach((task, index)=> task.category_index = index)
 
-      newTaskCategories[newCategoryId] = [...beginning, updatedTask, ...end]
+      newTaskCategories[newCategoryId].forEach((task, index)=> task.category_index = index)
 
+      // for (let i = oldIndex; i < newTaskCategories[oldCategoryId].length; i++){
+      //   console.log(newTaskCategories[oldCategoryId][i].category_index)
+      //   newTaskCategories[oldCategoryId][i].category_index--
+      //   console.log(newTaskCategories[oldCategoryId][i].category_index)
+      // }
+      // const end = destColumn.slice(newIndex, destColumn.length)
 
-      console.log(oldCategoryId, newTaskCategories[oldCategoryId])
-      console.log(newCategoryId, newTaskCategories[newCategoryId])
+      // console.log(oldCategoryId, newTaskCategories[oldCategoryId])
+      // console.log(newCategoryId, newTaskCategories[newCategoryId])
 
       this.setState({
         taskCategories: newTaskCategories
       })
-      // update backend
-      this.props.updateTask({
-        id: taskId,
-        category: newCategoryId,
-        category_index: newIndex
-      })
+      // combine this with updateIndexes method
+      // this.props.updateTask({
+      //   id: taskId,
+      //   category: newCategoryId,
+      //   category_index: newIndex
+      // })
       // need a method that will update the affected Categories
       this.props.updateIndexes({
-        [oldCategoryId]: newTaskCategories[oldCategoryId],
-        [newCategoryId]: newTaskCategories[newCategoryId]
+        updatedTask: updatedTask,
+        updatedCategories: {
+          [oldCategoryId]: newTaskCategories[oldCategoryId],
+          [newCategoryId]: newTaskCategories[newCategoryId]
+        }
       })
     }
   }
