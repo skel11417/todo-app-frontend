@@ -43,8 +43,8 @@ class TaskPlanner extends React.Component {
       activeColumns: {
         'Today': true,
         'Week': true,
-        'Month': true,
-        'All': true
+        'Month': false,
+        'All': false
       }
     }
   }

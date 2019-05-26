@@ -7,7 +7,8 @@ const TaskElement = styled.div`
   height: 40px;
   border: 1px black solid;
   background-color: ${(props)=> props.completed ? 'lightgreen' : 'white'};
-  display: ${props => props.activeColumn ? 'inherit': 'none' };
+  transition:opacity 0.2s ease;
+  opacity: ${(props) => props.activeColumn ? '1' : '0'}
 `
 
 class PlannerTask extends React.Component {
@@ -36,7 +37,7 @@ class PlannerTask extends React.Component {
   }
 
   render(){
-    const {task, columnId, index} = this.props
+    const {task, columnId, index, active} = this.props
     return (
       <Draggable
       key={`${columnId}-${task.id}`}
@@ -44,22 +45,25 @@ class PlannerTask extends React.Component {
       index={index}
       >
         {(provided, snapshot) => (
-          <TaskElement
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            completed={task.completed}
-            activeColumn={this.props.active}
-            onClick={this.props.onClickTask}
-            onDoubleClick={this.addTaskToDay}
-          >
-            <Checkbox
-              onChange={this.markCompleted}
-              label={`${task.timeframe_index}-${task.content}`}
-              checked={task.completed}
-              />
-            <Icon onClick={this.deleteTask} name="remove"/>
-          </TaskElement>
+            <TaskElement
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              completed={task.completed}
+              activeColumn={active}
+              onClick={this.props.onClickTask}
+              onDoubleClick={this.addTaskToDay}
+              >
+              <Checkbox
+                onChange={this.markCompleted}
+                label={`${task.timeframe_index}-${task.content}`}
+                checked={task.completed}
+                />
+              <Icon
+                onClick={this.deleteTask}
+                name="remove"
+                />
+            </TaskElement>
         )}
     </Draggable>
   )

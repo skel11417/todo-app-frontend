@@ -10,7 +10,6 @@ const Container = styled.div`
   width: 50%;
   transition:width 0.5s ease-in-out;
   width: ${props => props.active ? '45%' : '5%'};
-  transition:width 0.5s ease-in-out;
   min-height:440px;
   padding: 5px;
   display: flex;
@@ -41,7 +40,6 @@ class PlannerColumn extends Component {
 
   render(){
     const {active, columnId, onClickButton} = this.props
-    console.log(active)
     return(
     <Container active={active}>
       <ColumnTitle onClick={()=>onClickButton(columnId)}>
