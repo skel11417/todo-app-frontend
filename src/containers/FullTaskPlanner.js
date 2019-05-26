@@ -1,5 +1,6 @@
 import React from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
+import moment from 'moment'
 import PlannerColumn from '../components/PlannerColumn'
 // import sampleData from '../sampleData'
 import styled from 'styled-components'
@@ -15,11 +16,23 @@ const columnIds = ['Today', 'Week', 'Month', 'All']
 class TaskPlanner extends React.Component {
   constructor(){
     super()
+    const today = moment().startOf('day').format()
+    const endOfWeek = moment()
+                        .endOf('week')
+                        .add(1, 'days')
+                        .startOf('day')
+                        .format()
+    const endOfMonth = moment()
+                        .endOf('month')
+                        .add(1, 'days')
+                        .startOf('day')
+                        .format()
+
     this.state = {
       timeframes: {
-        'Today': new Date(),
-        'Week': new Date(),
-        'Month': new Date()
+        'Today': today,
+        'Week': endOfWeek,
+        'Month': endOfMonth
       },
       columns: {
         'Today': [],
@@ -28,8 +41,8 @@ class TaskPlanner extends React.Component {
         'All': []
       },
       columnState: {
-        'Today': {active: false},
-        'Week': {active: false},
+        'Today': {active: true},
+        'Week': {active: true},
         'Month': {active: true},
         'All': {active: true}
       }
@@ -56,8 +69,39 @@ class TaskPlanner extends React.Component {
     }
     this.log(result)
 
+    // change schedules timeframe of task
     if (destination.droppableId !== source.droppableId){
-      console.log('is this even firing?')
+      const oldTimeFrameId = source.droppableId
+      const oldIndex = source.index
+
+      const newTimeFrameId = destination.droppableId
+      const newIndex = destination.index
+
+      // optimistically render state of front end
+      const newTaskColumns = {...this.state.columns}
+
+      const destColumn = newTaskColumns[newTimeFrameId]
+      const updatedTask = newTaskColumns[oldTimeFrameId]
+                            .splice(oldIndex, 1)[0]
+      updatedTask.timeframe_index = newIndex
+
+      destColumn.splice(newIndex, 0, updatedTask)
+
+      newTaskColumns[oldTimeFrameId].forEach((task, index)=> task.timeframe_index = index)
+
+      newTaskColumns[newTimeFrameId].forEach((task, index)=> task.timeframe_index = index)
+
+      this.setState({
+        columns: newTaskColumns
+      })
+
+      // this.props.updateIndexes({
+      //   updatedTask: updatedTask,
+      //   updatedCategories: {
+      //     [oldTimeFrameId]: newTaskColumns[oldTimeFrameId],
+      //     [newTimeFrameId]: newTaskColumns[newTimeFrameId]
+      //   }
+      // })
     }
   }
 
@@ -74,38 +118,49 @@ class TaskPlanner extends React.Component {
   loadTasks =() =>{
     const newColumns={...this.state.columns}
     columnIds.forEach(columnId => {
-      newColumns[columnId] = this.filterTasks(this.state.timeframes[columnId])
+      newColumns[columnId] = this.filterTasks(columnId)
     })
     this.setState({
       columns: newColumns
     })
+    // update backendIndexes
+    
   }
 
-  filterTasks = (date) => {
+  filterTasks = (columnId) => {
     // need a way to account for week/month being the same date as today
-    let filteredTasks
-    if (date){
-      filteredTasks = []
-      date.setHours(0,0,0,0)
-      this.props.tasks.forEach(task => {
-        if (task.scheduled_date ){
-          let dbDate = new Date(task.scheduled_date)
-          dbDate.setHours(0,0,0,0)
-          if (dbDate - date === 0){
-            filteredTasks.push(task)
-          }
+    if (columnId === 'All') {
+      return this.props.tasks.filter(task => task.scheduled_date === null)
+    }
+    if (columnId === 'Today'){
+      let date = this.state.timeframes[columnId]
+      return this.props.tasks.filter(task => {
+        if (task.scheduled_date){
+          let scheduledDate = moment(task.scheduled_date)
+          .startOf('day').format()
+          return scheduledDate === date
+        } else {
+          return false
         }
       })
-    } else {
-      filteredTasks = this.props.tasks.filter(task => task.scheduled_date === null)
     }
-    console.log(filteredTasks)
-    return filteredTasks
+    if (columnId === 'Week') {
+        return this.props.tasks.filter(task => {
+          if (task.scheduled_date){
+            let scheduledDate = moment(task.scheduled_date)
+            let monthEnd = moment(this.state.timeframes[columnId])
+            // debugger
+            // return scheduledDate >= moment(this.)
+          } else {
+            return false
+          }
+        })
+      }
+    return []
   }
   // sets selected column and its neighbor's visibility
   // to true and returns
   updateColumnVisibility = (column) => {
-
     let newIndex = columnIds.indexOf(column)
     const activeArray = [false, false, false, false]
     switch (newIndex) {

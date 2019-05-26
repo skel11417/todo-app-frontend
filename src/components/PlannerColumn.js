@@ -29,8 +29,8 @@ class PlannerColumn extends Component {
           key={`${columnId}-${task.id}`}
           task={task}
           columnId={columnId}
-          index={task.category_index ?
-            task.category_index
+          index={task.timeframe_index ?
+            task.timeframe_index
             :
             index}
           active={this.props.active}
