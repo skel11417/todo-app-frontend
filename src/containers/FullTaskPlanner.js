@@ -40,11 +40,11 @@ class TaskPlanner extends React.Component {
         'Month': [],
         'All': []
       },
-      columnState: {
-        'Today': {active: true},
-        'Week': {active: true},
-        'Month': {active: true},
-        'All': {active: true}
+      activeColumns: {
+        'Today': true,
+        'Week': true,
+        'Month': true,
+        'All': true
       }
     }
   }
@@ -168,8 +168,6 @@ class TaskPlanner extends React.Component {
           if (task.scheduled_date){
             let scheduledDate = moment(task.scheduled_date)
             let monthEnd = moment(this.state.timeframes[columnId])
-            // debugger
-            // return scheduledDate >= moment(this.)
           } else {
             return false
           }
@@ -179,38 +177,41 @@ class TaskPlanner extends React.Component {
   }
   // sets selected column and its neighbor's visibility
   // to true and returns
-  updateColumnVisibility = (column) => {
-    let newIndex = columnIds.indexOf(column)
-    const activeArray = [false, false, false, false]
-    switch (newIndex) {
-      case 0:
-      case 1:
-        activeArray[0] = true
-        activeArray[1] = true
+  updateColumnVisibility = (columnId) => {
+    const newColumnState = {
+      'Today': false,
+      'Week': false,
+      'Month': false,
+      'All': false
+    }
+    switch (columnId) {
+      case 'Today':
+      case 'Week':
+        newColumnState['Today'] = true
+        newColumnState['Week'] = true
         break
-      case 2:
-        activeArray[1] = true
-        activeArray[2] = true
+      case 'Month':
+        newColumnState['Week'] = true
+        newColumnState['Month'] = true
         break
-      case 3:
-        activeArray[2] = true
-        activeArray[3] = true
+      case 'All':
+        newColumnState['Month'] = true
+        newColumnState['All'] = true
         break
       default:
         break
     }
+    return newColumnState
   }
 
-  changeTimeframe = (column) => {
-    //rewrite this logic
-    let updatedColumns = this.updateColumnVisibility(column)
-    if (this.state.columns !== updatedColumns){
+  toggleVisibleColumns = (columnId) => {
+    const newColumnState = this.updateColumnVisibility(columnId)
+    if (this.state.activeColumns !== newColumnState){
       this.setState({
-        columns: updatedColumns
+        activeColumns: newColumnState
       })
     }
   }
-
 
   render(){
     return (
@@ -222,11 +223,11 @@ class TaskPlanner extends React.Component {
             <PlannerColumn
               key={columnId}
               index={index}
-              active={this.state.columnState[columnId].active}
+              active={this.state.activeColumns[columnId]}
               columnId={columnId}
               updateTask={this.props.updateTask}
               columnTasks={this.state.columns[columnId]}
-              onClickButton={this.changeTimeframe}
+              onClickButton={this.toggleVisibleColumns}
             />
             )
           )}
