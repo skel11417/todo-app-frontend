@@ -71,37 +71,56 @@ class TaskPlanner extends React.Component {
 
     // change schedules timeframe of task
     if (destination.droppableId !== source.droppableId){
-      const oldTimeFrameId = source.droppableId
+      const oldTimeframeId = source.droppableId
       const oldIndex = source.index
 
-      const newTimeFrameId = destination.droppableId
+      const newTimeframeId = destination.droppableId
       const newIndex = destination.index
 
       // optimistically render state of front end
       const newTaskColumns = {...this.state.columns}
 
-      const destColumn = newTaskColumns[newTimeFrameId]
-      const updatedTask = newTaskColumns[oldTimeFrameId]
+      const destColumn = newTaskColumns[newTimeframeId]
+      const updatedTask = newTaskColumns[oldTimeframeId]
                             .splice(oldIndex, 1)[0]
       updatedTask.timeframe_index = newIndex
 
+      switch (newTimeframeId) {
+        case 'Today':
+          updatedTask.scheduled_date = this.state.timeframes[newTimeframeId]
+          break;
+        case 'Week':
+          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId])
+            .subtract(1, 'second')
+          break;
+        case 'Month':
+          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId])
+            .subtract(1, 'second')
+          break;
+        case 'All':
+          updatedTask.scheduled_date = null
+          break;
+        default:
+          break;
+      }
+
       destColumn.splice(newIndex, 0, updatedTask)
 
-      newTaskColumns[oldTimeFrameId].forEach((task, index)=> task.timeframe_index = index)
+      newTaskColumns[oldTimeframeId].forEach((task, index)=> task.timeframe_index = index)
 
-      newTaskColumns[newTimeFrameId].forEach((task, index)=> task.timeframe_index = index)
+      newTaskColumns[newTimeframeId].forEach((task, index)=> task.timeframe_index = index)
 
       this.setState({
         columns: newTaskColumns
       })
 
-      // this.props.updateIndexes({
-      //   updatedTask: updatedTask,
-      //   updatedCategories: {
-      //     [oldTimeFrameId]: newTaskColumns[oldTimeFrameId],
-      //     [newTimeFrameId]: newTaskColumns[newTimeFrameId]
-      //   }
-      // })
+      this.props.updateTimeIndexes({
+        updatedTask: updatedTask,
+        updatedTimeframes: {
+          [oldTimeframeId]: newTaskColumns[oldTimeframeId],
+          [newTimeframeId]: newTaskColumns[newTimeframeId]
+        }
+      })
     }
   }
 
@@ -124,7 +143,7 @@ class TaskPlanner extends React.Component {
       columns: newColumns
     })
     // update backendIndexes
-    
+
   }
 
   filterTasks = (columnId) => {

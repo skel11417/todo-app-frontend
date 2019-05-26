@@ -55,7 +55,7 @@ class PlannerTask extends React.Component {
           >
             <Checkbox
               onChange={this.markCompleted}
-              label={task.content}
+              label={`${task.timeframe_index}-${task.content}`}
               checked={task.completed}
               />
             <Icon onClick={this.deleteTask} name="remove"/>

@@ -40,12 +40,27 @@ class App extends Component{
       .then(tasks => this.setState({tasks: tasks}))
   }
 
-  updateIndexes = (categoryData) => {
+  updateCatIndexes = (categoryData) => {
     const URL = `http://localhost:3000/tasks/cat_indexes`
     const options = {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({category_data: categoryData})
+    }
+
+    fetch(URL, options)
+      .then(resp => resp.json())
+      .then(tasks => this.setState({tasks: tasks})
+    )
+  }
+
+  updateTimeIndexes = (timeframeData) => {
+    // debugger
+    const URL = `http://localhost:3000/tasks/time_indexes`
+    const options = {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({timeframe_data: timeframeData})
     }
 
     fetch(URL, options)
@@ -93,14 +108,15 @@ class App extends Component{
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
 
           <Route exact path="/planner" render={() =>    <FullTaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
-          updateTask={this.updateTask}/>}
+          updateTask={this.updateTask}
+          updateTimeIndexes={this.updateTimeIndexes}/>}
           />
 
           <Route exact path="/sorter" render={()=><TaskSorter
             tasks={this.state.tasks}
             updateTask={this.updateTask}
             deleteTask={this.deleteTask}
-            updateIndexes={this.updateIndexes}
+            updateCatIndexes={this.updateCatIndexes}
             />}
           />
 

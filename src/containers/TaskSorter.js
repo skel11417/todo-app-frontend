@@ -111,7 +111,7 @@ class TaskSorter extends Component {
         taskCategories: newTaskCategories
       })
 
-      this.props.updateIndexes({
+      this.props.updateCatIndexes({
         updatedTask: updatedTask,
         updatedCategories: {
           [oldCategoryId]: newTaskCategories[oldCategoryId],
@@ -136,7 +136,7 @@ class TaskSorter extends Component {
       })
       // update indexes in the backend
       // refactor the names to movedTask for clarity's sake
-      this.props.updateIndexes({
+      this.props.updateCatIndexes({
         updatedTask: movedTask,
         updatedCategories: {
           [categoryId]: categoryTasks
