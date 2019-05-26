@@ -226,6 +226,7 @@ class TaskPlanner extends React.Component {
               active={this.state.activeColumns[columnId]}
               columnId={columnId}
               updateTask={this.props.updateTask}
+              deleteTask={this.props.deleteTask}
               columnTasks={this.state.columns[columnId]}
               onClickButton={this.toggleVisibleColumns}
             />
