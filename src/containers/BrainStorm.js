@@ -35,8 +35,11 @@ class BrainStorm extends Component {
     const input = this.state.input
     if (input !== ''){
       const newTasks = input.split(/\n|,/)
-      newTasks.forEach(task => {
+      newTasks.forEach((task, index) => {
         task.trim()
+        if (task === ""){
+          newTasks.splice(index, 1)
+        }
         task.charAt(0).toUpperCase()
       })
       this.props.batchCreateTasks(newTasks)
