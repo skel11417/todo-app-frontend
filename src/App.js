@@ -97,8 +97,6 @@ class App extends Component{
   }
 
   render(){
-    // add taskProps variable to DRY up code
-
     return (
       <Router>
         <Route render={(props)=><Nav {...props}/>} />
