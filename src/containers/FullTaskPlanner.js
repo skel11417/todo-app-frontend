@@ -43,8 +43,8 @@ class TaskPlanner extends React.Component {
       activeColumns: {
         'Today': true,
         'Week': true,
-        'Month': false,
-        'All': false
+        'Month': true,
+        'All': true
       }
     }
   }
@@ -163,16 +163,7 @@ class TaskPlanner extends React.Component {
         }
       })
     }
-    if (columnId === 'Week') {
-        return this.props.tasks.filter(task => {
-          if (task.scheduled_date){
-            let scheduledDate = moment(task.scheduled_date)
-            let monthEnd = moment(this.state.timeframes[columnId])
-          } else {
-            return false
-          }
-        })
-      }
+
     return []
   }
   // sets selected column and its neighbor's visibility

@@ -54,11 +54,13 @@ class PlannerTask extends React.Component {
               onClick={this.props.onClickTask}
               onDoubleClick={this.addTaskToDay}
               >
+              <div>
               <Checkbox
                 onChange={this.markCompleted}
-                label={`${task.timeframe_index}-${task.content}`}
+                label={`${task.timeframe_index}-${this.props.index}-${task.content}`}
                 checked={task.completed}
                 />
+              </div>
               <Icon
                 onClick={this.deleteTask}
                 name="remove"

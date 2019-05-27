@@ -28,7 +28,7 @@ class PlannerColumn extends Component {
           key={`${columnId}-${task.id}`}
           task={task}
           columnId={columnId}
-          index={task.timeframe_index}
+          index={task.timeframe_index ? task.timeframe_index : index }
           active={this.props.active}
           onClickTask={()=>console.log("get additional info")}
           deleteTask={this.props.deleteTask}
