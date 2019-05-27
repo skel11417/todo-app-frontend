@@ -55,7 +55,6 @@ class App extends Component{
   }
 
   updateTimeIndexes = (timeframeData) => {
-    // debugger
     const URL = `http://localhost:3000/tasks/time_indexes`
     const options = {
       method: "PATCH",

@@ -56,7 +56,7 @@ class TaskPlanner extends React.Component {
   }
 
   onDragEnd = (result) =>{
-    const {destination, source, draggableId} = result
+    const {destination, source} = result
     // only update state if drag destination is valid
     if (!destination){
       return null
@@ -69,7 +69,7 @@ class TaskPlanner extends React.Component {
     }
     this.log(result)
 
-    // change schedules timeframe of task
+    // change scheduled timeframe of task
     if (destination.droppableId !== source.droppableId){
       const oldTimeframeId = source.droppableId
       const oldIndex = source.index
@@ -122,6 +122,33 @@ class TaskPlanner extends React.Component {
         }
       })
     }
+    // reorder tasks within column
+    if (destination.droppableId === source.droppableId){
+      const oldIndex = source.index
+
+      const columnId = destination.droppableId
+      const newIndex = destination.index
+
+      // optimistically render state of front end
+      const newTaskColumns = {...this.state.columns}
+
+      const destColumn = newTaskColumns[columnId]
+      const updatedTask = destColumn
+                            .splice(oldIndex, 1)[0]
+      updatedTask.timeframe_index = newIndex
+      destColumn.splice(newIndex, 0, updatedTask)
+      destColumn.forEach((task, index)=> task.timeframe_index = index)
+      this.setState({
+        columns: newTaskColumns
+      })
+
+      this.props.updateTimeIndexes({
+        updatedTask: updatedTask,
+        updatedTimeframes: {
+          [columnId]: destColumn
+        }
+      })
+    }
   }
 
   componentDidUpdate(prevProps){
@@ -143,13 +170,15 @@ class TaskPlanner extends React.Component {
       columns: newColumns
     })
     // update backendIndexes
-
   }
 
   filterTasks = (columnId) => {
     // need a way to account for week/month being the same date as today
     if (columnId === 'All') {
-      return this.props.tasks.filter(task => task.scheduled_date === null)
+      let filteredTasks = this.props.tasks.filter(task => task.scheduled_date === null)
+      
+      filteredTasks.forEach((task, index) => task.timeframe_index = index)
+      return filteredTasks
     }
     if (columnId === 'Today'){
       let date = this.state.timeframes[columnId]
