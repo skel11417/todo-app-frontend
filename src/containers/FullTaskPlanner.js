@@ -87,12 +87,10 @@ class TaskPlanner extends React.Component {
           updatedTask.scheduled_date = this.state.timeframes[newTimeframeId]
           break;
         case 'Week':
-          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId])
-            .subtract(1, 'second')
+          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId]).format()
           break;
         case 'Month':
-          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId])
-            .subtract(1, 'second')
+          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId]).format()
           break;
         case 'All':
           updatedTask.scheduled_date = null
@@ -169,68 +167,36 @@ class TaskPlanner extends React.Component {
 
   filterTasks = () => {
     let taskPool = [...this.props.tasks]
-    let filteredColumns = {...this.state.columns}
-    const today = this.state.timeframes['Today']
-    const endOfWeek = this.state.timeframes['Week']
-    const endOfMonth = this.state.timeframes['Month']
-
-    // filter unassigned tasks into 'All' column
-    console.log(taskPool)
-    taskPool.forEach((task, index) => {
-      if (task.scheduled_date === null) {
-        filteredColumns['All'].push(taskPool.splice(index, 1)[0])
+    const filteredColumns = {
+      'Today': [],
+      'Week': [],
+      'Month': [],
+      'All': []
+    }
+    let timeframes = ['Today', 'Week', 'Month']
+    timeframes.forEach(timeframe=> {
+      for (let i = 0; i < taskPool.length; i++){
+        let scheduledDate = moment(taskPool[i].scheduled_date)
+        .startOf('day').format()
+        if(scheduledDate === this.state.timeframes[timeframe]){
+          filteredColumns[timeframe].push(taskPool.splice(i, 1)[0])
+          i--
+        } else {
+          i++
         }
       }
+      filteredColumns[timeframe].forEach((task, index)=>{
+        task.timeframe_index = index
+      }
     )
+    })
+
+    // set all unassigned tasks to 'All' column
+    filteredColumns['All'] = taskPool
     filteredColumns['All'].forEach((task, index)=>{
       task.timeframe_index = index
       }
     )
-    // filter tasks that match today's date into 'Today'
-    console.log(taskPool)
-    taskPool.forEach((task, index) => {
-      let scheduledDate = moment(task.scheduled_date)
-            .startOf('day').format()
-        if(scheduledDate === today){
-          filteredColumns['Today'].push(taskPool.splice(index, 1)[0])
-        }
-    })
-
-    filteredColumns['Today'].forEach((task, index)=>{
-      task.timeframe_index = index
-      }
-    )
-
-    // filter tasks that match the current week into week column
-    console.log(taskPool)
-    taskPool.forEach((task, index) => {
-      let scheduledDate = moment(task.scheduled_date)
-            .startOf('day').format()
-        if(scheduledDate === endOfWeek){
-          filteredColumns['Week'].push(taskPool.splice(index, 1)[0])
-        }
-    })
-
-    filteredColumns['Week'].forEach((task, index)=>{
-      task.timeframe_index = index
-      }
-    )
-
-    // filter tasks that match end of month into month column
-    console.log(taskPool)
-    taskPool.forEach((task, index) => {
-      let scheduledDate = moment(task.scheduled_date)
-            .startOf('day').format()
-        if(scheduledDate === endOfMonth){
-          filteredColumns['Month'].push(taskPool.splice(index, 1)[0])
-        }
-    })
-
-    filteredColumns['Week'].forEach((task, index)=>{
-      task.timeframe_index = index
-      }
-    )
-
     return filteredColumns
   }
 
