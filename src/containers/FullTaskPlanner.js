@@ -1,8 +1,7 @@
 import React from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
-import moment from 'moment'
 import PlannerColumn from '../components/PlannerColumn'
-// import sampleData from '../sampleData'
+import moment from 'moment'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -19,12 +18,10 @@ class TaskPlanner extends React.Component {
     const today = moment().startOf('day').format()
     const endOfWeek = moment()
                         .endOf('week')
-                        .add(1, 'days')
                         .startOf('day')
                         .format()
     const endOfMonth = moment()
                         .endOf('month')
-                        .add(1, 'days')
                         .startOf('day')
                         .format()
 
@@ -162,39 +159,81 @@ class TaskPlanner extends React.Component {
   }
 
   loadTasks =() =>{
-    const newColumns={...this.state.columns}
-    columnIds.forEach(columnId => {
-      newColumns[columnId] = this.filterTasks(columnId)
-    })
-    this.setState({
-      columns: newColumns
-    })
-    // update backendIndexes
-  }
-
-  filterTasks = (columnId) => {
-    // need a way to account for week/month being the same date as today
-    if (columnId === 'All') {
-      let filteredTasks = this.props.tasks.filter(task => task.scheduled_date === null)
-      
-      filteredTasks.forEach((task, index) => task.timeframe_index = index)
-      return filteredTasks
-    }
-    if (columnId === 'Today'){
-      let date = this.state.timeframes[columnId]
-      return this.props.tasks.filter(task => {
-        if (task.scheduled_date){
-          let scheduledDate = moment(task.scheduled_date)
-          .startOf('day').format()
-          return scheduledDate === date
-        } else {
-          return false
-        }
+    if (this.props.tasks.length > 0){
+      let newColumns= this.filterTasks()
+      this.setState({
+        columns: newColumns
       })
     }
-
-    return []
   }
+
+  filterTasks = () => {
+    let taskPool = [...this.props.tasks]
+    let filteredColumns = {...this.state.columns}
+    const today = this.state.timeframes['Today']
+    const endOfWeek = this.state.timeframes['Week']
+    const endOfMonth = this.state.timeframes['Month']
+
+    // filter unassigned tasks into 'All' column
+    console.log(taskPool)
+    taskPool.forEach((task, index) => {
+      if (task.scheduled_date === null) {
+        filteredColumns['All'].push(taskPool.splice(index, 1)[0])
+        }
+      }
+    )
+    filteredColumns['All'].forEach((task, index)=>{
+      task.timeframe_index = index
+      }
+    )
+    // filter tasks that match today's date into 'Today'
+    console.log(taskPool)
+    taskPool.forEach((task, index) => {
+      let scheduledDate = moment(task.scheduled_date)
+            .startOf('day').format()
+        if(scheduledDate === today){
+          filteredColumns['Today'].push(taskPool.splice(index, 1)[0])
+        }
+    })
+
+    filteredColumns['Today'].forEach((task, index)=>{
+      task.timeframe_index = index
+      }
+    )
+
+    // filter tasks that match the current week into week column
+    console.log(taskPool)
+    taskPool.forEach((task, index) => {
+      let scheduledDate = moment(task.scheduled_date)
+            .startOf('day').format()
+        if(scheduledDate === endOfWeek){
+          filteredColumns['Week'].push(taskPool.splice(index, 1)[0])
+        }
+    })
+
+    filteredColumns['Week'].forEach((task, index)=>{
+      task.timeframe_index = index
+      }
+    )
+
+    // filter tasks that match end of month into month column
+    console.log(taskPool)
+    taskPool.forEach((task, index) => {
+      let scheduledDate = moment(task.scheduled_date)
+            .startOf('day').format()
+        if(scheduledDate === endOfMonth){
+          filteredColumns['Month'].push(taskPool.splice(index, 1)[0])
+        }
+    })
+
+    filteredColumns['Week'].forEach((task, index)=>{
+      task.timeframe_index = index
+      }
+    )
+
+    return filteredColumns
+  }
+
   // sets selected column and its neighbor's visibility
   // to true and returns
   updateColumnVisibility = (columnId) => {
