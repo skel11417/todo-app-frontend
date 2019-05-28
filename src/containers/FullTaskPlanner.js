@@ -87,10 +87,10 @@ class TaskPlanner extends React.Component {
           updatedTask.scheduled_date = this.state.timeframes[newTimeframeId]
           break;
         case 'Week':
-          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId]).format()
+          updatedTask.scheduled_date = this.state.timeframes[newTimeframeId]
           break;
         case 'Month':
-          updatedTask.scheduled_date = moment(this.state.timeframes[newTimeframeId]).format()
+          updatedTask.scheduled_date = this.state.timeframes[newTimeframeId]
           break;
         case 'All':
           updatedTask.scheduled_date = null
@@ -178,11 +178,9 @@ class TaskPlanner extends React.Component {
       for (let i = 0; i < taskPool.length; i++){
         let scheduledDate = moment(taskPool[i].scheduled_date)
         .startOf('day').format()
-        if(scheduledDate === this.state.timeframes[timeframe]){
+        if (scheduledDate === this.state.timeframes[timeframe]){
           filteredColumns[timeframe].push(taskPool.splice(i, 1)[0])
           i--
-        } else {
-          i++
         }
       }
       filteredColumns[timeframe].forEach((task, index)=>{
@@ -192,7 +190,7 @@ class TaskPlanner extends React.Component {
     })
 
     // set all unassigned tasks to 'All' column
-    filteredColumns['All'] = taskPool
+    filteredColumns['All'] = [...taskPool]
     filteredColumns['All'].forEach((task, index)=>{
       task.timeframe_index = index
       }

@@ -57,7 +57,7 @@ class PlannerTask extends React.Component {
               <div>
               <Checkbox
                 onChange={this.markCompleted}
-                label={`${task.timeframe_index}-${this.props.index}-${task.content}`}
+                label={`${task.timeframe_index}-${this.props.index}-${task.content} ${task.scheduled_date}`}
                 checked={task.completed}
                 />
               </div>
