@@ -9,7 +9,8 @@ const Container = styled.div`
   display: flex;
   margin: auto;
   width: 75%;
-  min-height: 800px;
+  /* min-height: 500px; */
+  height: 640px;
   background-color: white;
 `
 const columnIds = ['Today', 'Week', 'Month', 'All']
@@ -283,7 +284,7 @@ class TaskPlanner extends React.Component {
     .format()
 
     newTimeframes["Week"] = moment().add(1, 'weeks').endOf('week').startOf('day').format()
-    
+
     this.toggleVisibleColumns("All")
     this.setState({
       timeframes: newTimeframes

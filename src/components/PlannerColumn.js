@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 50%;
   transition:width 0.5s ease-in-out;
   width: ${props => props.active ? '45%' : '5%'};
-  min-height:440px;
+  min-height:300px;
   padding: 5px;
   display: flex;
   flex-direction: column;`
@@ -46,7 +46,7 @@ class PlannerColumn extends Component {
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
-          <div style={{height: '100%'}} {...provided.droppableProps}
+          <div style={{height: '100%', overflow: 'auto'}} {...provided.droppableProps}
           ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}
