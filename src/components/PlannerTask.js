@@ -24,6 +24,7 @@ const TaskElement = styled.div`
   display: flexbox;
   padding: 7px;
   opacity: ${(props) => props.activeColumn ? '1' : '0'}
+  ${(props) => props.incomplete}
 `
 
 class PlannerTask extends React.Component {

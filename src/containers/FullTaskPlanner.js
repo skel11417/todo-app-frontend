@@ -177,7 +177,8 @@ class TaskPlanner extends React.Component {
   }
 
   filterTasks = () => {
-    let taskPool = [...this.props.tasks]
+    const taskPool = [...this.props.tasks]
+    const timeframes = ['Today', 'Week', 'Month']
     const filteredColumns = {
       'Today': [],
       'Week': [],
@@ -185,8 +186,7 @@ class TaskPlanner extends React.Component {
       'All': []
     }
 
-    let timeframes = ['Today', 'Week', 'Month']
-
+    // filter tasks in other columns
     timeframes.forEach(timeframe=> {
       for (let i = 0; i < taskPool.length; i++){
         let scheduledDate = moment(taskPool[i].scheduled_date)
@@ -196,6 +196,17 @@ class TaskPlanner extends React.Component {
           i--
         }
       }
+      // Add incomplete tasks
+      if (timeframe === 'Week') {
+        for (let i = 0; i < taskPool.length; i++){
+          if (taskPool[i].completed === false && taskPool[i].scheduled_date < this.state.timeframes['Today']){
+            filteredColumns[timeframe].unshift(taskPool.splice(i, 1)[0])
+            i--
+          }
+        }
+      }
+
+      // renumber indexes of all tasks in a column
       filteredColumns[timeframe].forEach((task, index)=>{
         task.timeframe_index = index
       }
