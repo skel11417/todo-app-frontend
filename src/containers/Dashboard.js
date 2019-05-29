@@ -17,11 +17,9 @@ class Dashboard extends Component {
     const {tasks} = this.props
     const today = moment().format("dddd, MMMM D")
     let yesterday = moment().subtract(1, 'days').startOf('day').format()
-    let yesterdayScheduledTasks = tasks.filter(task => moment(task.scheduled_date).format() === yesterday)
-
+    let yesterdayScheduledTasks = tasks.filter(task => moment(task.scheduled_date).startOf('day').format() === yesterday)
+    tasks.forEach(task => console.log(task.content, task.scheduled_date))
     let yesterdayCompletedTasks = yesterdayScheduledTasks.filter(task => task.completed === true)
-
-
 
     let yesterdayPercent = (yesterdayCompletedTasks.length / yesterdayScheduledTasks.length * 100)
     let thisMonth = moment().endOf('month').startOf('day').format("MMMM")
@@ -40,7 +38,7 @@ class Dashboard extends Component {
     <p>{yesterdayCompletedTasks.map(task=> {
       let content = task.content
       let doc = nlp('You '+ content)
-      
+
       return doc.sentences().toPastTense().out('text') + '. '
     })}</p>
     <br/>
