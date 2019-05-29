@@ -195,6 +195,17 @@ class TaskPlanner extends React.Component {
           i--
         }
       }
+      // place completed tasks at the top of Today's task list
+      if (timeframe === 'Today') {
+        for (let i = 0; i < taskPool.length; i++){
+          if (taskPool[i].completed === true && moment(taskPool[i].date_completed).startOf('day').format() === this.state.timeframes[timeframe]){
+            console.log(taskPool[i].scheduled_date)
+            filteredColumns[timeframe].unshift(taskPool.splice(i, 1)[0])
+            i--
+          }
+        }
+      }
+
       // Add incomplete but scheduled tasks to Week column
       if (timeframe === 'Week') {
         for (let i = 0; i < taskPool.length; i++){
@@ -218,6 +229,7 @@ class TaskPlanner extends React.Component {
       task.timeframe_index = index
       }
     )
+    filteredColumns["Today"].forEach(task => console.log(task.content, moment(task.date_completed).startOf('day').format()))
     return filteredColumns
   }
 

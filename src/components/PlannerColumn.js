@@ -22,8 +22,7 @@ const ColumnTitle = styled.button`
 class PlannerColumn extends Component {
   renderTasks = () => {
     const {columnTasks, columnId} = this.props
-    // const sortedArray = columnTasks.sort(function(a,b) {return (a.category > b.category) ? 1 : ((b.category > a.category) ? -1 : 0);})
-    return (
+      return (
       columnTasks.map((task, index) => {
         return <PlannerTask
           key={`${columnId}-${task.id}`}
