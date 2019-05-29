@@ -1,14 +1,49 @@
 import React, {Component} from 'react'
+import moment from 'moment'
+import { Progress } from 'semantic-ui-react'
+import styled from 'styled-components'
+
+const DashContainer = styled.div`
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 50px;
+  width: 50%;
+`
 
 class Dashboard extends Component {
+
   render(){
     const {tasks} = this.props
-    return <div>This is the dashboard<br/>
-      You have {`${tasks.length} task${tasks.length === 1 ? '': 's'}:`}
+    const today = moment().format("dddd, MMMM D")
+    let yesterday = moment().subtract(1, 'days').startOf('day').format()
+    console.log(yesterday)
+    let yesterdayScheduledTasks = tasks.filter(task => moment(task.scheduled_date).format() === yesterday)
+
+    let yesterdayCompletedTasks = yesterdayScheduledTasks.filter(task => task.completed === true)
+
+    let yesterdayPercent = (yesterdayCompletedTasks.length / yesterdayScheduledTasks.length * 100)
+    let thisMonth = moment().endOf('month').startOf('day').format("MMMM")
+    let finalWeek = moment().endOf('month').endOf('week').startOf('day').format()
+    let totalTasks = tasks.filter(task => moment(task.scheduled_date).format("MMMM") === thisMonth || moment(task.scheduled_date).format() === finalWeek)
+    let uncompletedTasks = tasks.filter(task => task.completed === false)
+    let completedTasks = totalTasks.filter(task => task.completed === true)
+
+    let monthlyPercent = (completedTasks.length / totalTasks.length * 100)
+
+    return <DashContainer>
+    <h1>{today}</h1>
+
+    Yesterday you completed {yesterdayCompletedTasks.length} task{yesterdayCompletedTasks.length === 1 ? '' : 's'} out of the {yesterdayScheduledTasks.length} task{yesterdayScheduledTasks.length === 1 ? '' : 's'} you planned.
+    <Progress percent={yesterdayPercent} indicating/>
+    <br/>
+      You've completed {completedTasks.length} task{completedTasks.length === 1 ? '' : 's'} out of {totalTasks.length} task{completedTasks.length === 1 ? '' : 's'} you planned to work on this month.
+      <Progress percent={monthlyPercent} indicating />
+      <br/>
+      You have {`${uncompletedTasks.length} remaining task${uncompletedTasks.length === 1 ? '': 's'}:`}
       <ol>
-      {tasks.map(task => (<li key={task.id}>{task.content}</li>))}
+      {uncompletedTasks.map(task => (<li key={task.id}>{task.content}</li>))}
       </ol>
-    </div>
+    </DashContainer>
   }
 }
 export default Dashboard

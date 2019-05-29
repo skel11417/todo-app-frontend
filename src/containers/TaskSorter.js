@@ -228,11 +228,12 @@ class TaskSorter extends Component {
       <div>
       <DragDropContext onDragEnd={this.onDragEnd}>
         <CategoriesContainer>
-          {categories.map(category => (
+          {categories.map((category, index) => (
             <CategoryColumn
               key={`${category}-column`}
               columnId={category}
               color={this.categoryColors[category]}
+              categoryName={this.categoryMap[index]}
               columnTasks={this.state.taskCategories[category]}
               updateTask={this.props.updateTask}
               deleteTask={this.props.deleteTask}

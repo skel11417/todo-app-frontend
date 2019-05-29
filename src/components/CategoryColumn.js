@@ -38,11 +38,11 @@ class CategoryColumn extends Component {
   }
 
   render(){
-    const {columnId, color} = this.props
+    const {columnId, color, categoryName} = this.props
     return(
     <Container>
       <ColumnTitle color={color}>
-        <h1>{columnId} Tasks</h1>
+        <h1>{categoryName} Priority</h1>
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (

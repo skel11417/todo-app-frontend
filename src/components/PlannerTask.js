@@ -16,7 +16,8 @@ function colorScheme(category, index){
 const TaskElement = styled.div`
   height: 60px;
   border: 1px black solid;
-  margin: 4px;
+  margin: 2px;
+  border-radius: 5px;
   background-color: ${(props)=> props.completed ? 'lightgreen' : colorScheme(props.category, props.index)};
   transition:opacity 0.2s ease;
   display: flexbox;
