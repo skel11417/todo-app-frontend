@@ -1,6 +1,23 @@
+@keyframes glowing {
+  0% { box-shadow: 0 0 -10px #c43900; }
+  40% { box-shadow: 0 0 20px #c43900; }
+  60% { box-shadow: 0 0 20px #c43900; }
+  100% { box-shadow: 0 0 -10px #c43900; }
+}
+
+/* .task {
+
+} */
 /* .App {
   text-align: center;
 }
+
+
+.button-glow {
+  animation: glowing 5000ms infinite;
+}
+
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

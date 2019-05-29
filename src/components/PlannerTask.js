@@ -1,11 +1,11 @@
 import React from 'react'
+import {Checkbox, Icon, Popup, Button} from 'semantic-ui-react'
 import {Draggable} from 'react-beautiful-dnd'
+import moment from 'moment'
 import styled from 'styled-components'
 
-import {Checkbox, Icon, Popup, Button} from 'semantic-ui-react'
-
 function colorScheme(category, index){
-  const opacity = 0.8 - (index/20)
+  const opacity = 0.9 - (index/15)
   const colors = {
     'A': `rgba(250, 88, 88, ${opacity})`,
     'B': `rgb(128, 0, 128, ${opacity})`,
@@ -15,16 +15,22 @@ function colorScheme(category, index){
 }
 
 const TaskElement = styled.div`
-  height: 60px;
-  border: 1px black solid;
-  margin: 2px;
+  border: 2px solid ${(props)=> props.completed ? 'green' : colorScheme(props.category, props.index)};
+  width: 100%;
   border-radius: 5px;
   background-color: ${(props)=> props.completed ? 'lightgreen' : colorScheme(props.category, props.index)};
+  display: flexbox;
+`
+const TaskWrapper = styled.div`
+  height: 60px;
+  border-radius: 5px;
+  margin: 2px;
+  background-color: white;
   transition:opacity 0.2s ease;
   display: flexbox;
-  padding: 7px;
   opacity: ${(props) => props.activeColumn ? '1' : '0'}
   ${(props) => props.incomplete}
+  animation: ${(props) => props.lateTask ? 'glowing 3000ms infinite' : null}
 `
 
 class PlannerTask extends React.Component {
@@ -43,6 +49,9 @@ class PlannerTask extends React.Component {
 
   render(){
     const {task, columnId, index, active} = this.props
+
+    let lateTask = !task.completed && moment(task.scheduled_date).startOf('day') < moment().startOf('day')
+
     return (
       <Draggable
       key={`${columnId}-${task.id}`}
@@ -50,14 +59,17 @@ class PlannerTask extends React.Component {
       index={index}
       >
         {(provided, snapshot) => (
+          <TaskWrapper
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          activeColumn={active}
+          lateTask={lateTask}
+          ref={provided.innerRef}
+          >
             <TaskElement
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
               completed={task.completed}
               category={task.category}
               index={index}
-              activeColumn={active}
               onClick={this.props.onClickTask}
               onContextMenu={this.openPopup}
               >
@@ -69,7 +81,6 @@ class PlannerTask extends React.Component {
                   />
                 </div>
               <div style={{ fontSize: '1.2rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '5px', width: '85%', padding: '5px', marginLeft: '10px', paddingLeft: '15px', verticalAlign: 'middle'}}>
-
                 {task.content}
                 </div>
                   <Popup trigger={<Icon
@@ -80,6 +91,7 @@ class PlannerTask extends React.Component {
                   position='top right'
                   />
             </TaskElement>
+          </TaskWrapper>
         )}
     </Draggable>
   )
