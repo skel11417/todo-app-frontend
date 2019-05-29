@@ -8,6 +8,7 @@ const Container = styled.div`
   display: flex;
   margin: auto;
   width: 75%;
+  background-color: white;
   border: black solid 1px;
 `
 const columnIds = ['Today', 'Week', 'Month', 'All']
@@ -237,26 +238,30 @@ class TaskPlanner extends React.Component {
   }
 
   render(){
+
     return (
-      <Container className="TaskPlanner">
-        <DragDropContext id="id"
-        onDragEnd={this.onDragEnd}
-        >
-          {columnIds.map((columnId, index) =>(
-            <PlannerColumn
-              key={columnId}
-              index={index}
-              active={this.state.activeColumns[columnId]}
-              columnId={columnId}
-              updateTask={this.props.updateTask}
-              deleteTask={this.props.deleteTask}
-              columnTasks={this.state.columns[columnId]}
-              onClickButton={this.toggleVisibleColumns}
-            />
-            )
-          )}
-        </DragDropContext>
-      </Container>
+      <div>
+        <div>Change month here</div>
+        <Container className="TaskPlanner">
+          <DragDropContext id="id"
+          onDragEnd={this.onDragEnd}
+          >
+            {columnIds.map((columnId, index) =>(
+              <PlannerColumn
+                key={columnId}
+                index={index}
+                active={this.state.activeColumns[columnId]}
+                columnId={columnId}
+                updateTask={this.props.updateTask}
+                deleteTask={this.props.deleteTask}
+                columnTasks={this.state.columns[columnId]}
+                onClickButton={this.toggleVisibleColumns}
+              />
+              )
+            )}
+          </DragDropContext>
+        </Container>
+      </div>
     );}
 }
 

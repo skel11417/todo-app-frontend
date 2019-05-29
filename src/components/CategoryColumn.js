@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const ColumnTitle = styled.button`
   font-size: 1.5em;
+  /* background-color: ${props=> props.color} */
 `
 
 class CategoryColumn extends Component {
@@ -37,10 +38,10 @@ class CategoryColumn extends Component {
   }
 
   render(){
-    const {columnId} = this.props
+    const {columnId, color} = this.props
     return(
     <Container>
-      <ColumnTitle>
+      <ColumnTitle color={color}>
         <h1>{columnId} Tasks</h1>
       </ColumnTitle>
       <Droppable droppableId={columnId}>

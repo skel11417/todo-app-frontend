@@ -164,6 +164,14 @@ class TaskSorter extends Component {
       open: false
     })
   }
+  // I may refactor this into the backend logic
+  categoryMap = ["High", "Medium", "Low"]
+
+  categoryColors = {
+    'A': 'red',
+    'B': `purple`,
+    'C': `blue`
+  }
 
   findTaskById = (taskId) => {
     return this.props.tasks.find(task => task.id === taskId)
@@ -177,40 +185,37 @@ class TaskSorter extends Component {
   }
 
   renderModal = () => {
-
     return (
       <Transition visible={this.state.open} animation='scale' duration={1000}>
       <Modal
         open={this.state.open}
         size='tiny'
         dimmer='blurring'
+        closeIcon
       >
-        <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}
-        <Icon
-          onClick={this.deleteTask}
-          name="remove"
-          />
-          </Modal.Header>
+        <Modal.Header>
+        <h2>{this.state.currentTask ? this.state.currentTask.content : "loading"}
+        </h2>
+        </Modal.Header>
         <Modal.Content>
-          <p>What kind of task is this?</p>
-          {categories.map(category=>(
+          <h3>What is the priority of this task?</h3>
+          {categories.map((category, index)=>(
             <Button
               key={`${category}-button`}
+              size="massive"
+              color={this.categoryColors[category]}
               onClick={()=>this.setCategory(category)}
             >
-            {category}
+            {this.categoryMap[index]}
             </Button>
           ))}
         </Modal.Content>
         <Modal.Actions>
+          <Button color="red" onClick={this.deleteTask}>
+          Delete Task
+          </Button>
           <Button onClick={this.closeModal}>
             Close
-          </Button>
-          <Button onClick={this.previousTask}>
-            Previous Task
-          </Button>
-          <Button onClick={this.nextTask}>
-            Next Task
           </Button>
         </Modal.Actions>
       </Modal>
@@ -227,6 +232,7 @@ class TaskSorter extends Component {
             <CategoryColumn
               key={`${category}-column`}
               columnId={category}
+              color={this.categoryColors[category]}
               columnTasks={this.state.taskCategories[category]}
               updateTask={this.props.updateTask}
               deleteTask={this.props.deleteTask}
