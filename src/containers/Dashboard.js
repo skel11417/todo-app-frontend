@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import FullTaskPlanner from './FullTaskPlanner'
+import SmallTaskPlanner from './SmallTaskPlanner'
 import Stats from '../components/Stats'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -19,11 +19,11 @@ class Dashboard extends Component {
     return (
       <DashContainer>
         <h1>{today}</h1>
-        <FullTaskPlanner
+        <SmallTaskPlanner
           tasks={this.props.tasks}
-          deleteTask={this.deleteTask}
-          updateTask={this.updateTask}
-          updateTimeIndexes={this.updateTimeIndexes}
+          deleteTask={this.props.deleteTask}
+          updateTask={this.props.updateTask}
+          updateTimeIndexes={this.props.updateTimeIndexes}
         />
         <Stats tasks={this.props.tasks}/>
     </DashContainer>

@@ -12,7 +12,8 @@ class Stats extends Component {
 
     let yesterday = moment().subtract(1, 'days').startOf('day').format()
     let yesterdayScheduledTasks = tasks.filter(task => moment(task.scheduled_date).startOf('day').format() === yesterday)
-    tasks.forEach(task => console.log(task.content, task.scheduled_date))
+    // tasks.forEach(task => console.log(task.content, task.scheduled_date))
+
     let yesterdayCompletedTasks = yesterdayScheduledTasks.filter(task => task.completed === true)
 
     let yesterdayPercent = (yesterdayCompletedTasks.length / yesterdayScheduledTasks.length * 100)
@@ -41,8 +42,6 @@ class Stats extends Component {
         <ol>
         {uncompletedTasks.map(task => (<li key={task.id}>{task.content}</li>))}
         </ol>
-
-
       </Container>
 
     )
