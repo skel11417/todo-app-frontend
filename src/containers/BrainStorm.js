@@ -51,11 +51,12 @@ class BrainStorm extends Component {
     return (
       <Container>
         <Header>
-          <h1>Life.sort</h1>
+          <h1 style={{fontSize: "4em"}}>MindSweeper</h1>
         </Header>
         <Form>
           {this.renderRedirect()}
           <TextArea
+            style={{height: '300px', fontSize: '1.5em', margin: 'auto'}}
             onChange={this.handleChange}
             placeholder='List all of your tasks separated by commas or on separate lines'
             value={this.state.input}
@@ -67,7 +68,7 @@ class BrainStorm extends Component {
             <Button
               onClick={this.handleSubmit}
               style={{margin: '5px'}}
-              size='large'
+              size='massive'
               >
               Create Tasks
             </Button>

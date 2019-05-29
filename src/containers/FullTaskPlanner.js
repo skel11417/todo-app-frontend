@@ -278,9 +278,12 @@ class TaskPlanner extends React.Component {
 
   setNextMonth = () => {
     let newTimeframes = {...this.state.timeframes}
+
     newTimeframes["Month"] = moment().add(1, 'months').endOf('month').startOf('day')
     .format()
+
     newTimeframes["Week"] = moment().add(1, 'weeks').endOf('week').startOf('day').format()
+    
     this.toggleVisibleColumns("All")
     this.setState({
       timeframes: newTimeframes
@@ -300,6 +303,9 @@ class TaskPlanner extends React.Component {
     return (
       <div>
         <div style={{height: '80px', width: '75%', margin: 'auto'}}>
+        <h1 style={{textAlign: 'center', padding: '10px'}}>
+          Daily Planner
+        </h1>
         <Button onClick={()=>alert("you can't go back")}
         content="Previous month"/>
         Change month here
