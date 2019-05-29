@@ -38,7 +38,6 @@ class Dashboard extends Component {
     <p>{yesterdayCompletedTasks.map(task=> {
       let content = task.content
       let doc = nlp('You '+ content)
-
       return doc.sentences().toPastTense().out('text') + '. '
     })}</p>
     <br/>
