@@ -10,7 +10,7 @@ const CategoriesContainer = styled.div`
   margin-top: 50px;
   height: auto;
   width: 80%;
-  border: black solid 1px;
+  background-color: white;
 `
 
 // Categories

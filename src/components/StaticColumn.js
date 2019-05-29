@@ -7,11 +7,10 @@ import styled from 'styled-components'
 const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
-  /* max-width: auto; */
-  /* width: 50%; */
   float:left;
   transition:width 0.5s ease-in-out;
   min-height:440px;
+  height: 700px;
   padding: 5px;
   display: flex;
   flex-direction: column;`
@@ -53,7 +52,7 @@ class StaticColumn extends Component {
       <Progress value={completedTasks} total={totalTasks} progress='ratio' indicating/>
       <Droppable droppableId={columnId} active={true}>
         {(provided, snapshot) => (
-          <div style={{height: '100%'}} {...provided.droppableProps}
+          <div style={{overflow: 'auto'}} {...provided.droppableProps}
           ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}

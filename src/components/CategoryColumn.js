@@ -10,6 +10,7 @@ const Container = styled.div`
   width: 50%;
   transition:width 0.5s ease-in-out;
   min-height:440px;
+  height: 700px;
   padding: 5px;
   display: flex;
   flex-direction: column;`
@@ -46,7 +47,7 @@ class CategoryColumn extends Component {
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
-          <div style={{minHeight: '500px'}} {...provided.droppableProps}
+          <div style={{height: '100%', overflow: 'auto'}} {...provided.droppableProps}
           ref={provided.innerRef}>
             {this.renderTasks()}
             {provided.placeholder}

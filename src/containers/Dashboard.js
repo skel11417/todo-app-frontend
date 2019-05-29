@@ -37,10 +37,10 @@ class Dashboard extends Component {
 
     return (
       <DashContainer>
-        <Container style={{}}>
+        <Container style={{height: '100%'}}>
         <h1 style={{textAlign: 'center', padding: '10px'}}>{today}</h1>
-          <Grid columns={2}>
-            <Grid.Column>
+          <Grid columns={2} >
+            <Grid.Column style={{height: '600px'}}>
               <SmallTaskPlanner
                 tasks={this.props.tasks}
                 deleteTask={this.props.deleteTask}
