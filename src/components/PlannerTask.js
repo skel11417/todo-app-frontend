@@ -80,7 +80,7 @@ class PlannerTask extends React.Component {
                   checked={task.completed}
                   />
                 </div>
-              <div style={{ fontSize: '1.2rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '5px', width: '85%', padding: '5px', marginLeft: '10px', paddingLeft: '15px', verticalAlign: 'middle'}}>
+              <div style={{ fontSize: '1.3rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '5px', width: '85%', padding: '5px', marginLeft: '10px', paddingLeft: '15px', verticalAlign: 'middle'}}>
                 {task.content}
                 </div>
                   <Popup trigger={<Icon
