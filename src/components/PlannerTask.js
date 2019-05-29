@@ -1,6 +1,7 @@
 import React from 'react'
 import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
+
 import {Checkbox, Icon, Popup, Button} from 'semantic-ui-react'
 
 function colorScheme(category, index){
@@ -27,11 +28,7 @@ const TaskElement = styled.div`
 
 class PlannerTask extends React.Component {
 
-  findTaskById = (taskId) => {
-    return this.props.allTasks.find(task => task.id === taskId)
-  }
-
-  markCompleted = () => {
+  toggleTaskCompleted = () => {
     this.props.updateTask({
       id: this.props.task.id,
       date_completed: new Date(),
@@ -64,15 +61,13 @@ class PlannerTask extends React.Component {
               onContextMenu={this.openPopup}
               >
               <div style={{display:'flexbox'}}>
-
                 <Checkbox
-                  onChange={this.markCompleted}
-                  label={``}
+                  onChange={this.toggleTaskCompleted}
                   style={{margin: '5px',padding: '5px'}}
                   checked={task.completed}
                   />
                 </div>
-              <div style={{ fontSize: '1.2rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '15px', width: '85%', padding: '5px',paddingLeft: '15px', verticalAlign: 'middle'}}>
+              <div style={{ fontSize: '1.2rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '15px', width: '85%', padding: '5px', marginLeft: '10px', paddingLeft: '15px', verticalAlign: 'middle'}}>
 
                 {task.content}
                 </div>

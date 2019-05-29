@@ -8,17 +8,8 @@ const TaskElement = styled.div`
   border: 1px black solid;
   background-color: ${(props)=> props.completed ? 'lightgreen' : 'white'};
 `
-// const Clone = styled(TaskElement)`
-//   + div {
-//     display: none!important;
-//   }
-// `;
 
 class Task extends React.Component {
-
-  findTaskById = (taskId) => {
-    return this.props.allTasks.find(task => task.id === taskId)
-  }
 
   markCompleted = () => {
     this.props.updateTask({

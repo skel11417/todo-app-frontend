@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import moment from 'moment'
 import { Progress } from 'semantic-ui-react'
 import styled from 'styled-components'
+import nlp from 'compromise'
 
 const DashContainer = styled.div`
   margin-left: 5%;
@@ -16,10 +17,11 @@ class Dashboard extends Component {
     const {tasks} = this.props
     const today = moment().format("dddd, MMMM D")
     let yesterday = moment().subtract(1, 'days').startOf('day').format()
-    console.log(yesterday)
     let yesterdayScheduledTasks = tasks.filter(task => moment(task.scheduled_date).format() === yesterday)
 
     let yesterdayCompletedTasks = yesterdayScheduledTasks.filter(task => task.completed === true)
+
+
 
     let yesterdayPercent = (yesterdayCompletedTasks.length / yesterdayScheduledTasks.length * 100)
     let thisMonth = moment().endOf('month').startOf('day').format("MMMM")
@@ -33,8 +35,14 @@ class Dashboard extends Component {
     return <DashContainer>
     <h1>{today}</h1>
 
-    Yesterday you completed {yesterdayCompletedTasks.length} task{yesterdayCompletedTasks.length === 1 ? '' : 's'} out of the {yesterdayScheduledTasks.length} task{yesterdayScheduledTasks.length === 1 ? '' : 's'} you planned.
+    <p>Yesterday you completed {yesterdayCompletedTasks.length} task{yesterdayCompletedTasks.length === 1 ? '' : 's'} out of the {yesterdayScheduledTasks.length} task{yesterdayScheduledTasks.length === 1 ? '' : 's'} you planned.</p>
     <Progress percent={yesterdayPercent} indicating/>
+    <p>{yesterdayCompletedTasks.map(task=> {
+      let content = task.content
+      let doc = nlp('You '+ content)
+      
+      return doc.sentences().toPastTense().out('text') + '. '
+    })}</p>
     <br/>
       You've completed {completedTasks.length} task{completedTasks.length === 1 ? '' : 's'} out of {totalTasks.length} task{completedTasks.length === 1 ? '' : 's'} you planned to work on this month.
       <Progress percent={monthlyPercent} indicating />

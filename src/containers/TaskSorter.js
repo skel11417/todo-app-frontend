@@ -211,7 +211,7 @@ class TaskSorter extends Component {
           ))}
         </Modal.Content>
         <Modal.Actions>
-          <Button color="red" onClick={this.deleteTask}>
+          <Button color="orange" onClick={this.deleteTask}>
           Delete Task
           </Button>
           <Button onClick={this.closeModal}>

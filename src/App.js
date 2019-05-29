@@ -91,9 +91,9 @@ class App extends Component{
     }
 
     fetch(URL, options)
-    .then(resp => resp.json())
-    .then(tasks => this.setState({tasks: tasks})
-  )
+      .then(resp => resp.json())
+      .then(tasks => this.setState({tasks: tasks})
+    )
   }
 
   render(){
@@ -104,7 +104,8 @@ class App extends Component{
 
           <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
 
-          <Route exact path="/planner" render={() =>    <FullTaskPlanner tasks={this.state.tasks} deleteTask={this.deleteTask}
+          <Route exact path="/planner" render={() =>    <FullTaskPlanner tasks={this.state.tasks}
+          deleteTask={this.deleteTask}
           updateTask={this.updateTask}
           updateTimeIndexes={this.updateTimeIndexes}/>}
           />

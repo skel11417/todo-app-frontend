@@ -32,7 +32,7 @@ class BrainStorm extends Component {
   }
 
   handleSubmit = () =>{
-    const input = this.state.input
+    const {input} = this.state
     if (input !== ''){
       const newTasks = input.split(/\n|,/)
       newTasks.forEach((task, index) => {
@@ -64,7 +64,13 @@ class BrainStorm extends Component {
         </Form>
         <Grid centered columns={3}>
           <Grid.Column>
-            <Button onClick={this.handleSubmit} size='large'>Create Tasks</Button>
+            <Button
+              onClick={this.handleSubmit}
+              style={{margin: '5px'}}
+              size='large'
+              >
+              Create Tasks
+            </Button>
           </Grid.Column>
         </Grid>
       </Container>

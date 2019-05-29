@@ -80,10 +80,19 @@ class TaskPlanner extends React.Component {
       // optimistically render state of front end
       const newTaskColumns = {...this.state.columns}
 
+      // this is just something for demo purposes
+      if (newTimeframeId === 'Today' && this.state.columns['Today'].length > 2) {
+        console.log(this.state.timeframes['Today'])
+        let content = newTaskColumns[oldTimeframeId][oldIndex].content
+        alert(`Are you sure you want to ${content}? You've already added 3 tasks`)
+      }
+
       const destColumn = newTaskColumns[newTimeframeId]
       const updatedTask = newTaskColumns[oldTimeframeId]
                             .splice(oldIndex, 1)[0]
+
       updatedTask.timeframe_index = newIndex
+
 
       switch (newTimeframeId) {
         case 'Today':
