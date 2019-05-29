@@ -49,11 +49,11 @@ class Dashboard extends Component {
               />
           </Grid.Column>
           <Grid.Column>
-            <Segment>
+            <Segment style={{backgroundColor: '#f7f7f7'}}>
               <h1>{this.state.quoteOfDay.quote}</h1>
               <p>-- {this.state.quoteOfDay.author}</p>
             </Segment>
-            <Segment>
+            <Segment style={{backgroundColor: '#f7f7f7'}}>
               <Stats tasks={this.props.tasks}/>
             </Segment>
 

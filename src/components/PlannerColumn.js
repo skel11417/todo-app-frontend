@@ -10,13 +10,14 @@ const Container = styled.div`
   width: 50%;
   transition:width 0.5s ease-in-out;
   width: ${props => props.active ? '45%' : '5%'};
-  min-height:300px;
+  /* min-height:300px; */
   padding: 5px;
   display: flex;
   flex-direction: column;`
 
 const ColumnTitle = styled.button`
   font-size: 1.5em;
+  padding: 5px;
 `
 
 class PlannerColumn extends Component {

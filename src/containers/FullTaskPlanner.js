@@ -9,9 +9,8 @@ const Container = styled.div`
   display: flex;
   margin: auto;
   width: 75%;
-  /* min-height: 500px; */
-  height: 640px;
-  background-color: white;
+  height: 700px;
+  background-color: #f7f7f7;
 `
 const columnIds = ['Today', 'Week', 'Month', 'All']
 
@@ -314,7 +313,7 @@ class TaskPlanner extends React.Component {
         content="Next month"/>
         </div>
         <Container className="TaskPlanner">
-          <DragDropContext id="id"
+          <DragDropContext
           onDragEnd={this.onDragEnd}
           >
             {columnIds.map((columnId, index) =>(

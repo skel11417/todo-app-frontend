@@ -5,7 +5,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 function colorScheme(category, index){
-  const opacity = 0.9 - (index/15)
+  const opacity = 1 - (index/15)
   const colors = {
     'A': `rgba(250, 88, 88, ${opacity})`,
     'B': `rgb(128, 0, 128, ${opacity})`,

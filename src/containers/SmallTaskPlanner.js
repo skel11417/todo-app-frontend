@@ -10,7 +10,7 @@ const Container = styled.div`
   margin: auto;
   width: 100%;
   min-height: 800px;
-  background-color: white;
+  background-color: #f7f7f7;
 `
 const columnIds = ['Today']
 
