@@ -3,11 +3,22 @@ import {Draggable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import {Checkbox, Icon} from 'semantic-ui-react'
 
+function colorScheme(category, index){
+  const opacity = 0.8 - (index/20)
+  const colors = {
+    'A': `rgba(220, 88, 88, ${opacity})`,
+    'B': `rgb(128, 0, 128, ${opacity})`,
+    'C': `rgba(47, 21, 212, ${opacity})`
+  }
+  return colors[category]
+}
+
 const TaskElement = styled.div`
   height: 40px;
   border: 1px black solid;
-  background-color: ${(props)=> props.completed ? 'lightgreen' : 'white'};
+  background-color: ${(props)=> props.completed ? 'lightgreen' : colorScheme(props.category, props.index)};
   transition:opacity 0.2s ease;
+
   opacity: ${(props) => props.activeColumn ? '1' : '0'}
 `
 
@@ -50,17 +61,17 @@ class PlannerTask extends React.Component {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
               completed={task.completed}
+              category={task.category}
+              index={index}
               activeColumn={active}
               onClick={this.props.onClickTask}
               onDoubleClick={this.addTaskToDay}
               >
-              <div>
               <Checkbox
                 onChange={this.markCompleted}
-                label={`${task.timeframe_index}-${this.props.index}-${task.content} ${task.scheduled_date}`}
+                label={`${task.content}`}
                 checked={task.completed}
                 />
-              </div>
               <Icon
                 onClick={this.deleteTask}
                 name="remove"

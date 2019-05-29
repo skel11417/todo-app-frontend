@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
 import CategoryColumn from '../components/CategoryColumn'
-import {Modal, Button, Transition} from 'semantic-ui-react'
+import {Modal, Button, Icon, Transition} from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CategoriesContainer = styled.div`
@@ -39,14 +39,17 @@ class TaskSorter extends Component {
         })
       } else {
         this.setState({
-          open: false,
-          taskCategories: {
-            'A': this.filterTasks('A'),
-            'B': this.filterTasks('B'),
-            'C': this.filterTasks('C'),
+          open: false
           }
-        })
+        )
       }
+      this.setState({
+        taskCategories: {
+          'A': this.filterTasks('A'),
+          'B': this.filterTasks('B'),
+          'C': this.filterTasks('C')
+        }
+      })
     }
   }
 
@@ -182,7 +185,12 @@ class TaskSorter extends Component {
         size='tiny'
         dimmer='blurring'
       >
-        <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}</Modal.Header>
+        <Modal.Header>{this.state.currentTask ? this.state.currentTask.content : "loading"}
+        <Icon
+          onClick={this.deleteTask}
+          name="remove"
+          />
+          </Modal.Header>
         <Modal.Content>
           <p>What kind of task is this?</p>
           {categories.map(category=>(
