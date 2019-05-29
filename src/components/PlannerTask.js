@@ -79,6 +79,7 @@ class PlannerTask extends React.Component {
                   name='remove'/>}
                   content={<Button color='red' content='Delete?' />}
                   on='click'
+                  onClick={this.deleteTask}
                   position='top right'
                   />
             </TaskElement>
