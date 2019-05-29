@@ -42,14 +42,6 @@ class PlannerTask extends React.Component {
     this.props.deleteTask(this.props.task.id)
   }
 
-  addTaskToDay = () => {
-    console.log('dont delete this yet')
-    this.props.updateTask({
-      id: this.props.task.id,
-      scheduled_date: new Date()
-    })
-  }
-
   render(){
     const {task, columnId, index, active} = this.props
     return (

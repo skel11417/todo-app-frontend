@@ -32,13 +32,6 @@ class Task extends React.Component {
     this.props.deleteTask(this.props.task.id)
   }
 
-  addTaskToDay = () => {
-    // this.props.updateTask({
-    //   id: this.props.task.id,
-    //   scheduled_date: new Date()
-    // })
-  }
-
   render(){
     const {task, columnId, index} = this.props
     return (
