@@ -33,10 +33,10 @@ class Task extends React.Component {
   }
 
   addTaskToDay = () => {
-    this.props.updateTask({
-      id: this.props.task.id,
-      scheduled_date: new Date()
-    })
+    // this.props.updateTask({
+    //   id: this.props.task.id,
+    //   scheduled_date: new Date()
+    // })
   }
 
   render(){

@@ -29,7 +29,6 @@ class CategoryColumn extends Component {
           task={task}
           columnId={columnId}
           index={index}
-          onClickTask={()=>this.props.openModal(task.id)}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           />

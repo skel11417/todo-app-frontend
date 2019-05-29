@@ -236,7 +236,6 @@ class TaskSorter extends Component {
               columnTasks={this.state.taskCategories[category]}
               updateTask={this.props.updateTask}
               deleteTask={this.props.deleteTask}
-              openModal={this.openModal}
             />
           ))}
         </CategoriesContainer>
