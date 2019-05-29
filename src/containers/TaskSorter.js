@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
 import CategoryColumn from '../components/CategoryColumn'
-import {Modal, Button, Icon, Transition} from 'semantic-ui-react'
+import {Modal, Button, Transition} from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const CategoriesContainer = styled.div`

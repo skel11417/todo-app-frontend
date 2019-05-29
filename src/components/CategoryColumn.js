@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Task from '../components/Task'
+import PlannerTask from '../components/PlannerTask'
 import {Droppable} from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
@@ -24,11 +24,12 @@ class CategoryColumn extends Component {
     const {columnTasks, columnId} = this.props
     return (
       columnTasks.map((task, index)=> {
-        return <Task
+        return <PlannerTask
           key={`${columnId}-${task.id}`}
           task={task}
           columnId={columnId}
           index={index}
+          active={true}
           deleteTask={this.props.deleteTask}
           updateTask={this.props.updateTask}
           />

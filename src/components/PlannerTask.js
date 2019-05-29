@@ -16,6 +16,7 @@ function colorScheme(category, index){
 const TaskElement = styled.div`
   height: 60px;
   border: 1px black solid;
+  margin: 4px;
   background-color: ${(props)=> props.completed ? 'lightgreen' : colorScheme(props.category, props.index)};
   transition:opacity 0.2s ease;
   display: flexbox;
@@ -82,14 +83,12 @@ class PlannerTask extends React.Component {
 
                 {task.content}
                 </div>
-
                   <Popup trigger={<Icon
                   name='remove'/>}
                   content={<Button color='red' content='Delete?' />}
                   on='click'
                   position='top right'
                   />
-
             </TaskElement>
         )}
     </Draggable>
