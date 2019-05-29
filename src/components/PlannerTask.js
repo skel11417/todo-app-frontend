@@ -7,7 +7,7 @@ import {Checkbox, Icon, Popup, Button} from 'semantic-ui-react'
 function colorScheme(category, index){
   const opacity = 0.8 - (index/20)
   const colors = {
-    'A': `rgba(220, 88, 88, ${opacity})`,
+    'A': `rgba(250, 88, 88, ${opacity})`,
     'B': `rgb(128, 0, 128, ${opacity})`,
     'C': `rgba(47, 21, 212, ${opacity})`
   }
@@ -67,7 +67,7 @@ class PlannerTask extends React.Component {
                   checked={task.completed}
                   />
                 </div>
-              <div style={{ fontSize: '1.2rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '15px', width: '85%', padding: '5px', marginLeft: '10px', paddingLeft: '15px', verticalAlign: 'middle'}}>
+              <div style={{ fontSize: '1.2rem',flexWrap: 'nowrap', backgroundColor: 'white', borderRadius: '5px', width: '85%', padding: '5px', marginLeft: '10px', paddingLeft: '15px', verticalAlign: 'middle'}}>
 
                 {task.content}
                 </div>

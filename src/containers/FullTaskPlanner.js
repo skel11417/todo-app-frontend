@@ -27,7 +27,6 @@ class TaskPlanner extends React.Component {
                         .endOf('month')
                         .startOf('day')
                         .format()
-
     this.state = {
       timeframes: {
         'Today': today,
@@ -84,7 +83,7 @@ class TaskPlanner extends React.Component {
       if (newTimeframeId === 'Today' && this.state.columns['Today'].length > 2) {
         console.log(this.state.timeframes['Today'])
         let content = newTaskColumns[oldTimeframeId][oldIndex].content
-        alert(`Are you sure you want to ${content}? You've already added 3 tasks`)
+        alert(`Are you sure you want to ${content} today? You've already added ${this.state.columns['Today'].length} tasks`)
       }
 
       const destColumn = newTaskColumns[newTimeframeId]
