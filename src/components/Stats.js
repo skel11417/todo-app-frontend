@@ -37,11 +37,6 @@ class Stats extends Component {
         <br/>
         You've completed {completedTasks.length} task{completedTasks.length === 1 ? '' : 's'} out of {totalTasks.length} task{completedTasks.length === 1 ? '' : 's'} you planned to work on this month.
         <Progress percent={monthlyPercent} indicating />
-        <br/>
-        You have {`${uncompletedTasks.length} remaining task${uncompletedTasks.length === 1 ? '': 's'}:`}
-        <ol>
-        {uncompletedTasks.map(task => (<li key={task.id}>{task.content}</li>))}
-        </ol>
       </Container>
 
     )
