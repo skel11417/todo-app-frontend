@@ -169,11 +169,9 @@ class TaskPlanner extends React.Component {
     if (this.props.tasks.length > 0){
       let newColumns = this.filterTasks()
 
-      // open the accordion to the first page that has tasks available
-      let columnId = Object.keys(newColumns).find(column =>
-        column.length > 0
-      )
-      this.toggleVisibleColumns(columnId)
+      if (newColumns["Today"].length === 0 && newColumns["Week"].length === 0 && newColumns["Month"].length === 0){
+        this.toggleVisibleColumns("All")
+      }
 
       this.setState({
         columns: newColumns
