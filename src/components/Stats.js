@@ -12,7 +12,6 @@ class Stats extends Component {
 
     let yesterday = moment().subtract(1, 'days').startOf('day').format()
     let yesterdayScheduledTasks = tasks.filter(task => moment(task.scheduled_date).startOf('day').format() === yesterday)
-    // tasks.forEach(task => console.log(task.content, task.scheduled_date))
 
     let yesterdayCompletedTasks = yesterdayScheduledTasks.filter(task => task.completed === true)
 
@@ -20,7 +19,6 @@ class Stats extends Component {
     let thisMonth = moment().endOf('month').startOf('day').format("MMMM")
     let finalWeek = moment().endOf('month').endOf('week').startOf('day').format()
     let totalTasks = tasks.filter(task => moment(task.scheduled_date).format("MMMM") === thisMonth || moment(task.scheduled_date).format() === finalWeek)
-    let uncompletedTasks = tasks.filter(task => task.completed === false)
     let completedTasks = totalTasks.filter(task => task.completed === true)
 
     let monthlyPercent = (completedTasks.length / totalTasks.length * 100)

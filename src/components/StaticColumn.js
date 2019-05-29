@@ -40,7 +40,7 @@ class StaticColumn extends Component {
   }
 
   render(){
-    const {columnId, columnName, columnTasks} = this.props
+    const {columnId, columnTasks} = this.props
     const totalTasks = columnTasks.length
     const completedTasks = columnTasks.filter(task => task.completed === true).length
 

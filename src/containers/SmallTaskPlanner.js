@@ -12,7 +12,6 @@ const Container = styled.div`
   min-height: 800px;
   background-color: #f7f7f7;
 `
-const columnIds = ['Today']
 
 class SmallTaskPlanner extends React.Component {
   constructor(){
@@ -28,10 +27,10 @@ class SmallTaskPlanner extends React.Component {
   }
 
   // logs the intended movement in the console
-  log = (result) => {
-    const {destination, source, draggableId} = result
-    console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
-  }
+  // log = (result) => {
+  //   const {destination, source, draggableId} = result
+  //   console.log('moving task', draggableId, 'from', source.droppableId, 'index', source.index, "to", destination.droppableId, 'index', destination.index )
+  // }
 
   onDragEnd = (result) =>{
     const {destination, source} = result
@@ -45,7 +44,7 @@ class SmallTaskPlanner extends React.Component {
     if (destination.droppableId === source.droppableId && destination.index === source.index){
       return null
     }
-    this.log(result)
+    // this.log(result)
 
     // change scheduled timeframe of task
     // if (destination.droppableId !== source.droppableId){
@@ -188,7 +187,6 @@ class SmallTaskPlanner extends React.Component {
   }
 
   renderColumn = () => {
-    let today = moment()
     const columnId = "Today"
     const columnName = moment().format('dddd')
     if (this.props.tasks.length > 0){

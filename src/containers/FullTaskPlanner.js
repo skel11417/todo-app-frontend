@@ -1,7 +1,7 @@
 import React from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
 import PlannerColumn from '../components/PlannerColumn'
-import {Button} from 'semantic-ui-react'
+// import {Button} from 'semantic-ui-react'
 import moment from 'moment'
 import styled from 'styled-components'
 
@@ -306,11 +306,11 @@ class TaskPlanner extends React.Component {
         <h1 style={{textAlign: 'center', padding: '10px'}}>
           Daily Planner
         </h1>
-        <Button onClick={()=>alert("you can't go back")}
+      {/*  <Button onClick={()=>alert("you can't go back")}
         content="Previous month"/>
-        Change month here
+          Change month here
         <Button onClick={this.setNextMonth}
-        content="Next month"/>
+        content="Next month"/> */}
         </div>
         <Container className="TaskPlanner">
           <DragDropContext

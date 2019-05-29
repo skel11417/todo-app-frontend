@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import SmallTaskPlanner from './SmallTaskPlanner'
 import {Container, Grid, Segment} from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+// import {Link} from 'react-router-dom'
 import Stats from '../components/Stats'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -58,8 +58,8 @@ class Dashboard extends Component {
             </Segment>
 
           <Segment>
-            <img width='30%' src={process.env.PUBLIC_URL + '/Caro.png'} />
-            <img width='50px' src={process.env.PUBLIC_URL + 'speech-bubble-png-4214.png'} />
+            <img width='30%' alt='Caro the crashtest kitten' src={process.env.PUBLIC_URL + '/Caro.png'} />
+            <img width='50px' alt='speech bubble' src={process.env.PUBLIC_URL + 'speech-bubble-png-4214.png'} />
           </Segment>
 
           </Grid.Column>
