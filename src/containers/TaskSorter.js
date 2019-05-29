@@ -148,8 +148,9 @@ class TaskSorter extends Component {
     }
   }
 
+  // filter completed tasks and order them by category_index
   filterTasks = (category) => {
-    return this.props.tasks.filter(task => task.category === category).sort((a, b) => a.category_index - b.category_index)
+    return this.props.tasks.filter(task => task.category === category && task.completed === false).sort((a, b) => a.category_index - b.category_index)
   }
 
   openModal = (taskId) => {
