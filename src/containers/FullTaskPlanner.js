@@ -11,7 +11,6 @@ const Container = styled.div`
   width: 75%;
   min-height: 800px;
   background-color: white;
-  border: black solid 1px;
 `
 const columnIds = ['Today', 'Week', 'Month', 'All']
 
@@ -168,10 +167,18 @@ class TaskPlanner extends React.Component {
 
   loadTasks =() =>{
     if (this.props.tasks.length > 0){
-      let newColumns= this.filterTasks()
+      let newColumns = this.filterTasks()
+
+      // open the accordion to the first page that has tasks available
+      let columnId = Object.keys(newColumns).find(column =>
+        column.length > 0
+      )
+      this.toggleVisibleColumns(columnId)
+
       this.setState({
         columns: newColumns
       })
+
     }
   }
 
@@ -195,11 +202,11 @@ class TaskPlanner extends React.Component {
           i--
         }
       }
-      // place completed tasks at the top of Today's task list
+
+      // place completed tasks at the bottom of Today's task list
       if (timeframe === 'Today') {
         for (let i = 0; i < taskPool.length; i++){
           if (taskPool[i].completed === true && moment(taskPool[i].date_completed).startOf('day').format() === this.state.timeframes[timeframe]){
-            console.log(taskPool[i].scheduled_date)
             filteredColumns[timeframe].unshift(taskPool.splice(i, 1)[0])
             i--
           }
@@ -229,7 +236,7 @@ class TaskPlanner extends React.Component {
       task.timeframe_index = index
       }
     )
-    filteredColumns["Today"].forEach(task => console.log(task.content, moment(task.date_completed).startOf('day').format()))
+
     return filteredColumns
   }
 

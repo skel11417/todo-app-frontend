@@ -68,7 +68,7 @@ class App extends Component{
     )
   }
 
-  updateTask = (taskData)=>{
+  updateTask = (taskData) => {
     const URL = `http://localhost:3000/tasks/${taskData.id}`
     const options = {
       method: "PATCH",
@@ -102,9 +102,14 @@ class App extends Component{
         <Route render={(props)=><Nav {...props}/>} />
         <div className="Main">
 
-          <Route exact path="/" render={() => <Dashboard tasks={this.state.tasks}/> } />
+          <Route exact path="/" render={() => <Dashboard
+          tasks={this.state.tasks}
+          deleteTask={this.deleteTask}
+          updateTask={this.updateTask}
+          updateTimeIndexes={this.updateTimeIndexes}
+          /> } />
 
-          <Route exact path="/planner" render={() =>    <FullTaskPlanner tasks={this.state.tasks}
+          <Route exact path="/planner" render={() => <FullTaskPlanner tasks={this.state.tasks}
           deleteTask={this.deleteTask}
           updateTask={this.updateTask}
           updateTimeIndexes={this.updateTimeIndexes}/>}
