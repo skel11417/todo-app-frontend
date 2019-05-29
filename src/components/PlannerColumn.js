@@ -39,11 +39,11 @@ class PlannerColumn extends Component {
   }
 
   render(){
-    const {active, columnId, onClickButton} = this.props
+    const {active, columnId, onClickButton, columnName} = this.props
     return(
     <Container active={active}>
       <ColumnTitle onClick={()=>onClickButton(columnId)}>
-        {active ? columnId : columnId[0]}
+        {active ? columnName : columnId[0]}
       </ColumnTitle>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (

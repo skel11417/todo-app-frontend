@@ -1,6 +1,7 @@
 import React from 'react';
 import { DragDropContext} from "react-beautiful-dnd";
 import PlannerColumn from '../components/PlannerColumn'
+import {Button} from 'semantic-ui-react'
 import moment from 'moment'
 import styled from 'styled-components'
 
@@ -8,6 +9,7 @@ const Container = styled.div`
   display: flex;
   margin: auto;
   width: 75%;
+  min-height: 800px;
   background-color: white;
   border: black solid 1px;
 `
@@ -174,7 +176,9 @@ class TaskPlanner extends React.Component {
       'Month': [],
       'All': []
     }
+
     let timeframes = ['Today', 'Week', 'Month']
+
     timeframes.forEach(timeframe=> {
       for (let i = 0; i < taskPool.length; i++){
         let scheduledDate = moment(taskPool[i].scheduled_date)
@@ -237,11 +241,36 @@ class TaskPlanner extends React.Component {
     }
   }
 
-  render(){
+  setNextMonth = () => {
+    let newTimeframes = {...this.state.timeframes}
+    newTimeframes["Month"] = moment().add(1, 'months').endOf('month').startOf('day')
+    .format()
+    newTimeframes["Week"] = moment().add(1, 'weeks').endOf('week').startOf('day').format()
+    this.toggleVisibleColumns("All")
+    this.setState({
+      timeframes: newTimeframes
+    })
+  }
 
+  render(){
+    let today = this.state.timeframes.today
+    let week = this.state.timeframes.Week
+    let month = this.state.timeframes.Month
+    const columnNames = {
+      "Today": moment(today).format('dddd'),
+      "Week": `${moment(week).startOf('week').format("MMM D")}-${moment(week).endOf('week').format("MMM D")}`,
+      "Month": moment(month).format('MMMM'),
+      "All": "All Tasks"
+    }
     return (
       <div>
-        <div>Change month here</div>
+        <div style={{height: '80px', width: '75%', margin: 'auto'}}>
+        <Button onClick={()=>alert("you can't go back")}
+        content="Previous month"/>
+        Change month here
+        <Button onClick={this.setNextMonth}
+        content="Next month"/>
+        </div>
         <Container className="TaskPlanner">
           <DragDropContext id="id"
           onDragEnd={this.onDragEnd}
@@ -252,6 +281,7 @@ class TaskPlanner extends React.Component {
                 index={index}
                 active={this.state.activeColumns[columnId]}
                 columnId={columnId}
+                columnName={columnNames[columnId]}
                 updateTask={this.props.updateTask}
                 deleteTask={this.props.deleteTask}
                 columnTasks={this.state.columns[columnId]}
