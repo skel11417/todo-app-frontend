@@ -155,8 +155,11 @@ class TaskPlanner extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps, prevState){
     if (prevProps.tasks !== this.props.tasks){
+      this.loadTasks()
+    }
+    if (prevState.timeframes !== this.state.timeframes){
       this.loadTasks()
     }
   }
@@ -273,15 +276,36 @@ class TaskPlanner extends React.Component {
 
   setNextMonth = () => {
     let newTimeframes = {...this.state.timeframes}
-
-    newTimeframes["Month"] = moment().add(1, 'months').endOf('month').startOf('day')
+    let currentMonth = this.state.timeframes["Month"]
+    newTimeframes["Month"] = moment(currentMonth).add(1, 'months').endOf('month').startOf('day')
     .format()
-
-    newTimeframes["Week"] = moment().add(1, 'weeks').endOf('week').startOf('day').format()
-
+    newTimeframes["Week"] = moment(currentMonth).add(1, 'weeks').endOf('week').startOf('day').format()
     this.toggleVisibleColumns("All")
     this.setState({
       timeframes: newTimeframes
+    })
+
+    let newColumns = this.filterTasks()
+
+    this.setState({
+      columns: newColumns
+    })
+  }
+  setPrevMonth = () => {
+    let newTimeframes = {...this.state.timeframes}
+    let currentMonth = this.state.timeframes["Month"]
+    newTimeframes["Month"] = moment(currentMonth).subtract(1, 'months').endOf('month').startOf('day')
+    .format()
+    newTimeframes["Week"] = moment(currentMonth).subtract(2, 'months').endOf('week').startOf('day').format()
+    this.toggleVisibleColumns("All")
+    this.setState({
+      timeframes: newTimeframes
+    })
+
+    let newColumns = this.filterTasks()
+
+    this.setState({
+      columns: newColumns
     })
   }
 
@@ -289,6 +313,15 @@ class TaskPlanner extends React.Component {
     let today = this.state.timeframes.today
     let week = this.state.timeframes.Week
     let month = this.state.timeframes.Month
+
+    const hidePrevButton = () => {
+      if (month === moment().endOf('month').startOf('day').format()){
+        return {display: 'none'}
+      } else {
+        return null
+      }
+    }
+
     const columnNames = {
       "Today": moment(today).format('dddd'),
       "Week": `${moment(week).startOf('week').format("MMM D")}-${moment(week).endOf('week').format("MMM D")}`,
@@ -298,20 +331,20 @@ class TaskPlanner extends React.Component {
     return (
       <div>
         <div style={{padding: '5px', width: '75%', margin: 'auto'}}>
-        <Grid columns={3} divided>
-        <Grid.Row textAlign='center'>
-        <Grid.Column>
-          <Button button='small' onClick={()=>alert("you can't go back")}
-        content="Previous month"/>
-        </Grid.Column>
-        <Grid.Column>
-          <h1>Daily Planner</h1>
-        </Grid.Column>
-        <Grid.Column float right>
-        <Button onClick={this.setNextMonth}
-        content="Next month"/>
-        </Grid.Column>
-        </Grid.Row>
+        <Grid columns={3}>
+          <Grid.Row textAlign='center'>
+            <Grid.Column>
+              <Button style={hidePrevButton()} button='small' onClick={this.setPrevMonth}
+            content="Previous month"/>
+            </Grid.Column>
+            <Grid.Column>
+              <h1>Daily Planner</h1>
+            </Grid.Column>
+            <Grid.Column>
+            <Button onClick={this.setNextMonth}
+            content="Next month"/>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
         </div>
         <Container className="TaskPlanner">
