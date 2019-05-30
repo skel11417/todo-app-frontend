@@ -45,6 +45,7 @@ class Dashboard extends Component {
         <Container style={{height: '100%'}}>
         <h1 style={{textAlign: 'center', padding: '10px'}}>{today}</h1>
           <Grid columns={2} >
+          <Grid.Row>
             <Grid.Column style={{height: '600px'}}>
               <SmallTaskPlanner
                 tasks={this.props.tasks}
@@ -70,6 +71,7 @@ class Dashboard extends Component {
             </Segment>
 
           </Grid.Column>
+          </Grid.Row>
         </Grid>
         </Container>
     </DashContainer>

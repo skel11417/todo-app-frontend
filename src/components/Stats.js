@@ -30,8 +30,7 @@ class Stats extends Component {
         <p>Yesterday you completed {yesterdayCompletedTasks.length} task{yesterdayCompletedTasks.length === 1 ? '' : 's'} out of the {yesterdayScheduledTasks.length} task{yesterdayScheduledTasks.length === 1 ? '' : 's'} you planned.</p>
         <Progress percent={yesterdayPercent} indicating/>
         <p>{yesterdayCompletedTasks.map(task=> {
-          let content = task.content
-          let doc = nlp('You '+ content)
+          let doc = nlp('You '+ task.content)
           return doc.sentences().toPastTense().out('text') + '. '
         })}</p>
         <br/>

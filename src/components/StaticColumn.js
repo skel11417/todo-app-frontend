@@ -7,10 +7,10 @@ import styled from 'styled-components'
 const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
-  float:left;
   transition:width 0.5s ease-in-out;
   min-height:440px;
   height: 700px;
+  width: 100%;
   padding: 5px;
   display: flex;
   flex-direction: column;`
