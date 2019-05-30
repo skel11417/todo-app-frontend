@@ -69,7 +69,6 @@ class Dashboard extends Component {
               <h2>{this.state.quoteOfDay.quote}</h2>
               <p>-- {this.state.quoteOfDay.author}</p>
             </Segment>
-
           </Grid.Column>
           </Grid.Row>
         </Grid>

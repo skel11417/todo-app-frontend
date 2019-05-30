@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import PlannerTask from '../components/PlannerTask'
 import {Droppable} from 'react-beautiful-dnd'
-import { Progress } from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
+import moment from 'moment'
+import { Progress, Button, Grid } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -11,13 +13,21 @@ const Container = styled.div`
   min-height:440px;
   height: 700px;
   width: 100%;
-  padding: 5px;
+  padding: 10px;
   display: flex;
   flex-direction: column;`
 
-const ColumnTitle = styled.h1`
+const ColumnTitle = styled.div`
+  font-size: 1.8em;
+  text-align: center;
+  width: auto;
+  padding: 5px
+  display: flex;
+`
+const ColumnHeader = styled.div`
   font-size: 1.5em;
   text-align: center;
+  flex-direction: column
 `
 
 class StaticColumn extends Component {
@@ -41,14 +51,39 @@ class StaticColumn extends Component {
 
   render(){
     const {columnId, columnTasks} = this.props
+    const today = moment().format()
     const totalTasks = columnTasks.length
     const completedTasks = columnTasks.filter(task => task.completed === true).length
 
+    const showTaskPlannerLink = () => {
+      if (columnTasks.find(task=> moment(task.scheduledDate).startOf('day').format() === today)){
+        return {display: 'none'}
+      } else {
+        return null
+      }
+    }
+
     return(
-    <Container >
-      <ColumnTitle>
-      Today's Tasks
-      </ColumnTitle>
+    <Container>
+      <Grid columns={3} >
+        <Grid.Row>
+        <Grid.Column/>
+        <Grid.Column>
+          <ColumnTitle>
+          Today's Tasks
+          </ColumnTitle>
+        </Grid.Column>
+          <Grid.Column textAlign='right'>
+          <Link to="/planner" >
+            <Button
+              color='green'
+              content='Go to Task Planner'
+              style={showTaskPlannerLink()}
+              />
+          </Link>
+        </Grid.Column>
+        </Grid.Row>
+      </Grid>
       <Progress value={completedTasks} total={totalTasks} progress='ratio' indicating/>
       <Droppable droppableId={columnId} active={true}>
         {(provided, snapshot) => (

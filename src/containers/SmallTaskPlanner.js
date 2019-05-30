@@ -108,7 +108,6 @@ class SmallTaskPlanner extends React.Component {
   renderColumn = () => {
     const columnId = "Today"
     const columnName = moment().format('dddd')
-    if (this.props.tasks.length > 0){
       return<StaticColumn
             key={columnId}
             index={0}
@@ -119,16 +118,13 @@ class SmallTaskPlanner extends React.Component {
             deleteTask={this.props.deleteTask}
             updateTask={this.props.updateTask}
           />
-    } else {
-      return null
-    }
   }
 
   render(){
     return (
       <Container className="SmallTaskPlanner">
         <DragDropContext id="id"
-        onDragEnd={this.onDragEnd}
+          onDragEnd={this.onDragEnd}
         >
         {this.renderColumn()}
         </DragDropContext>
