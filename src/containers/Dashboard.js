@@ -32,9 +32,14 @@ class Dashboard extends Component {
       })
   }
 
+  componentDidUpdate(prevProps){
+    if (prevProps.tasks !== this.props.tasks){
+      console.log("Let's get started with tasks")
+    }
+  }
+
   render(){
     const today = moment().format("dddd, MMMM D")
-
     return (
       <DashContainer>
         <Container style={{height: '100%'}}>
@@ -49,17 +54,21 @@ class Dashboard extends Component {
               />
           </Grid.Column>
           <Grid.Column>
-            <Segment style={{backgroundColor: '#f7f7f7'}}>
-              <h1>{this.state.quoteOfDay.quote}</h1>
-              <p>-- {this.state.quoteOfDay.author}</p>
+            <Segment>
+              <img width='155px' alt='Caro the crashtest kitten' src={process.env.PUBLIC_URL + '/Caro.png'} />
+              <div id="bubble" style={{position: 'relative', top: '-88px', left: '280px', float: 'left'}}>
+                <img width='200px' alt='speech bubble' src={process.env.PUBLIC_URL + 'speech-bubble.png'} />
+                <div style={{height: '110px', width: '151px', position: 'absolute', textAlign:'center', fontSize:'1.6em', fontFamily:'comic-sans', top:'26px', left: '23px', padding: '5px'}}>{this.state.caroSpeech}</div>
+              </div>
             </Segment>
             <Segment style={{backgroundColor: '#f7f7f7'}}>
               <Stats tasks={this.props.tasks}/>
             </Segment>
-          <Segment>
-            <img width='30%' alt='Caro the crashtest kitten' src={process.env.PUBLIC_URL + '/Caro.png'} />
-            <img width='50px' alt='speech bubble' src={process.env.PUBLIC_URL + 'speech-bubble-png-4214.png'} />
-          </Segment>
+            <Segment style={{backgroundColor: '#f7f7f7'}}>
+              <h2>{this.state.quoteOfDay.quote}</h2>
+              <p>-- {this.state.quoteOfDay.author}</p>
+            </Segment>
+
           </Grid.Column>
         </Grid>
         </Container>

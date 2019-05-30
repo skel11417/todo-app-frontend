@@ -9,7 +9,6 @@ const Container = styled.div`
   float: left;
   margin: auto;
   width: 100%;
-  min-height: 800px;
   background-color: #f7f7f7;
 `
 

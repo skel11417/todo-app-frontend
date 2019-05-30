@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import moment from 'moment'
 import nlp from 'compromise'
 
-const Container = styled.div``
+const Container = styled.div`
+  font-size: 1.2em;
+`
 
 class Stats extends Component {
   render(){

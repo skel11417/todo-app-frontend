@@ -25,16 +25,11 @@ class Nav extends Component {
   render() {
     const activeItem = this.getPathname()
     return (
-      <div style={{backgroundColor: '#8B889F'}}>
+      <div style={{backgroundColor: '#b1b5be'}}>
         <Menu pointing secondary style={{paddingTop: "25px"}}>
           <Menu.Item
           name="home" active={activeItem === 'home'}
           as={Link} exact='true' to="/"
-          onClick={this.handleClick}
-          />
-          <Menu.Item
-          name="/planner" active={activeItem === '/planner'}
-          as={Link} exact='true' to="/planner"
           onClick={this.handleClick}
           />
           <Menu.Item
@@ -45,6 +40,11 @@ class Nav extends Component {
           <Menu.Item
           name="/sorter" active={activeItem === "/sorter"}
           as={Link} exact='true' to="/sorter"
+          onClick={this.handleClick}
+          />
+          <Menu.Item
+          name="/planner" active={activeItem === '/planner'}
+          as={Link} exact='true' to="/planner"
           onClick={this.handleClick}
           />
         <Menu.Menu position='right'>
