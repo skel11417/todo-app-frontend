@@ -66,7 +66,7 @@ class Dashboard extends Component {
               <Stats tasks={this.props.tasks}/>
             </Segment>
             <Segment style={{backgroundColor: '#f7f7f7'}}>
-              <h2>{this.state.quoteOfDay.quote}</h2>
+              <h1>{this.state.quoteOfDay.quote}</h1>
               <p>-- {this.state.quoteOfDay.author}</p>
             </Segment>
           </Grid.Column>

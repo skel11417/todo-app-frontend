@@ -5,7 +5,7 @@ import moment from 'moment'
 import nlp from 'compromise'
 
 const Container = styled.div`
-  font-size: 1.2em;
+  font-size: 1.4em;
 `
 
 class Stats extends Component {
@@ -30,11 +30,12 @@ class Stats extends Component {
         <p>Yesterday you completed {yesterdayCompletedTasks.length} task{yesterdayCompletedTasks.length === 1 ? '' : 's'} out of the {yesterdayScheduledTasks.length} task{yesterdayScheduledTasks.length === 1 ? '' : 's'} you planned.</p>
         <Progress percent={yesterdayPercent} indicating/>
         <p>{yesterdayCompletedTasks.map(task=> {
-          let doc = nlp('You '+ task.content)
-          return doc.sentences().toPastTense().out('text') + '. '
+          // let text = task.content.charAt(0).toLowerCase() + task.content.substring(1);
+          // let doc = nlp(text)
+          // return 'You ' + doc.sentences().toPastTense().out('text') + '. '
         })}</p>
         <br/>
-        You've completed {completedTasks.length} task{completedTasks.length === 1 ? '' : 's'} out of {totalTasks.length} task{completedTasks.length === 1 ? '' : 's'} you planned to work on this month.
+        <p>You've completed {completedTasks.length} task{completedTasks.length === 1 ? '' : 's'} out of {totalTasks.length} task{completedTasks.length === 1 ? '' : 's'} you planned to work on this month.</p>
         <Progress percent={monthlyPercent} indicating />
       </Container>
 
