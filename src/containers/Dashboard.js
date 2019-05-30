@@ -56,12 +56,10 @@ class Dashboard extends Component {
             <Segment style={{backgroundColor: '#f7f7f7'}}>
               <Stats tasks={this.props.tasks}/>
             </Segment>
-
           <Segment>
             <img width='30%' alt='Caro the crashtest kitten' src={process.env.PUBLIC_URL + '/Caro.png'} />
             <img width='50px' alt='speech bubble' src={process.env.PUBLIC_URL + 'speech-bubble-png-4214.png'} />
           </Segment>
-
           </Grid.Column>
         </Grid>
         </Container>

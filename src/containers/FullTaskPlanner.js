@@ -203,15 +203,10 @@ class TaskPlanner extends React.Component {
 
       // place completed tasks at the bottom of Today's task list
       if (timeframe === 'Today') {
-        for (let i = 0; i < taskPool.length; i++){
-          if (taskPool[i].completed === true && moment(taskPool[i].date_completed).startOf('day').format() === this.state.timeframes[timeframe]){
-            filteredColumns[timeframe].unshift(taskPool.splice(i, 1)[0])
-            i--
-          }
-        }
+        filteredColumns[timeframe].sort((a, b) => a.completed - b.completed)
       }
 
-      // Add incomplete but scheduled tasks to Week column
+      // Add incomplete but scheduled tasks to top of Week column
       if (timeframe === 'Week') {
         for (let i = 0; i < taskPool.length; i++){
           if (taskPool[i].completed === false && taskPool[i].scheduled_date < this.state.timeframes['Today']){
