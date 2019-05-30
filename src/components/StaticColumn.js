@@ -24,11 +24,11 @@ const ColumnTitle = styled.div`
   padding: 5px
   display: flex;
 `
-const ColumnHeader = styled.div`
-  font-size: 1.5em;
-  text-align: center;
-  flex-direction: column
-`
+// const ColumnHeader = styled.div`
+//   font-size: 1.5em;
+//   text-align: center;
+//   flex-direction: column
+// `
 
 class StaticColumn extends Component {
 
