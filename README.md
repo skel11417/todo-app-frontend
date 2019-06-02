@@ -1,4 +1,12 @@
+# MindSweeper
+
+This is a task-management application based on prioritization and measured scheduling of tasks on a daily basis. Work on the app was begun as a capstone project for the [Flatiron School](https://flatironschool.com/) Web Immersive program and is still ongoing. A Beta version is planned for deployment in summer 2019 for user testing.
+
+The repo for the backend API of this project can be found [here](https://www.github.com/skel11417/todo-app)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Drag and Drop functionality was implemented with the [React Beautiful DND library](https://github.com/atlassian/react-beautiful-dnd).
 
 ## Available Scripts
 

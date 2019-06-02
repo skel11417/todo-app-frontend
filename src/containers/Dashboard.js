@@ -16,18 +16,22 @@ const DashContainer = styled.div`
 class Dashboard extends Component {
 
   state = {
-    caroSpeech: "Meow may I help you?",
+    caroSpeech: "",
     quoteOfDay: {quote: "",
       author: ""
     }
   }
 
   componentDidMount(){
+    const caroQuotes = ["Don't mind me, I'm just here for moral support", "Meow may I help you?", "If you're running late, just con-cat-enate!", "You've completed 60% of your goals this month."]
+    const caroSpeech = caroQuotes[Math.floor(Math.random()*caroQuotes.length)];
+
     fetch('http://quotes.rest/qod.json?category=inspire')
       .then(resp => resp.json())
       .then(json => {
         this.setState({
-          quoteOfDay: json.contents.quotes[0]
+          quoteOfDay: json.contents.quotes[0],
+          caroSpeech: caroSpeech
         })
       })
   }
@@ -59,7 +63,7 @@ class Dashboard extends Component {
               <img width='155px' alt='Caro the crashtest kitten' src={process.env.PUBLIC_URL + '/Caro.png'} />
               <div id="bubble" style={{position: 'relative', top: '-88px', left: '280px', float: 'left'}}>
                 <img width='200px' alt='speech bubble' src={process.env.PUBLIC_URL + 'speech-bubble.png'} />
-                <div style={{height: '110px', width: '151px', position: 'absolute', textAlign:'center', fontSize:'1.6em', fontFamily:'comic-sans', top:'26px', left: '23px', padding: '5px'}}>{this.state.caroSpeech}</div>
+                <div style={{height: '110px', width: '151px', position: 'absolute', textAlign:'center', fontSize:'1.6em', lineHeight: 'normal', fontFamily:'comic-sans', top:'26px', left: '28px', padding: '5px'}}>{this.state.caroSpeech}</div>
               </div>
             </Segment>
             <Segment style={{backgroundColor: '#f7f7f7'}}>
