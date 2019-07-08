@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import SmallTaskPlanner from './SmallTaskPlanner'
 import {Container, Grid, Segment} from 'semantic-ui-react'
-// import {Link} from 'react-router-dom'
 import Stats from '../components/Stats'
 import styled from 'styled-components'
 import moment from 'moment'
