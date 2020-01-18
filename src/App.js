@@ -115,17 +115,17 @@ class App extends Component{
           updateTimeIndexes={this.updateTimeIndexes}/>}
           />
 
-          <Route exact path="/sorter" render={()=><TaskSorter
-            tasks={this.state.tasks}
-            updateTask={this.updateTask}
-            deleteTask={this.deleteTask}
-            updateCatIndexes={this.updateCatIndexes}
+          <Route exact path="/sorter" render={
+            ()=><TaskSorter
+              tasks={this.state.tasks}
+              updateTask={this.updateTask}
+              deleteTask={this.deleteTask}
+              updateCatIndexes={this.updateCatIndexes}
             />}
           />
 
           <Route
-            exact
-            path="/mindsweeper"
+            exact path="/mindsweeper"
             render={() => <BrainStorm
                 batchCreateTasks={this.batchCreateTasks}
                 />

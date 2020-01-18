@@ -15,13 +15,17 @@
 - [ ] Standardize task box height
 - [ ] Add number indexes to tasks
 - [ ] Make it possible to expand dashboard task list to full task list.
+- [ ] Quick add task button.
 - [ ] Add mini-mindsweeper/prioritizer to Task Planner
 - [ ] Add mini-mindsweeper/prioritizer to Task Sorter
 - [ ] Add "assign all" buttons to columns.
 
 ## New Features:
-- [ ] Add additional statistics page with more breakdowns
-- [ ] Add user profile
 - [ ] Add login page
 - [ ] Add auth
-- [ ] Implement testing
+- [ ] Add user profile
+- [ ] Add additional statistics page with more breakdowns
+  - [ ] Completed tasks by week.
+  - [ ] Average tasks completed vs. tasks assigned per day/week/month
+- [ ] Snooze a task by a month, day or year.
+- [ ] Implement user testing
