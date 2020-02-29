@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "compromise": "^11.13.2",
+    "compromise": "^11.14.3",
     "moment": "^2.24.0",
-    "react": "^16.8.6",
-    "react-beautiful-dnd": "^11.0.3",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0",
+    "react": "^16.12.0",
+    "react-beautiful-dnd": "^11.0.5",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.1",
-    "styled-components": "^4.2.0"
+    "semantic-ui-react": "^0.87.3",
+    "styled-components": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
