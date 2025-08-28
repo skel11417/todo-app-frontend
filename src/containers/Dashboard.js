@@ -24,15 +24,9 @@ class Dashboard extends Component {
   componentDidMount(){
     const caroQuotes = ["Don't mind me, I'm just here for moral support", "Meow may I help you?", "If you're running late, just con-cat-enate!", "You've completed 60% of your goals this month."]
     const caroSpeech = caroQuotes[Math.floor(Math.random()*caroQuotes.length)];
-
-    fetch('http://quotes.rest/qod.json?category=inspire')
-      .then(resp => resp.json())
-      .then(json => {
-        this.setState({
-          quoteOfDay: json.contents.quotes[0],
-          caroSpeech: caroSpeech
-        })
-      })
+    this.setState({
+      caroSpeech: caroSpeech
+    })
   }
 
   componentDidUpdate(prevProps){
